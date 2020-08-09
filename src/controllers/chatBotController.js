@@ -165,16 +165,50 @@ function firstTrait(nlp, name) {
 
 function handleMessage(sender_psid, message) {
   // check greeting is here and is confident
-  let name = 'greeting';
-  const greeting = firstTrait(message.nlp, 'wit$greetings', name);
+  //let name = 'greeting';
+  //const greeting = firstTrait(message.nlp, 'wit$greetings', name);
+  /*
   if (greeting && greeting.confidence > 0.8) {
-    let response = 'Hi there';
-    callSendAPI(sender_psid, response);
+    
   } else { 
     // default logic
-    let response = 'Default';
+    
+  }*/
+  
+  let entitiesArr = ["greetings", "thanks ", "bye"];
+  let entitiesChosen = "";
+
+  entitiesArr.forEach((name) => {
+    let entity = firstTrait(message.nlp, name);
+    if (entity && entity.confidence > 0.8) {
+      entitiesChosen = name;
+    }
+  });
+
+  if (entitiesChosen == "") {
+    // default
+    let response = 'I cannot understand. I am sorry';
     callSendAPI(sender_psid,response);
-  }
+
+  } else {
+    if (entitiesChosen == "greetings") {
+      // Send greetings messange
+      let response = 'Hi there, I am your virtual friend. Nice to meet you';
+      callSendAPI(sender_psid, response);
+    } 
+    else if (entitiesChosen == "thanks") {
+      let response = 'You are welcome!';
+      callSendAPI(sender_psid, response);
+
+    } 
+    else if (entitiesChosen == "bye") {
+      let response = 'Bye bye. Take care. See ya';
+      callSendAPI(sender_psid, response);
+
+    }
+   }
+
+  
 }
 
 
