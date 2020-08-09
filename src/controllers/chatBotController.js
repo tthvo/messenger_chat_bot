@@ -194,7 +194,7 @@ function handleMessage(sender_psid, message) {
       callSendAPI(sender_psid, response);
 
     } 
-    else if (entitiesChosen === "wit$bye") {
+    else if (entityChosen === "wit$bye") {
       let response = 'Bye bye. Take care. See ya';
       callSendAPI(sender_psid, response);
 
