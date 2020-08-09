@@ -175,7 +175,7 @@ function handleMessage(sender_psid, message) {
     
   }*/
   
-  let entitiesArr = ["greetings", "thanks ", "bye"];
+  let entitiesArr = ["wit$greetings", "wit$thanks ", "wit$bye"];
   let entitiesChosen = "";
 
   entitiesArr.forEach((name) => {
