@@ -1,4 +1,4 @@
-require("dotenv").config();
+
 import express from "express";
 import viewEngine from "./config/viewEngine.js";
 import initWebRoute from "./routes/web.js";

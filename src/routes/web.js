@@ -13,4 +13,6 @@ let initWebRoutes = (app) => {
 
 }
 
-module.exports = initWebRoutes;
+
+export default initWebRoutes;
+
