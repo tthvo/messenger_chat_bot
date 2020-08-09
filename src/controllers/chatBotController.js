@@ -185,23 +185,23 @@ function handleMessage(sender_psid, message) {
     }
   });
 
-  if (entitiesChosen == "") {
+  if (entitiesChosen === "") {
     // default
     let response = 'I cannot understand. I am sorry';
     callSendAPI(sender_psid,response);
 
   } else {
-    if (entitiesChosen == "greetings") {
+    if (entitiesChosen === "greetings") {
       // Send greetings messange
       let response = 'Hi there, I am your virtual friend. Nice to meet you';
       callSendAPI(sender_psid, response);
     } 
-    else if (entitiesChosen == "thanks") {
+    else if (entitiesChosen === "thanks") {
       let response = 'You are welcome!';
       callSendAPI(sender_psid, response);
 
     } 
-    else if (entitiesChosen == "bye") {
+    else if (entitiesChosen === "bye") {
       let response = 'Bye bye. Take care. See ya';
       callSendAPI(sender_psid, response);
 
