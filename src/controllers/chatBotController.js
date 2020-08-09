@@ -167,41 +167,34 @@ function handleMessage(sender_psid, message) {
   // check greeting is here and is confident
   //let name = 'greeting';
   //const greeting = firstTrait(message.nlp, 'wit$greetings', name);
-  /*
-  if (greeting && greeting.confidence > 0.8) {
-    
-  } else { 
-    // default logic
-    
-  }*/
   
-  let entitiesArr = ["wit$greetings", "wit$thanks ", "wit$bye"];
-  let entitiesChosen = "";
+  let entitiesArr = ["wit$greetings", "wit$thanks", "wit$bye"];
+  let entityChosen = "";
 
   entitiesArr.forEach((name) => {
     let entity = firstTrait(message.nlp, name);
     if (entity && entity.confidence > 0.8) {
-      entitiesChosen = name;
+      entityChosen = name;
     }
   });
 
-  if (entitiesChosen === "") {
+  if (entityChosen === "") {
     // default
     let response = 'I cannot understand. I am sorry';
     callSendAPI(sender_psid,response);
 
   } else {
-    if (entitiesChosen === "greetings") {
+    if (entityChosen === "wit$greetings") {
       // Send greetings messange
       let response = 'Hi there, I am your virtual friend. Nice to meet you';
       callSendAPI(sender_psid, response);
     } 
-    else if (entitiesChosen === "thanks") {
+    else if (entityChosen === "wit$thanks") {
       let response = 'You are welcome!';
       callSendAPI(sender_psid, response);
 
     } 
-    else if (entitiesChosen === "bye") {
+    else if (entitiesChosen === "wit$bye") {
       let response = 'Bye bye. Take care. See ya';
       callSendAPI(sender_psid, response);
 
