@@ -1,4 +1,5 @@
 import request from "request";
+import { response } from "express";
 
 let postWebhook = (req,res) => {
     // Parse the request body from the POST
@@ -62,6 +63,7 @@ let getWebhook = (req,res) => {
 
 };
 
+/*
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
@@ -108,7 +110,7 @@ function handleMessage(sender_psid, received_message) {
   // Sends the response message
   callSendAPI(sender_psid, response);    
 
-}
+}*/
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
@@ -153,6 +155,24 @@ function callSendAPI(sender_psid, response) {
     }
   }); 
   
+}
+
+function firstTrait(nlp, name) {
+  return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
+}
+
+function handleMessage(sender_psid, message) {
+  // check greeting is here and is confident
+  let name = 'greeting';
+  const greeting = firstTrait(message.nlp, 'wit$greetings', name);
+  if (greeting && greeting.confidence > 0.8) {
+    let response = 'Hi there';
+    callSendAPI(sender_psid, response);
+  } else { 
+    // default logic
+    let response = 'Default';
+    callSendAPI(sender_psid,response);
+  }
 }
 
 
