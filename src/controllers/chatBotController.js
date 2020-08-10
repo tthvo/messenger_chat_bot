@@ -144,11 +144,11 @@ function callSendAPI(sender_psid, response) {
 
   // Send the HTTP request to the Messenger Platform
   request({
-    "uri": "https://graph.facebook.com/v7.0/me/messages",
+    "uri": "https://graph.facebook.com/v6.0/me/messages",
     "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
     "method": "POST",
     "json": request_body
-  }, (err, res, body) => {
+  }, (err, res) => {
     if (!err) {
       console.log('message sent!');
       
@@ -221,7 +221,7 @@ let callSendAPIWithTemplate = (sender_psid) => {
           "elements": [{
             "title": "High five for friends",
             "subtitle": "Tap below for answer.",
-            "image_url": "https://www.google.com/url?sa=i&url=https%3A%2F%2Ftenor.com%2Fsearch%2Fself-high-five-gifs&psig=AOvVaw2ygeMA6ZGzLfG2F7AhApOL&ust=1597104154941000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOCwpuGqj-sCFQAAAAAdAAAAABAJ",
+            "image_url": "https://image.freepik.com/free-vector/high-five-hand_52422-25.jpg",
             "buttons": [
               {
                 "type": "postback",
@@ -236,9 +236,24 @@ let callSendAPIWithTemplate = (sender_psid) => {
             ],
           }]
         }
+      }
     }
   }
-}
+
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v6.0/me/messages",
+    "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
+    "method": "POST",
+    "json": body
+  }, (err, res) => {
+    if (!err) {
+      console.log('message sent!');
+      
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  }); 
 }
 
 
