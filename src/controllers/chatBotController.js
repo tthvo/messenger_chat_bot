@@ -121,9 +121,9 @@ function handlePostback(sender_psid, received_postback) {
 
   // Set the response based on the postback payload
   if (payload === 'yes') {
-    response = { "text": "Thanks!" }
+    response = { "text": "For friends!" }
   } else if (payload === 'no') {
-    response = { "text": "Oops, try sending another image." }
+    response = { "text": "Oops, Sorry my bad!" }
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
@@ -144,7 +144,7 @@ function callSendAPI(sender_psid, response) {
 
   // Send the HTTP request to the Messenger Platform
   request({
-    "uri": "https://graph.facebook.com/v6.0/me/messages",
+    "uri": "https://graph.facebook.com/v7.0/me/messages",
     "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
     "method": "POST",
     "json": request_body
@@ -164,9 +164,13 @@ function firstTrait(nlp, name) {
 }
 
 function handleMessage(sender_psid, message) {
-  // check greeting is here and is confident
-  //let name = 'greeting';
-  //const greeting = firstTrait(message.nlp, 'wit$greetings', name);
+  // handle messege for react, eg. like button
+  if (message && message.attachments && message.attachments[0].payload) {
+    callSendAPI(sender_psid, "Thank you for sending a react");
+    callSendAPIWithTemplate(sender_psid);
+    return;
+    
+  }
   
   let entitiesArr = ["wit$greetings", "wit$thanks", "wit$bye"];
   let entityChosen = "";
@@ -202,6 +206,38 @@ function handleMessage(sender_psid, message) {
    }
 
   
+}
+
+let callSendAPIWithTemplate = (sender_psid) => {
+  let body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "message": {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "title": "High five for friends",
+            "subtitle": "Tap below for answer.",
+            "image_url": "https://www.google.com/url?sa=i&url=https%3A%2F%2Ftenor.com%2Fsearch%2Fself-high-five-gifs&psig=AOvVaw2ygeMA6ZGzLfG2F7AhApOL&ust=1597104154941000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOCwpuGqj-sCFQAAAAAdAAAAABAJ",
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "High Five!",
+                "payload": "yes",
+              },
+              {
+                "type": "postback",
+                "title": "Nah no mood :(",
+                "payload": "no",
+              }
+            ],
+          }]
+        }
+    }
+  }
 }
 
 
