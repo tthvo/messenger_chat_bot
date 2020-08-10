@@ -239,6 +239,7 @@ let callSendAPIWithTemplate = (sender_psid) => {
     }
   }
 }
+}
 
 
 export default {
