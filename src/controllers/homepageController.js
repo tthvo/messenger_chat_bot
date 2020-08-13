@@ -40,34 +40,31 @@ let setUpUserFacebookProfile = (reg, res) => {
         }
         ],
         "whitelisted_domains":[
-            "https://chatbot-protocol.herokuapp.com/",         
+            "https://chatbot-protocol.herokuapp.com/"      
         ]
-
-
-
 
     };
 
 
     request({
-    "uri": "https://graph.facebook.com/v6.0/me/messenger_profile",
-    "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
-    "method": "POST",
-    "json": data
-    }, (err, res) => {
-    if (!err) {
-        console.log('message sent!');
-        return res.status(200).json({
-            message: "Setup done!"
+        "uri": "https://graph.facebook.com/v8.0/me/messenger_profile",
+        "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": data
+        }, (err, res) => {
+        if (!err) {
+            console.log('message sent!');
+            return res.status(200).json({
+                message: "Setup done!"
 
-        });
-    } else {
-        return res.status(500).json({
-            message : "Error from the node server"
+            });
+        } else {
+            return res.status(500).json({
+                message : "Error from the node server"
 
-        });
-        
-    }
+            });
+            
+        }
     }); 
 
 };
