@@ -8,7 +8,7 @@ $(document).ready(function() {
             success: function(data) {
                 alert("Setup succedds")
                 console.log(data);
-                console.log("Working");
+                
             },
             error: function(error) {
                 console.log(error);
