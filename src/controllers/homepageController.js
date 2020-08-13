@@ -7,6 +7,14 @@ let getFacebookUserProfile = (req, res) => {
 
 };
 
+let setUpUserFacebookProfile = (reg, res) => {
+    return res.status(200).json({
+        message: "Working"
+
+    });
+
+};
+
 export default {
     getHomepage,
     getFacebookUserProfile
