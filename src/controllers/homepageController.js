@@ -17,5 +17,6 @@ let setUpUserFacebookProfile = (reg, res) => {
 
 export default {
     getHomepage,
-    getFacebookUserProfile
+    getFacebookUserProfile,
+    setUpUserFacebookProfile
 };
