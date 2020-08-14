@@ -22,18 +22,18 @@ let setUpUserFacebookProfile = (req, res) => {
             "call_to_actions": [
                 {
                     "type": "postback",
-                    "title": "Talk to an agent",
-                    "payload": "CARE_HELP"
+                    "title": "Slap me face",
+                    "payload": "Slap"
                 },
                 {
                     "type": "postback",
-                    "title": "Outfit suggestions",
-                    "payload": "CURATION"
+                    "title": "Make me cry",
+                    "payload": "cry"
                 },
                 {
                     "type": "web_url",
-                    "title": "Shop now",
-                    "url": "https://www.originalcoastclothing.com/",
+                    "title": "Tutorial on chatbot",
+                    "url": "https://www.youtube.com/watch?v=x_0X3EHmIu4&t=2885s",
                     "webview_height_ratio": "full"
                 }
             ]
@@ -51,19 +51,19 @@ let setUpUserFacebookProfile = (req, res) => {
         "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": data
-        }, function (err, res, data){
+        }, (err, res, data) => {
         if (!err) {
             console.log('message sent!');
-            return res.status(200).json({
-                message: "Setup done!"
+            //return res.status(200).json({
+            //    message: "Setup done!"
 
-            });
+            //});
         } else {
-            return res.status(500).json({
-                message : "Error from the node server"
+            //return res.status(500).json({
+              //  message : "Error from the node server"
 
-            });
-            
+            //});
+            console.log("Error");            
         }
     }); 
 

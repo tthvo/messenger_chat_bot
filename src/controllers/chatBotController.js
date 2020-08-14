@@ -124,7 +124,10 @@ function handlePostback(sender_psid, received_postback) {
     response = { "text": "For friends!" }
   } else if (payload === 'no') {
     response = { "text": "Oops, Sorry my bad!" }
-  } 
+  } else if (payload === 'GET_STARTED') {
+    response = { "text": "Hi! Welcome to our chat." }
+
+  }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
 
