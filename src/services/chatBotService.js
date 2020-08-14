@@ -608,7 +608,7 @@ let sendMessageAskingPhoneNumber = (sender_id) => {
 
     // Send the HTTP request to the Messenger Platform
     request({
-        "uri": "https://graph.facebook.com/v6.0/me/messages",
+        "uri": "https://graph.facebook.com/v86.0/me/messages",
         "qs": { "access_token": PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": request_body
