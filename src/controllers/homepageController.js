@@ -54,7 +54,10 @@ let setUpUserFacebookProfile = (req, res) => {
         }, (err, res) => {
         if (!err) {
             console.log('message sent!');
-            return res.status(200).send("Working");
+            return res.status(200).json({
+                message: "Setup done!"
+
+            });
         } else {
             return res.status(500).json({
                 message : "Error from the node server"
