@@ -1,5 +1,5 @@
 import request from "request";
-import chatBotServices from "../services/chatBotServices";
+import chatBotServices from "../services/chatBotServices.js";
 
 
 let postWebhook = (req,res) => {
@@ -76,7 +76,10 @@ let handlePostback = async (sender_psid, received_postback) => {
     case 'GET_STARTED': 
       //Get username
       let username = await chatBotServices.getFacebookUserName(sender_psid);
-      response = { "text": `Nice to me you ${username}. My name is Mr.NoName` }; 
+      
+      await chatBotServices.sendResponseWelcomeNewCustomer(username, sender_psid);
+      //response = { "text": `Nice to me you ${username}. My name is Mr.NoName` }; 
+
       break;
     case 'yes': response = { "text": "For friends!" }; break;
     case 'no': response = { "text": "Oops, Sorry my bad!" }; break;
@@ -84,7 +87,7 @@ let handlePostback = async (sender_psid, received_postback) => {
   }
 
   // Send the message to acknowledge the postback
-  callSendAPI(sender_psid, response);
+  //callSendAPI(sender_psid, response);
 
 };
 
