@@ -9,7 +9,7 @@ let getFacebookUserProfile = (req, res) => {
 
 };
 
-let setUpUserFacebookProfile = (reg, res) => {
+let setUpUserFacebookProfile = (req, res) => {
     // Send the HTTP request to the Messenger Platform
     let data = {
         "get_started":{
