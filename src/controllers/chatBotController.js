@@ -83,7 +83,7 @@ let handlePostback = (sender_psid, received_postback) => {
 }
 
 // Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
+let callSendAPI = (sender_psid, response) =>{
   // Construct the message body
   let request_body = {
     "recipient": {
@@ -111,11 +111,11 @@ function callSendAPI(sender_psid, response) {
   
 }
 
-function firstTrait(nlp, name) {
+let firstTrait = (nlp, name) => {
   return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
 
-function handleMessage(sender_psid, message) {
+let handleMessage = (sender_psid, message) => {
   // handle messege for react, eg. like button
   if (message && message.attachments && message.attachments[0].payload) {
     callSendAPI(sender_psid, "Thank you for sending a react");
