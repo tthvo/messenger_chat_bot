@@ -51,7 +51,7 @@ let setUpUserFacebookProfile = (req, res) => {
         "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": data
-        }, (err, res) => {
+        }, (err, res, data) => {
         if (!err) {
             console.log('message sent!');
             return res.status(200).json({
