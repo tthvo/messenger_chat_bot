@@ -63,70 +63,19 @@ let getWebhook = (req,res) => {
 
 };
 
-/*
-// Handles messages events
-function handleMessage(sender_psid, received_message) {
-  let response;
-
-  // Check if the message contains text
-  if (received_message.text) {    
-
-    // Create the payload for a basic text message
-    response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an image!`
-    }
-  } else if (received_message.attachments) {
-  
-    // Gets the URL of the message attachment
-    let attachment_url = received_message.attachments[0].payload.url;
-    response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Is this the right picture?",
-            "subtitle": "Tap a button to answer.",
-            "image_url": attachment_url,
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Yes!",
-                "payload": "yes",
-              },
-              {
-                "type": "postback",
-                "title": "No!",
-                "payload": "no",
-              }
-            ],
-          }]
-        }
-      }
-    }
-  
-  } 
-  
-  // Sends the response message
-  callSendAPI(sender_psid, response);    
-
-}*/
-
 // Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
+let handlePostback = (sender_psid, received_postback) => {
   let response;
   
   // Get the payload for the postback
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
-  if (payload === 'yes') {
-    response = { "text": "For friends!" }
-  } else if (payload === 'no') {
-    response = { "text": "Oops, Sorry my bad!" }
-  } else if (payload === 'GET_STARTED') {
-    response = { "text": "Hi! Welcome to our chat." }
-
+  switch(payload) {
+    case 'GET_STARTED': response = { "text": "Hi! Welcome to our chat." }; break;
+    case 'yes': response = { "text": "For friends!" }; break;
+    case 'no': response = { "text": "Oops, Sorry my bad!" }; break;
+    default : console.log("Something wrong with payload switch case");
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
