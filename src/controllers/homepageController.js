@@ -53,7 +53,7 @@ let setUpUserFacebookProfile = (req, res) => {
         "json": data
         }, (err, res, data) => {
         if (!err) {
-            console.log('message sent!');
+            console.log('message sent! Home page');
             //return res.status(200).json({
             //    message: "Setup done!"
 
