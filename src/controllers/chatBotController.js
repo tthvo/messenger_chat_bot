@@ -64,7 +64,7 @@ let getWebhook = (req,res) => {
 };
 
 // Handles messaging_postbacks events
-let handlePostback = (sender_psid, received_postback) => {
+function handlePostback (sender_psid, received_postback) {
   let response;
   
   // Get the payload for the postback
@@ -83,7 +83,7 @@ let handlePostback = (sender_psid, received_postback) => {
 }
 
 // Sends response messages via the Send API
-let callSendAPI = (sender_psid, response) =>{
+function callSendAPI (sender_psid, response) {
   // Construct the message body
   let request_body = {
     "recipient": {
@@ -111,14 +111,14 @@ let callSendAPI = (sender_psid, response) =>{
   
 }
 
-let firstTrait = (nlp, name) => {
+function firstTrait(nlp, name) {
   return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
 
-let handleMessage = (sender_psid, message) => {
+function handleMessage (sender_psid, message) {
   // handle messege for react, eg. like button
   if (message && message.attachments && message.attachments[0].payload) {
-    callSendAPI(sender_psid, "Thank you for sending a react");
+    callSendAPI(sender_psid, "Thank you for sending a pic");
     callSendAPIWithTemplate(sender_psid);
     return;
     
@@ -160,7 +160,7 @@ let handleMessage = (sender_psid, message) => {
   
 }
 
-let callSendAPIWithTemplate = (sender_psid) => {
+function callSendAPIWithTemplate (sender_psid) {
   let body = {
     "recipient": {
       "id": sender_psid
