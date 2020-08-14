@@ -1,4 +1,5 @@
 import request from "request";
+import chatBotServices from "../services/chatBotServices";
 
 
 let postWebhook = (req,res) => {
@@ -64,7 +65,7 @@ let getWebhook = (req,res) => {
 };
 
 // Handles messaging_postbacks events
-function handlePostback (sender_psid, received_postback) {
+let handlePostback = async (sender_psid, received_postback) => {
   let response;
   
   // Get the payload for the postback
@@ -72,15 +73,20 @@ function handlePostback (sender_psid, received_postback) {
 
   // Set the response based on the postback payload
   switch(payload) {
-    case 'GET_STARTED': response = { "text": "Hi! Welcome to our chat." }; break;
+    case 'GET_STARTED': 
+      //Get username
+      let username = await chatBotServices.getFacebookUserName(sender_psid);
+      response = { "text": `Nice to me you ${username}. My name is Mr.NoName` }; 
+      break;
     case 'yes': response = { "text": "For friends!" }; break;
     case 'no': response = { "text": "Oops, Sorry my bad!" }; break;
     default : console.log("Something wrong with payload switch case");
   }
+
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
 
-}
+};
 
 // Sends response messages via the Send API
 function callSendAPI (sender_psid, response) {
@@ -207,6 +213,8 @@ function callSendAPIWithTemplate (sender_psid) {
     }
   }); 
 }
+
+
 
 
 export default {
