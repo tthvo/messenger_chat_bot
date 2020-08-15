@@ -145,7 +145,8 @@ let handleMessage = async (sender_psid, message) => {
 };
 
 let handleMessageWithEntities = (message) => {
-    let entitiesArr = [ "datetime", "phone_number", "wit$greetings", "wit$thanks", "wit$bye"];
+    //let entitiesArr = [ "datetime", "phone_number", "wit$greetings", "wit$thanks", "wit$bye"];
+    let entitiesArr = [ "greetings", "thanks", "bye" ];
     let entityChosen = "";
     let data = {}; // data is an object saving value and name of the entity.
     entitiesArr.forEach((name) => {
