@@ -125,15 +125,19 @@ let handleMessage = async (sender_psid, message) => {
         // send messages to the user
         await chatBotService.sendMessageDoneReserveTable(sender_psid);
     } else if (entity.name === "wit$greetings"){
-        callSendAPI(sender_psid, "Hello there. Sup buddy?");
+        let response = { "text": `Hello there. Sup buddy?` };
+        callSendAPI(sender_psid, response );
         //default reply
     } else if (entity.name === "wit$thanks") {
-        callSendAPI(sender_psid, "You are welcome!");
+        let response = { "text": `You are welcome!` };
+        callSendAPI(sender_psid, response );
 
     } else if (entity.name === "wit$bye") {
-        callSendAPI(sender_psid, "Bye bye. Hope you feel better. Good luck!");
+        let response = { "text": `Bye bye. Hope you feel better. Good luck!` };
+        callSendAPI(sender_psid, response );
     } else {
-        callSendAPI(sender_psid, "Hey sorry I don't think I understand but I do feel sorry for you.")
+        let response = { "text": `Hey sorry I don't think I understand but I do feel sorry for you.` };
+        callSendAPI(sender_psid, response );
     }
 
     //handle attachment message
@@ -221,7 +225,7 @@ function callSendAPI(sender_psid, response) {
 
     // Send the HTTP request to the Messenger Platform
     request({
-        "uri": "https://graph.facebook.com/v8.0/me/messages",
+        "uri": "https://graph.facebook.com/v7.0/me/messages",
         "qs": { "access_token": PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": request_body
