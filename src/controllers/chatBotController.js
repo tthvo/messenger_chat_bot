@@ -1,4 +1,3 @@
-
 import request from "request";
 import moment from "moment";
 import chatBotService from "../services/chatBotService.js";
@@ -113,7 +112,7 @@ let handleMessage = async (sender_psid, message) => {
         //handle quick reply message: asking about the party size , how many people
         user.time = moment(entity.value).zone("+07:00").format('MM/DD/YYYY h:mm A');
 
-        await chatBotService.sendMessageAskingQuality(sender_psid);
+        chatBotService.sendMessageAskingQuality(sender_psid);
     } else if (entity.name === "phone_number") {
         //handle quick reply message: done reserve table
 
@@ -145,8 +144,8 @@ let handleMessage = async (sender_psid, message) => {
 };
 
 let handleMessageWithEntities = (message) => {
-    //let entitiesArr = [ "datetime", "phone_number", "wit$greetings", "wit$thanks", "wit$bye"];
-    let entitiesArr = [ "greetings", "thanks", "bye" ];
+    let entitiesArr = [ "wit$datetime", "wit$phone_number", "wit$greetings", "wit$thanks", "wit$bye"];
+    
     let entityChosen = "";
     let data = {}; // data is an object saving value and name of the entity.
     entitiesArr.forEach((name) => {
@@ -205,10 +204,10 @@ let handlePostback = async (sender_psid, received_postback) => {
             await chatBotService.sendAppetizer(sender_psid);
             break;
         case "BACK_TO_MAIN_MENU":
-            await chatBotService.goBackToMainMenu(sender_psid);
+            chatBotService.goBackToMainMenu(sender_psid);
             break;
         case "BACK_TO_LUNCH_MENU":
-            await chatBotService.goBackToLunchMenu(sender_psid);
+            chatBotService.goBackToLunchMenu(sender_psid);
             break;
         default:
             console.log("Something wrong with switch case payload");
