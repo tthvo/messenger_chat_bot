@@ -27,7 +27,7 @@ let getFacebookUsername = (sender_psid) => {
 let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let response_first = { "text": `Welcome ${username} to HaryPhamDev's Restaurant` };
+            let response_first = { "text": `Hi ${username}. Nice to meet you buddy!` };
             let response_second = {
                 "attachment": {
                     "type": "template",
@@ -35,14 +35,20 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
                         "template_type": "generic",
                         "elements": [
                             {
-                                "title": "HaryPhamDev 's restaurant",
-                                "subtitle": "My restaurant is legendary, its classic wine collection equally so.",
+                                "title": "Activities",
+                                "subtitle": "What shall we do today ?",
                                 "image_url": "https://bit.ly/imageToSend",
                                 "buttons": [
                                     {
                                         "type": "postback",
-                                        "title": "SHOW MAIN MENU",
-                                        "payload": "MAIN_MENU",
+                                        "title": "Music",
+                                        "payload": "MUSIC",
+                                    },
+
+                                    {
+                                        "type": "postback",
+                                        "title": "Meme",
+                                        "payload": "MEME",
                                     }
                                 ],
                             } ]

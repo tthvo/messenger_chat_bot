@@ -1,6 +1,4 @@
 import homepageService from "../services/homepageService.js";;
-
-
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 let getHomepage = (req, res) => {
