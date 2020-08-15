@@ -37,7 +37,7 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
                             {
                                 "title": "Activities",
                                 "subtitle": "What shall we do today ?",
-                                "image_url": "https://bit.ly/imageToSend",
+                                "image_url": "https://www.mememaker.net/api/bucket?path=static/img/memes/full/2019/Jul/2/8/so-what-to-do-now-16529.png",
                                 "buttons": [
                                     {
                                         "type": "postback",
