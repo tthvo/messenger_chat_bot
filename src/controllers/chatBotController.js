@@ -108,12 +108,12 @@ let handleMessage = async (sender_psid, message) => {
     //handle text message
     let entity = handleMessageWithEntities(message);
 
-    if (entity.name === "datetime") {
+    if (entity.name === "wit$datetime") {
         //handle quick reply message: asking about the party size , how many people
         user.time = moment(entity.value).zone("+07:00").format('MM/DD/YYYY h:mm A');
 
         chatBotService.sendMessageAskingQuality(sender_psid);
-    } else if (entity.name === "phone_number") {
+    } else if (entity.name === "wit$phone_number") {
         //handle quick reply message: done reserve table
 
         user.phoneNumber = entity.value;
@@ -150,15 +150,15 @@ let handleMessageWithEntities = (message) => {
     let data = {}; // data is an object saving value and name of the entity.
     entitiesArr.forEach((name) => {
         let entity = firstEntity(message.nlp, name);
-        if (entity && entity.confidence > 0.8) {
+        if (entity && entity.confidence > 0.6) {
             entityChosen = name;
             data.value = entity.value;
         }
 
-        console.log("Debugging: ")
-        console.log(entityChosen);
+        
     });
-    
+    console.log("Debugging: ")
+    console.log(entityChosen);
 
     data.name = entityChosen;
     return data;
