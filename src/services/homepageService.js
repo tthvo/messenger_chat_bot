@@ -14,14 +14,14 @@ let setUpMessengerPlatform = (PAGE_ACCESS_TOKEN) => {
                         "call_to_actions": [
                             {
                                 "type": "web_url",
-                                "title": "View Youtube Channel",
-                                "url": "https://bit.ly/subscribe-haryphamdev",
+                                "title": "Tic Tac To",
+                                "url": "https://playtictactoe.org",
                                 "webview_height_ratio": "full"
                             },
                             {
                                 "type": "web_url",
-                                "title": "View Facebook Fan Page",
-                                "url": "https://facebook.com/haryphamdev",
+                                "title": "Make meme",
+                                "url": "https://imgflip.com/memegenerator",
                                 "webview_height_ratio": "full"
                             }
                         ]

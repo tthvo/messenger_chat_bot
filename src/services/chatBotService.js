@@ -1,7 +1,4 @@
 import request from "request";
-
-
-
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 let getFacebookUsername = (sender_psid) => {
@@ -70,7 +67,7 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
     });
 };
 
-let sendMainMenu = (sender_psid) => {
+let sendMeme = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let response = {
@@ -536,7 +533,7 @@ let sendMessage = (sender_psid, response) => {
 
             // Send the HTTP request to the Messenger Platform
             request({
-                "uri": "https://graph.facebook.com/v6.0/me/messages",
+                "uri": "https://graph.facebook.com/v8.0/me/messages",
                 "qs": { "access_token": PAGE_ACCESS_TOKEN },
                 "method": "POST",
                 "json": request_body
@@ -583,7 +580,7 @@ let sendMessageAskingQuality = (sender_id) => {
 
     // Send the HTTP request to the Messenger Platform
     request({
-        "uri": "https://graph.facebook.com/v6.0/me/messages",
+        "uri": "https://graph.facebook.com/v8.0/me/messages",
         "qs": { "access_token": PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": request_body
@@ -614,7 +611,7 @@ let sendMessageAskingPhoneNumber = (sender_id) => {
 
     // Send the HTTP request to the Messenger Platform
     request({
-        "uri": "https://graph.facebook.com/v86.0/me/messages",
+        "uri": "https://graph.facebook.com/v8.0/me/messages",
         "qs": { "access_token": PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": request_body
@@ -709,7 +706,7 @@ let sendNotificationToTelegram = (user) => {
 export default  {
     getFacebookUsername,
     sendResponseWelcomeNewCustomer,
-    sendMainMenu,
+    sendMeme,
     sendLunchMenu,
     sendDinnerMenu,
     sendPubMenu,
