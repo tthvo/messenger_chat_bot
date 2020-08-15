@@ -155,6 +155,8 @@ let handleMessageWithEntities = (message) => {
             data.value = entity.value;
         }
     });
+    console.log("Debugging: ")
+    console.log(entityChosen);
 
     data.name = entityChosen;
     return data;
