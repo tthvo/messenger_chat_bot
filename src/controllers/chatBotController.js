@@ -125,15 +125,15 @@ let handleMessage = async (sender_psid, message) => {
         // send messages to the user
         await chatBotService.sendMessageDoneReserveTable(sender_psid);
 
-    } else if (entity.name === "greetings"){
+    } else if (entity.name === "wit$greetings"){
         let response = { "text": `Hello there. Sup buddy?` };
         callSendAPI(sender_psid, response );
         //default reply
-    } else if (entity.name === "thanks") {
+    } else if (entity.name === "wit$thanks") {
         let response = { "text": `You are welcome!` };
         callSendAPI(sender_psid, response );
 
-    } else if (entity.name === "bye") {
+    } else if (entity.name === "wit$bye") {
         let response = { "text": `Bye bye. Hope you feel better. Good luck!` };
         callSendAPI(sender_psid, response );
     } else {
@@ -145,7 +145,7 @@ let handleMessage = async (sender_psid, message) => {
 };
 
 let handleMessageWithEntities = (message) => {
-    let entitiesArr = [ "datetime", "phone_number", "greetings", "thanks", "bye"];
+    let entitiesArr = [ "datetime", "phone_number", "wit$greetings", "wit$thanks", "wit$bye"];
     let entityChosen = "";
     let data = {}; // data is an object saving value and name of the entity.
     entitiesArr.forEach((name) => {
