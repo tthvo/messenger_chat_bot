@@ -124,13 +124,13 @@ let handleMessage = async (sender_psid, message) => {
 
         // send messages to the user
         await chatBotService.sendMessageDoneReserveTable(sender_psid);
-    } else if (entity.name = "wit$greetings"){
+    } else if (entity.name === "wit$greetings"){
         callSendAPI(sender_psid, "Hello there. Sup buddy?");
         //default reply
-    } else if (entity.name = "wit$thanks") {
+    } else if (entity.name === "wit$thanks") {
         callSendAPI(sender_psid, "You are welcome!");
 
-    } else if (entity.name = "wit$bye") {
+    } else if (entity.name === "wit$bye") {
         callSendAPI(sender_psid, "Bye bye. Hope you feel better. Good luck!");
     } else {
         callSendAPI(sender_psid, "Hey sorry I don't think I understand but I do feel sorry for you.")
@@ -216,7 +216,7 @@ function callSendAPI(sender_psid, response) {
         "recipient": {
             "id": sender_psid
         },
-        "message": { "text": response }
+        "message": response
     };
 
     // Send the HTTP request to the Messenger Platform
