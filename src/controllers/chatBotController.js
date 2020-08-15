@@ -124,15 +124,23 @@ let handleMessage = async (sender_psid, message) => {
 
         // send messages to the user
         await chatBotService.sendMessageDoneReserveTable(sender_psid);
-    } else {
+    } else if (entity.name = "wit$greetings"){
+        callSendAPI(sender_psid, "Hello there. Sup buddy?");
         //default reply
+    } else if (entity.name = "wit$thanks") {
+        callSendAPI(sender_psid, "You are welcome!");
+
+    } else if (entity.name = "wit$bye") {
+        callSendAPI(sender_psid, "Bye bye. Hope you feel better. Good luck!");
+    } else {
+        callSendAPI(sender_psid, "Hey sorry I don't think I understand but I do feel sorry for you.")
     }
 
     //handle attachment message
 };
 
 let handleMessageWithEntities = (message) => {
-    let entitiesArr = [ "datetime", "phone_number" ];
+    let entitiesArr = [ "datetime", "phone_number", "wit$greetings", "wit$thanks", "wit$bye"];
     let entityChosen = "";
     let data = {}; // data is an object saving value and name of the entity.
     entitiesArr.forEach((name) => {
@@ -194,15 +202,6 @@ let handlePostback = async (sender_psid, received_postback) => {
         case "BACK_TO_LUNCH_MENU":
             await chatBotService.goBackToLunchMenu(sender_psid);
             break;
-
-        case "yes":
-            response = { text: "Thank you!" };
-            callSendAPI(sender_psid, response);
-            break;
-        case "no":
-            response = { text: "Please try another image." };
-            callSendAPI(sender_psid, response);
-            break;
         default:
             console.log("Something wrong with switch case payload");
     }
@@ -217,7 +216,7 @@ function callSendAPI(sender_psid, response) {
         "recipient": {
             "id": sender_psid
         },
-        "message": response
+        "message": { "text": response }
     };
 
     // Send the HTTP request to the Messenger Platform
