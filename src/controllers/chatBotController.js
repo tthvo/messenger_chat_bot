@@ -160,7 +160,7 @@ let handleMessageWithEntities = (message) => {
     return data;
 };
 
-function firstTrait(nlp, name) {
+function firstEntity(nlp, name) {
     return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
 
