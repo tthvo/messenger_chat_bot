@@ -124,15 +124,16 @@ let handleMessage = async (sender_psid, message) => {
 
         // send messages to the user
         await chatBotService.sendMessageDoneReserveTable(sender_psid);
-    } else if (entity.name === "wit$greetings"){
+
+    } else if (entity.name === "greetings"){
         let response = { "text": `Hello there. Sup buddy?` };
         callSendAPI(sender_psid, response );
         //default reply
-    } else if (entity.name === "wit$thanks") {
+    } else if (entity.name === "thanks") {
         let response = { "text": `You are welcome!` };
         callSendAPI(sender_psid, response );
 
-    } else if (entity.name === "wit$bye") {
+    } else if (entity.name === "bye") {
         let response = { "text": `Bye bye. Hope you feel better. Good luck!` };
         callSendAPI(sender_psid, response );
     } else {
@@ -144,7 +145,7 @@ let handleMessage = async (sender_psid, message) => {
 };
 
 let handleMessageWithEntities = (message) => {
-    let entitiesArr = [ "datetime", "phone_number", "wit$greetings", "wit$thanks", "wit$bye"];
+    let entitiesArr = [ "datetime", "phone_number", "greetings", "thanks", "bye"];
     let entityChosen = "";
     let data = {}; // data is an object saving value and name of the entity.
     entitiesArr.forEach((name) => {
@@ -159,8 +160,8 @@ let handleMessageWithEntities = (message) => {
     return data;
 };
 
-function firstEntity(nlp, name) {
-    return nlp && nlp.entities && nlp.entities[name] && nlp.entities[name][0];
+function firstTrait(nlp, name) {
+    return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
 
 // Handles messaging_postbacks events
