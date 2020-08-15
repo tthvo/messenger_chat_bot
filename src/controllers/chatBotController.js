@@ -150,13 +150,15 @@ let handleMessageWithEntities = (message) => {
     let data = {}; // data is an object saving value and name of the entity.
     entitiesArr.forEach((name) => {
         let entity = firstEntity(message.nlp, name);
-        if (entity && entity.confidence > 0.6) {
+        console.log(entity);
+        if (entity && entity.confidence > 0.8) {
             entityChosen = name;
             data.value = entity.value;
         }
 
         
     });
+    
     console.log("Debugging: ")
     console.log(entityChosen);
 
