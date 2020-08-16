@@ -177,7 +177,7 @@ let handleMessageWithEntities = (message) => {
 
 let handleMessageWithSentiment = (message) => {
 
-    sentiment = {};
+    let sentiment = {};
 
     let mood = firstEntity(message.nlp, 'wit$sentiment');
     if (mood && mood.confidence > 0.7) {
