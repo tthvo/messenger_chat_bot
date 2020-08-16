@@ -78,13 +78,13 @@ let sendMeme = (sender_psid) => {
                         "elements": [
                             {
                                 "title": "Our menus",
-                                "subtitle": "We are pleased to offer you a wide-range of menu for lunch or dinner.",
-                                "image_url": "https://bit.ly/imageMenu",
+                                "subtitle": "Fantastic choice. Shall we go through a menu of memes?",
+                                "image_url": "https://www.lifewire.com/thmb/Hv2X69p_Hs9EK4lQqHnHrqQbYWc=/1280x632/filters:fill(auto,1)/dicaprio3-583e33155f9b58d5b19e3a00.jpg",
                                 "buttons": [
                                     {
                                         "type": "postback",
-                                        "title": "LUNCH MENU",
-                                        "payload": "LUNCH_MENU",
+                                        "title": "CURB MEME",
+                                        "payload": "CURB_MEME",
                                     },
                                     {
                                         "type": "postback",

@@ -107,6 +107,8 @@ let handleMessage = async (sender_psid, message) => {
 
     //handle text message
     let entity = handleMessageWithEntities(message);
+    // Handle sentiment 
+    let sentiment = handleMessageWithSentiment(message);
 
     if (entity.name === "wit$datetime") {
         //handle quick reply message: asking about the party size , how many people
@@ -136,8 +138,15 @@ let handleMessage = async (sender_psid, message) => {
         let response = { "text": `Bye bye. Hope you feel better. Good luck!` };
         callSendAPI(sender_psid, response );
     } else {
-        let response = { "text": `Hey sorry I don't think I understand but I do feel sorry for you.` };
-        callSendAPI(sender_psid, response );
+        if (sentiment.value === "negative") {
+            let response = {"text": "Hey buddy, are you okay?"};
+            callSendAPI(sender_psid, response);
+
+        } else {
+            let response = { "text": `Hey sorry I don't think I understand but I do feel sorry for you.` };
+            callSendAPI(sender_psid, response );
+        }
+        
     }
 
     //handle attachment message
@@ -166,9 +175,25 @@ let handleMessageWithEntities = (message) => {
     return data;
 };
 
+let handleMessageWithSentiment = (message) => {
+
+    sentiment = {};
+
+    let mood = firstEntity(message.nlp, 'wit$sentiment');
+    if (mood && mood.confidence > 0.7) {
+        sentiment.value = mood.value;
+    };
+    return sentiment;
+
+};
+
 function firstEntity(nlp, name) {
     return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
+
+
+
+
 
 // Handles messaging_postbacks events
 let handlePostback = async (sender_psid, received_postback) => {
