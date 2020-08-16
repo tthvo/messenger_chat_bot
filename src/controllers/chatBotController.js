@@ -144,13 +144,13 @@ let handleMessage = async (sender_psid, message) => {
 };
 
 let handleMessageWithEntities = (message) => {
-    let entitiesArr = [ "wit$datetime", "wit$phone_number", "wit$greetings", "wit$thanks", "wit$bye"];
+    let entitiesArr = ["wit$greetings", "wit$thanks", "wit$bye", "wit$datetime:$datetime", "wit$phone_number:phone_number"];
     
     let entityChosen = "";
     let data = {}; // data is an object saving value and name of the entity.
     entitiesArr.forEach((name) => {
         let entity = firstEntity(message.nlp, name);
-        console.log(entity);
+        //console.log(entity);
         if (entity && entity.confidence > 0.8) {
             entityChosen = name;
             data.value = entity.value;
@@ -158,9 +158,9 @@ let handleMessageWithEntities = (message) => {
 
         
     });
+
+    //console.log("Debugging: " + entityChosen);
     
-    console.log("Debugging: ")
-    console.log(entityChosen);
 
     data.name = entityChosen;
     return data;
