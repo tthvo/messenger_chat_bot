@@ -85,7 +85,9 @@ let sendActivityMenu = (sender_psid) => {
 
 let sendMemeMenu = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
+
         try {
+            let response_0 = {"text": "Fantastic choice. Shall we go through a menu of memes?"};
             let response = {
                 "attachment": {
                     "type": "template",
@@ -123,6 +125,8 @@ let sendMemeMenu = (sender_psid) => {
             };
 
             //send a welcome message
+            await sendMessage(sender_psid, response_0);
+            
             await sendMessage(sender_psid, response);
         } catch (e) {
             reject(e);
