@@ -139,9 +139,7 @@ let handleMessage = async (sender_psid, message) => {
         callSendAPI(sender_psid, response );
     } else {
         if (sentiment.value === "negative") {
-            let response = {"text": "Hey buddy, are you okay?"};
-            callSendAPI(sender_psid, response);
-            chatBotService.sendActiviyMenu(sender_psid);
+            await chatBotService.sendActiviyMenu(sender_psid);
 
         } else {
             let response = { "text": `Hey sorry I don't think I understand but I do feel sorry for you.` };

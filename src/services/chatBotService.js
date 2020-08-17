@@ -28,9 +28,6 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
             //send a welcome message
             await sendMessage(sender_psid, response_first);
 
-            //send a image with button view main menu
-            //await sendMessage(sender_psid, response_second);
-
             resolve("done!")
         } catch (e) {
             reject(e);
@@ -43,6 +40,7 @@ let sendActiviyMenu = (sender_id) => {
     return new Promise(async (resolve, reject) => {
         try {
             let response_second = {
+                "text": "Are you okay? Do you want to do something for fun?",
                 "attachment": {
                     "type": "template",
                     "payload": {
