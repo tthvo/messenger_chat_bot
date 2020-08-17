@@ -139,7 +139,7 @@ let handleMessage = async (sender_psid, message) => {
         callSendAPI(sender_psid, response );
     } else {
         if (sentiment.value === "negative") {
-            await chatBotService.sendActiviyMenu(sender_psid);
+            await chatBotService.sendActivityMenu(sender_psid);
 
         } else {
             let response = { "text": `Hey sorry I don't think I understand but I do feel sorry for you.` };
@@ -150,6 +150,8 @@ let handleMessage = async (sender_psid, message) => {
 
     //handle attachment message
 };
+
+
 
 let handleMessageWithEntities = (message) => {
     let entitiesArr = ["wit$greetings", "wit$thanks", "wit$bye", "wit$datetime:$datetime", "wit$phone_number:phone_number"];

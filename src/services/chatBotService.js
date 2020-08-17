@@ -36,11 +36,12 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
     });
 };
 
-let sendActiviyMenu = (sender_psid) => {
+let sendActivityMenu = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
+
         try {
+            let response_first = {"text": "Are you okay? Do you want to do something for fun?"};
             let response_second = {
-                "text": "Are you okay? Do you want to do something for fun?",
                 "attachment": {
                     "type": "template",
                     "payload": {
@@ -67,6 +68,10 @@ let sendActiviyMenu = (sender_psid) => {
                     }
                 }
             };
+
+            //Send a comforting question
+            await sendMessage(sender_psid, response_first);
+
             //send a image with button view main menu
             await sendMessage(sender_psid, response_second);
 
@@ -598,7 +603,7 @@ let sendNotificationToTelegram = (user) => {
 export default  {
     getFacebookUsername,
     sendResponseWelcomeNewCustomer,
-    sendActiviyMenu,
+    sendActivityMenu,
     sendMemeMenu,
     sendBrianMeme,
     sendTrumpMeme,
