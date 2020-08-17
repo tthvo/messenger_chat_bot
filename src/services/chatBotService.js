@@ -36,7 +36,7 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
     });
 };
 
-let sendActiviyMenu = (sender_id) => {
+let sendActiviyMenu = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let response_second = {
