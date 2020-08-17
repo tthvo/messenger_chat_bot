@@ -87,7 +87,7 @@ let sendMemeMenu = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
 
         try {
-           // let response_0 = {"text": "Fantastic choice. Shall we go through a menu of memes?"};
+            let response_first = {"text": "Great choice! Let's have a look at meme menu."};
             let response = {
                 "attachment": {
                     "type": "template",
@@ -109,7 +109,7 @@ let sendMemeMenu = (sender_psid) => {
                             {
                                 "title": "TRUMP MEME",
                                 "subtitle": "Make American Great Again ?!! JK",
-                                "image_url": "/public/images/drinkTrump.jpg",
+                                "image_url": "https://images.indianexpress.com/2017/11/trump-water-bottle-meme-759.jpg",
                                 "buttons": [
                                     {
                                         "type": "postback",
@@ -125,9 +125,10 @@ let sendMemeMenu = (sender_psid) => {
             };
 
             //send a welcome message
-            //await sendMessage(sender_psid, response_0);
-
+            await sendMessage(sender_psid, response_first);
+            //Send the meme menu
             await sendMessage(sender_psid, response);
+            resolve("done!")
         } catch (e) {
             reject(e);
         }

@@ -211,7 +211,6 @@ let handlePostback = async (sender_psid, received_postback) => {
             await chatBotService.sendResponseWelcomeNewCustomer(username, sender_psid);
             break;
         case "MEME":
-            //send main menu to users
             await chatBotService.sendMemeMenu(sender_psid);
             break;
         case "BRIAN_MEME":
