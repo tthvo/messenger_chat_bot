@@ -15,13 +15,13 @@ let setUpMessengerPlatform = (PAGE_ACCESS_TOKEN) => {
                             {
                                 "type": "web_url",
                                 "title": "Tic Tac To",
-                                "url": "https://playtictactoe.org",
+                                "url": "https://playtictactoe.org/",
                                 "webview_height_ratio": "full"
                             },
                             {
                                 "type": "web_url",
                                 "title": "Make meme",
-                                "url": "https://imgflip.com/memegenerator",
+                                "url": "https://imgflip.com/memegenerator/",
                                 "webview_height_ratio": "full"
                             }
                         ]

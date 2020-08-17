@@ -164,21 +164,19 @@ let handleMessageWithEntities = (message) => {
             entityChosen = name;
             data.value = entity.value;
         }
-
         
     });
 
     //console.log("Debugging: " + entityChosen);
     
-
     data.name = entityChosen;
     return data;
 };
 
+
+//Detect negative mood
 let handleMessageWithSentiment = (message) => {
-
     let sentiment = {};
-
     let mood = firstEntity(message.nlp, 'wit$sentiment');
     if (mood && mood.confidence > 0.7) {
         sentiment.value = mood.value;
@@ -187,6 +185,7 @@ let handleMessageWithSentiment = (message) => {
 
 };
 
+//Function that return the traits of the a sentence
 function firstEntity(nlp, name) {
     return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
 }
