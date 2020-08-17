@@ -25,6 +25,23 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let response_first = { "text": `Hi ${username}. Nice to meet you buddy!` };
+            //send a welcome message
+            await sendMessage(sender_psid, response_first);
+
+            //send a image with button view main menu
+            //await sendMessage(sender_psid, response_second);
+
+            resolve("done!")
+        } catch (e) {
+            reject(e);
+        }
+
+    });
+};
+
+let sendActiviyMenu = (sender_id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
             let response_second = {
                 "attachment": {
                     "type": "template",
@@ -52,22 +69,18 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
                     }
                 }
             };
-
-            //send a welcome message
-            await sendMessage(sender_psid, response_first);
-
             //send a image with button view main menu
-            //await sendMessage(sender_psid, response_second);
+            await sendMessage(sender_psid, response_second);
 
             resolve("done!")
         } catch (e) {
             reject(e);
         }
-
     });
+
 };
 
-let sendMeme = (sender_psid) => {
+let sendMemeMenu = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let response = {
@@ -77,54 +90,29 @@ let sendMeme = (sender_psid) => {
                         "template_type": "generic",
                         "elements": [
                             {
-                                "title": "Our menus",
-                                "subtitle": "Fantastic choice. Shall we go through a menu of memes?",
-                                "image_url": "https://www.lifewire.com/thmb/Hv2X69p_Hs9EK4lQqHnHrqQbYWc=/1280x632/filters:fill(auto,1)/dicaprio3-583e33155f9b58d5b19e3a00.jpg",
+                                "title": "BAD LUCK BRIAN MEME",
+                                "subtitle": "Bad Day heh ?",
+                                "image_url": "https://i.kym-cdn.com/entries/icons/facebook/000/009/515/BadLuckBryan.jpg",
                                 "buttons": [
                                     {
                                         "type": "postback",
-                                        "title": "CURB MEME",
-                                        "payload": "CURB_MEME",
-                                    },
-                                    {
-                                        "type": "postback",
-                                        "title": "DINNER MENU",
-                                        "payload": "DINNER_MENU",
-                                    },
-                                    {
-                                        "type": "postback",
-                                        "title": "PUB MENU",
-                                        "payload": "PUB_MENU",
+                                        "title": "YES PLEASE",
+                                        "payload": "BRIAN_MEME",
                                     }
                                 ],
                             },
-
                             {
-                                "title": "Hours",
-                                "subtitle": "MON-FRI 10AM - 11PM  | SAT 5PM - 10PM | SUN 5PM - 9PM",
-                                "image_url": " https://bit.ly/imageOpening",
+                                "title": "TRUMP MEME",
+                                "subtitle": "Make American Great Again ?!! JK",
+                                "image_url": "/public/images/drinkTrump.jpg",
                                 "buttons": [
                                     {
                                         "type": "postback",
-                                        "title": "RESERVE A TABLE",
-                                        "payload": "RESERVE_TABLE",
+                                        "title": "YES PLEASE",
+                                        "payload": "TRUMP_MEME",
                                     }
                                 ],
                             },
-
-                            {
-                                "title": "Banquet Rooms",
-                                "subtitle": "Restaurant accommodates up to 300 seated guests and similar at cocktail receptions",
-                                "image_url": " https://bit.ly/imageShowRooms",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW ROOMS",
-                                        "payload": "SHOW_ROOMS",
-                                    }
-                                ],
-                            }
-
 
                         ]
                     }
@@ -140,84 +128,25 @@ let sendMeme = (sender_psid) => {
 
 };
 
-let sendLunchMenu = (sender_psid) => {
+let sendBrianMeme = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
-        try {
+        try { 
             let response = {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "generic",
-                        "elements": [
-                            {
-                                "title": "Appetizers",
-                                "image_url": "https://bit.ly/imageAppetizer",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW APPETIZERS",
-                                        "payload": "SHOW_APPETIZERS",
-                                    }
-                                ],
-                            },
-
-                            {
-                                "title": "Entree Salad",
-                                "image_url": "https://bit.ly/imageSalad",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW ENTREE SALAD",
-                                        "payload": "SHOW_ENTREE_SALAD",
-                                    }
-                                ],
-                            },
-
-                            {
-                                "title": "Fish and Shell Fish",
-                                "image_url": "https://bit.ly/imageFish",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW FISH",
-                                        "payload": "SHOW_FISH",
-                                    }
-                                ],
-                            },
-
-                            {
-                                "title": "Skeens Classics",
-                                "subtitle": "and Dry-aged on Premise",
-                                "image_url": "https://bit.ly/imageClassics",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW CLASSICS",
-                                        "payload": "SHOW_CLASSICS",
-                                    }
-                                ],
-                            },
-
-                            {
-                                "title": "Go back",
-                                "image_url": " https://bit.ly/imageToSend",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "BACK TO MAIN MENU",
-                                        "payload": "BACK_TO_MAIN_MENU",
-                                    },
-                                    {
-                                        "type": "postback",
-                                        "title": "RESERVE A TABLE",
-                                        "payload": "RESERVE_TABLE",
-                                    }
-                                ],
-                            }
-                        ]
-                    }
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": [
+                        {
+                            "title": "SCREW PEOPLE",
+                            "image_url": "https://i.pinimg.com/236x/bc/9f/9f/bc9f9fea82a0fce900807e9625fc0388--brian-memes-classic-memes.jpg",
+                            
+                        }
+                    ]
                 }
-            };
+            }
+        };
+           
 
             //send a welcome message
             await sendMessage(sender_psid, response);
@@ -227,7 +156,7 @@ let sendLunchMenu = (sender_psid) => {
     });
 };
 
-let sendDinnerMenu = (sender_psid) => {
+let sendTrumpMeme = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let response = {
@@ -237,44 +166,9 @@ let sendDinnerMenu = (sender_psid) => {
                         "template_type": "generic",
                         "elements": [
                             {
-                                "title": "Appetizers",
-                                "image_url": "https://bit.ly/imageAppetizer",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW APPETIZERS",
-                                        "payload": "SHOW_APPETIZERS",
-                                    }
-                                ],
-                            },
-
-                            {
-                                "title": "Entree Salad",
-                                "image_url": " https://bit.ly/imageSalad",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW ENTREE SALAD",
-                                        "payload": "SHOW_ENTREE_SALAD",
-                                    }
-                                ],
-                            },
-
-                            {
-                                "title": "Go back",
-                                "image_url": " https://bit.ly/imageToSend",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "BACK TO MAIN MENU",
-                                        "payload": "BACK_TO_MAIN_MENU",
-                                    },
-                                    {
-                                        "type": "postback",
-                                        "title": "RESERVE A TABLE",
-                                        "payload": "RESERVE_TABLE",
-                                    }
-                                ],
+                                "title": "MAKE AMERICAN GREAT AGAIN ??!!",
+                                "image_url": "https://i.redd.it/antyobs25se21.jpg",
+                                
                             }
                         ]
                     }
@@ -533,7 +427,7 @@ let sendMessage = (sender_psid, response) => {
 
             // Send the HTTP request to the Messenger Platform
             request({
-                "uri": "https://graph.facebook.com/v7.0/me/messages",
+                "uri": "https://graph.facebook.com/v8.0/me/messages",
                 "qs": { "access_token": PAGE_ACCESS_TOKEN },
                 "method": "POST",
                 "json": request_body
@@ -706,9 +600,10 @@ let sendNotificationToTelegram = (user) => {
 export default  {
     getFacebookUsername,
     sendResponseWelcomeNewCustomer,
-    sendMeme,
-    sendLunchMenu,
-    sendDinnerMenu,
+    sendActiviyMenu,
+    sendMemeMenu,
+    sendBrianMeme,
+    sendTrumpMeme,
     sendPubMenu,
     sendAppetizer,
     goBackToMainMenu,

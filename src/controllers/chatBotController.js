@@ -141,6 +141,7 @@ let handleMessage = async (sender_psid, message) => {
         if (sentiment.value === "negative") {
             let response = {"text": "Hey buddy, are you okay?"};
             callSendAPI(sender_psid, response);
+            await chatBotService.sendActiviyMenu(sender_psid);
 
         } else {
             let response = { "text": `Hey sorry I don't think I understand but I do feel sorry for you.` };
@@ -211,15 +212,17 @@ let handlePostback = async (sender_psid, received_postback) => {
             break;
         case "MEME":
             //send main menu to users
-            await chatBotService.sendMeme(sender_psid);
+            let response = {"text": "Fantastic choice. Shall we go through a menu of memes?"};
+            callSendAPI(sender_psid, response);
+            await chatBotService.sendMemeMenu(sender_psid);
             break;
-        case "LUNCH_MENU":
-            await chatBotService.sendLunchMenu(sender_psid);
+        case "BRIAN_MEME":
+            await chatBotService.sendBrianMeme(sender_psid);
             break;
-        case "DINNER_MENU":
-            await chatBotService.sendDinnerMenu(sender_psid);
+        case "TRUMP_MEME":
+            await chatBotService.sendTrumpMeme(sender_psid);
             break;
-        case "PUB_MENU":
+        case "DOG_MEME":
             await chatBotService.sendPubMenu(sender_psid);
             break;
         case "RESERVE_TABLE":
@@ -256,7 +259,7 @@ function callSendAPI(sender_psid, response) {
 
     // Send the HTTP request to the Messenger Platform
     request({
-        "uri": "https://graph.facebook.com/v7.0/me/messages",
+        "uri": "https://graph.facebook.com/v8.0/me/messages",
         "qs": { "access_token": PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": request_body
