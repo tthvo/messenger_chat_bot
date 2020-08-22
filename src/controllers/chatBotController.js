@@ -81,6 +81,7 @@ let getWebhook = (req, res) => {
 let handleMessage = async (sender_psid, message) => {
     //checking quick reply
     if (message && message.quick_reply && message.quick_reply.payload) {
+        /*
         if (message.quick_reply.payload === "SMALL" || message.quick_reply.payload === "MEDIUM" || message.quick_reply.payload === "LARGE") {
             //asking about phone number
             if(message.quick_reply.payload === "SMALL") user.quantity = "1-2 people";
@@ -102,14 +103,24 @@ let handleMessage = async (sender_psid, message) => {
             // send messages to the user
             await chatBotService.sendMessageDoneReserveTable(sender_psid);
         }
-        return;
+        return;*/
+
+        if (message.quick_reply.payload === "YEAH_FINE") {
+            await chatBotService.sendActivityMenu(sender_psid);
+            return;
+
+        } else if (message.quick_reply.payload === "SORRY_NO") {
+            let response = { "text": `I am sorry. Do you want to talk about it?` };
+            callSendAPI(sender_psid, response);
+            return;
+        }
     }
 
     //handle text message
     let entity = handleMessageWithEntities(message);
     // Handle sentiment 
     let sentiment = handleMessageWithSentiment(message);
-
+    /*
     if (entity.name === "wit$datetime") {
         //handle quick reply message: asking about the party size , how many people
         user.time = moment(entity.value).zone("+07:00").format('MM/DD/YYYY h:mm A');
@@ -126,8 +137,10 @@ let handleMessage = async (sender_psid, message) => {
         // send messages to the user
         await chatBotService.sendMessageDoneReserveTable(sender_psid);
 
-    } else if (entity.name === "wit$greetings"){
-        let response = { "text": `Hello there. Sup buddy?` };
+    } */
+
+    if (entity.name === "wit$greetings"){
+        let response = { "text": `Hello there.` };
         callSendAPI(sender_psid, response );
         //default reply
     } else if (entity.name === "wit$thanks") {
@@ -147,8 +160,6 @@ let handleMessage = async (sender_psid, message) => {
         }
         
     }
-
-    //handle attachment message
 };
 
 
@@ -216,20 +227,9 @@ let handlePostback = async (sender_psid, received_postback) => {
         case "TRUMP_MEME":
             await chatBotService.sendTrumpMeme(sender_psid);
             break;
-        case "YEAH_FINE":
-            await chatBotService.sendActivityMenu(sender_psid);
-            break;
-        case "SORRY_NO":
-            //await chatBotService.handleReserveTable(sender_psid);
-            break;
-        case "BACK_TO_MAIN_MENU":
-            chatBotService.goBackToMainMenu(sender_psid);
-            break;
         default:
             console.log("Something wrong with switch case payload");
     }
-    // Send the message to acknowledge the postback
-    // callSendAPI(sender_psid, response);
 };
 
 // Sends response messages via the Send API

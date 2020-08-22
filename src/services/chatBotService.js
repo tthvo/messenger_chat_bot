@@ -24,7 +24,7 @@ let getFacebookUsername = (sender_psid) => {
 let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let response_first = { "text": `Hi ${username}. Nice to meet you buddy!` };
+            let response_first = { "text": `Hi ${username}. I am Quill. Nice to meet you buddy!` };
             //send a welcome message
             await sendMessage(sender_psid, response_first);
             resolve("done!")
@@ -42,16 +42,18 @@ let sendMessageAskingYesOrNo = (sender_id) => {
         },
         "messaging_type": "RESPONSE",
         "message": {
-            "text": "Are you ok ? Do you want to do something for fun ?",
+            "text": "Are you ok? Do you want to do something for fun?",
             "quick_replies": [
                 {
                     "content_type": "text",
                     "title": "Yeah fine",
                     "payload": "YEAH_FINE",
+                    "image_url":"https://i.pinimg.com/originals/1a/47/5c/1a475cb62dc8726ca420abb9da20cf76.png"
                 }, {
                     "content_type": "text",
                     "title": "Sorry no",
                     "payload": "SORRY_NO",
+                    "image_url":"https://cdn5.vectorstock.com/i/1000x1000/58/04/sad-face-icon-flat-style-vector-10185804.jpg"
                 }
             ]
         }
@@ -210,9 +212,6 @@ let sendTrumpMeme = (sender_psid) => {
     });
 };
 
-let goBackToMainMenu = (sender_psid) => {
-    sendActivityMenu(sender_psid);
-};
 
 let handleReserveTable = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
@@ -375,7 +374,6 @@ export default  {
     sendMemeMenu,
     sendBrianMeme,
     sendTrumpMeme,
-    goBackToMainMenu,
     handleReserveTable,
     sendMessageAskingPhoneNumber ,
     sendMessageDoneReserveTable,
