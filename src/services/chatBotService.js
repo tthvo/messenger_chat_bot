@@ -180,9 +180,7 @@ let sendBrianMeme = (sender_psid) => {
                 "https://i.imgflip.com/2yibbm.jpg",
 
             ];
-
-            let random = Math.floor(Math.random() * 5);  
-            let source = BrianMemeArr[random];
+            let source = BrianMemeArr[Math.floor(Math.random() * 5)];
             let response = {
                 "attachment":{
                     "type":"image", 
@@ -211,8 +209,7 @@ let sendTrumpMeme = (sender_psid) => {
             ];
 
 
-            let random = Math.floor(Math.random() * 5); 
-            let source = BrianMemeArr[random]; 
+            let source = TrumpMemeArr[Math.floor(Math.random() * 5)];
             let response = {
                 "attachment":{
                     "type":"image", 

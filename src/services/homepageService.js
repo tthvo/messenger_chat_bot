@@ -35,7 +35,7 @@ let setUpMessengerPlatform = (PAGE_ACCESS_TOKEN) => {
             };
 
             request({
-                "uri": "https://graph.facebook.com/v8.0/me/messenger_profile",
+                "uri": "https://graph.facebook.com/v6.0/me/messenger_profile",
                 "qs": { "access_token": PAGE_ACCESS_TOKEN },
                 "method": "POST",
                 "json": data
