@@ -14,17 +14,21 @@ let setUpMessengerPlatform = (PAGE_ACCESS_TOKEN) => {
                         "composer_input_disabled": false,
                         "call_to_actions": [
                             {
-                                "type": "web_url",
-                                "title": "Tic Tac To",
-                                "url": "https://playtictactoe.org/",
-                                "webview_height_ratio": "full"
+                                "type": "postback",
+                                "title": "Talk to an agent",
+                                "payload": "CARE_HELP"
+                            },
+                            {
+                                "type": "postback",
+                                "title": "Outfit suggestions",
+                                "payload": "CURATION"
                             },
                             {
                                 "type": "web_url",
-                                "title": "Make meme",
-                                "url": "https://imgflip.com/memegenerator/",
+                                "title": "Shop now",
+                                "url": "https://www.originalcoastclothing.com/",
                                 "webview_height_ratio": "full"
-                            },
+                            }
                         ]
                     }
                 ],
@@ -35,7 +39,7 @@ let setUpMessengerPlatform = (PAGE_ACCESS_TOKEN) => {
             };
 
             request({
-                "uri": "https://graph.facebook.com/v6.0/me/messenger_profile",
+                "uri": "https://graph.facebook.com/v8.0/me/messenger_profile",
                 "qs": { "access_token": PAGE_ACCESS_TOKEN },
                 "method": "POST",
                 "json": data
