@@ -114,7 +114,7 @@ let handleMessage = async (sender_psid, message) => {
         //handle quick reply message: asking about the party size , how many people
         user.time = moment(entity.value).zone("+07:00").format('MM/DD/YYYY h:mm A');
 
-        chatBotService.sendMessageAskingQuality(sender_psid);
+        
     } else if (entity.name === "wit$phone_number") {
         //handle quick reply message: done reserve table
 
@@ -139,7 +139,7 @@ let handleMessage = async (sender_psid, message) => {
         callSendAPI(sender_psid, response );
     } else {
         if (sentiment.value === "negative") {
-            await chatBotService.sendActivityMenu(sender_psid);
+            await chatBotService.sendMessageAskingYesOrNo(sender_psid);
 
         } else {
             let response = { "text": `Hey sorry I don't think I understand but I do feel sorry for you.` };
@@ -192,9 +192,6 @@ function firstEntity(nlp, name) {
 }
 
 
-
-
-
 // Handles messaging_postbacks events
 let handlePostback = async (sender_psid, received_postback) => {
     let response;
@@ -219,23 +216,14 @@ let handlePostback = async (sender_psid, received_postback) => {
         case "TRUMP_MEME":
             await chatBotService.sendTrumpMeme(sender_psid);
             break;
-        case "DOG_MEME":
-            await chatBotService.sendPubMenu(sender_psid);
+        case "YEAH_FINE":
+            await chatBotService.sendActivityMenu(sender_psid);
             break;
-        case "RESERVE_TABLE":
-            await chatBotService.handleReserveTable(sender_psid);
-            break;
-        case "SHOW_ROOMS":
-            await chatBotService.handleShowRooms(sender_psid);
-            break;
-        case "SHOW_APPETIZERS":
-            await chatBotService.sendAppetizer(sender_psid);
+        case "SORRY_NO":
+            //await chatBotService.handleReserveTable(sender_psid);
             break;
         case "BACK_TO_MAIN_MENU":
             chatBotService.goBackToMainMenu(sender_psid);
-            break;
-        case "BACK_TO_LUNCH_MENU":
-            chatBotService.goBackToLunchMenu(sender_psid);
             break;
         default:
             console.log("Something wrong with switch case payload");

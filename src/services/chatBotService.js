@@ -27,7 +27,6 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
             let response_first = { "text": `Hi ${username}. Nice to meet you buddy!` };
             //send a welcome message
             await sendMessage(sender_psid, response_first);
-
             resolve("done!")
         } catch (e) {
             reject(e);
@@ -36,12 +35,47 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
     });
 };
 
+let sendMessageAskingYesOrNo = (sender_id) => {
+    let request_body = {
+        "recipient": {
+            "id": sender_id
+        },
+        "messaging_type": "RESPONSE",
+        "message": {
+            "text": "Are you ok ? Do you want to do something for fun ?",
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": "Yeah fine",
+                    "payload": "YEAH_FINE",
+                }, {
+                    "content_type": "text",
+                    "title": "Sorry no",
+                    "payload": "SORRY_NO",
+                }
+            ]
+        }
+    };
+    // Send the HTTP request to the Messenger Platform
+    request({
+        "uri": "https://graph.facebook.com/v8.0/me/messages",
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        if (!err) {
+            console.log('message sent!')
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
+};
+
 let sendActivityMenu = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
-
         try {
-            let response_first = {"text": "Are you okay? Do you want to do something for fun?"};
-            let response_second = {
+           
+            let response = {
                 "attachment": {
                     "type": "template",
                     "payload": {
@@ -68,12 +102,8 @@ let sendActivityMenu = (sender_psid) => {
                     }
                 }
             };
-
-            //Send a comforting question
-            await sendMessage(sender_psid, response_first);
-
             //send a image with button view main menu
-            await sendMessage(sender_psid, response_second);
+            await sendMessage(sender_psid, response);
 
             resolve("done!")
         } catch (e) {
@@ -87,7 +117,10 @@ let sendMemeMenu = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
 
         try {
-            let response_first = {"text": "Great choice! Let's have a look at meme menu."};
+            let response_first = {
+                "text": "Great choice! Let's have a look at meme menu.",
+                "sender_action":"typing_on"
+            };
             let response = {
                 "attachment": {
                     "type": "template",
@@ -101,7 +134,7 @@ let sendMemeMenu = (sender_psid) => {
                                 "buttons": [
                                     {
                                         "type": "postback",
-                                        "title": "YES PLEASE",
+                                        "title": "YES BRIAN",
                                         "payload": "BRIAN_MEME",
                                     }
                                 ],
@@ -113,7 +146,7 @@ let sendMemeMenu = (sender_psid) => {
                                 "buttons": [
                                     {
                                         "type": "postback",
-                                        "title": "YES PLEASE",
+                                        "title": "WHY NOT TRUMP",
                                         "payload": "TRUMP_MEME",
                                     }
                                 ],
@@ -140,24 +173,16 @@ let sendBrianMeme = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try { 
             let response = {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "generic",
-                    "elements": [
-                        {
-                            "title": "SCREW PEOPLE",
-                            "image_url": "https://i.pinimg.com/236x/bc/9f/9f/bc9f9fea82a0fce900807e9625fc0388--brian-memes-classic-memes.jpg",
-                            
-                        }
-                    ]
+                "attachment":{
+                    "type":"image", 
+                    "payload":{
+                      "url":"https://i.pinimg.com/236x/bc/9f/9f/bc9f9fea82a0fce900807e9625fc0388--brian-memes-classic-memes.jpg", 
+                      "is_reusable":true
+                    }
                 }
-            }
-        };
-           
-
-            //send a welcome message
+            };
             await sendMessage(sender_psid, response);
+            resolve("done!")
         } catch (e) {
             reject(e);
         }
@@ -168,152 +193,11 @@ let sendTrumpMeme = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let response = {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "generic",
-                        "elements": [
-                            {
-                                "title": "MAKE AMERICAN GREAT AGAIN ??!!",
-                                "image_url": "https://i.redd.it/antyobs25se21.jpg",
-                                
-                            }
-                        ]
-                    }
-                }
-            };
-
-            //send a welcome message
-            await sendMessage(sender_psid, response);
-        } catch (e) {
-            reject(e);
-        }
-    });
-};
-
-let sendPubMenu = (sender_psid) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let response = {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "generic",
-                        "elements": [
-                            {
-                                "title": "Appetizers",
-                                "image_url": "https://bit.ly/imageAppetizer",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW APPETIZERS",
-                                        "payload": "SHOW_APPETIZERS",
-                                    }
-                                ],
-                            },
-
-                            {
-                                "title": "Entree Salad",
-                                "image_url": " https://bit.ly/imageSalad",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW ENTREE SALAD",
-                                        "payload": "SHOW_ENTREE_SALAD",
-                                    }
-                                ],
-                            },
-
-                            {
-                                "title": "Fish and Shell Fish",
-                                "image_url": " https://bit.ly/imageFish",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW FISH",
-                                        "payload": "SHOW_FISH",
-                                    }
-                                ],
-                            },
-
-                            {
-                                "title": "Go back",
-                                "image_url": " https://bit.ly/imageToSend",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "BACK TO MAIN MENU",
-                                        "payload": "BACK_TO_MAIN_MENU",
-                                    },
-                                    {
-                                        "type": "postback",
-                                        "title": "RESERVE A TABLE",
-                                        "payload": "RESERVE_TABLE",
-                                    }
-                                ],
-                            }
-                        ]
-                    }
-                }
-            };
-
-            //send a welcome message
-            await sendMessage(sender_psid, response);
-        } catch (e) {
-            reject(e);
-        }
-    });
-};
-
-let sendAppetizer = (sender_psid) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let response = {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "generic",
-                        "elements": [
-                            {
-                                "title": "Little Neck Clams on the Half Shell",
-                                "subtitle": "Dozen - $20.00",
-                                "image_url": "https://bit.ly/appetizers1",
-                            },
-
-                            {
-                                "title": "Fresh Oysters",
-                                "subtitle": "1/2 Dozen - $21.00 | Dozen - $40.00",
-                                "image_url": "https://bit.ly/appetizers2",
-                            },
-
-                            {
-                                "title": "Lobster Salad",
-                                "subtitle": "Half Lobster with Avocado and Grapefruit",
-                                "image_url": "https://bit.ly/appetizers3",
-                            },
-
-                            {
-                                "title": "Go back",
-                                "image_url": " https://bit.ly/imageToSend",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW LUNCH MENU",
-                                        "payload": "BACK_TO_LUNCH_MENU",
-                                    },
-                                    {
-                                        "type": "postback",
-                                        "title": "BACK TO MAIN MENU",
-                                        "payload": "BACK_TO_MAIN_MENU",
-                                    },
-                                    {
-                                        "type": "postback",
-                                        "title": "RESERVE A TABLE",
-                                        "payload": "RESERVE_TABLE",
-                                    }
-                                ],
-                            }
-                        ]
+                "attachment":{
+                    "type":"image", 
+                    "payload":{
+                      "url":"https://i.redd.it/antyobs25se21.jpg", 
+                      "is_reusable":true
                     }
                 }
             };
@@ -327,11 +211,7 @@ let sendAppetizer = (sender_psid) => {
 };
 
 let goBackToMainMenu = (sender_psid) => {
-    sendMainMenu(sender_psid);
-};
-
-let goBackToLunchMenu = (sender_psid) => {
-    sendLunchMenu(sender_psid);
+    sendActivityMenu(sender_psid);
 };
 
 let handleReserveTable = (sender_psid) => {
@@ -339,83 +219,6 @@ let handleReserveTable = (sender_psid) => {
         try {
             let username = await getFacebookUsername(sender_psid);
             let response = { text: `Hi ${username}, What time and date you would like to reserve a table ?` };
-            await sendMessage(sender_psid, response);
-        } catch (e) {
-            reject(e);
-        }
-    });
-};
-
-let handleShowRooms = (sender_psid) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let response = {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "generic",
-                        "elements": [
-                            {
-                                "title": "Bull Moose Room",
-                                "subtitle": "The room is suited for parties of up to 25 people",
-                                "image_url": "https://bit.ly/showRoom1",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW DESCRIPTION",
-                                        "payload": "SHOW_ROOM_1",
-                                    }
-                                ],
-                            },
-
-                            {
-                                "title": "Lillie Langstry Room",
-                                "subtitle": "The room is suited for parties of up to 35 people",
-                                "image_url": "https://bit.ly/showRoom2",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW DESCRIPTION",
-                                        "payload": "SHOW_ROOM_2",
-                                    }
-                                ],
-                            },
-
-                            {
-                                "title": "Lincoln Room",
-                                "subtitle": "The room is suited for parties of up to 45 people",
-                                "image_url": "https://bit.ly/showRoom3",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "SHOW DESCRIPTION",
-                                        "payload": "SHOW_ROOM_1",
-                                    }
-                                ],
-                            },
-
-                            {
-                                "title": "Go back",
-                                "image_url": " https://bit.ly/imageToSend",
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "BACK TO MAIN MENU",
-                                        "payload": "BACK_TO_MAIN_MENU",
-                                    },
-                                    {
-                                        "type": "postback",
-                                        "title": "RESERVE A TABLE",
-                                        "payload": "RESERVE_TABLE",
-                                    }
-                                ],
-                            }
-                        ]
-                    }
-                }
-            };
-
-            //send a welcome message
             await sendMessage(sender_psid, response);
         } catch (e) {
             reject(e);
@@ -453,47 +256,6 @@ let sendMessage = (sender_psid, response) => {
     });
 };
 
-let sendMessageAskingQuality = (sender_id) => {
-    let request_body = {
-        "recipient": {
-            "id": sender_id
-        },
-        "messaging_type": "RESPONSE",
-        "message": {
-            "text": "What is your party size ?",
-            "quick_replies": [
-                {
-                    "content_type": "text",
-                    "title": "1-2",
-                    "payload": "SMALL",
-                }, {
-                    "content_type": "text",
-                    "title": "2-5",
-                    "payload": "MEDIUM",
-                },
-                {
-                    "content_type": "text",
-                    "title": "more than 5",
-                    "payload": "LARGE",
-                }
-            ]
-        }
-    };
-
-    // Send the HTTP request to the Messenger Platform
-    request({
-        "uri": "https://graph.facebook.com/v8.0/me/messages",
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        if (!err) {
-            console.log('message sent!')
-        } else {
-            console.error("Unable to send message:" + err);
-        }
-    });
-};
 
 let sendMessageAskingPhoneNumber = (sender_id) => {
     let request_body = {
@@ -608,17 +370,13 @@ let sendNotificationToTelegram = (user) => {
 export default  {
     getFacebookUsername,
     sendResponseWelcomeNewCustomer,
+    sendMessageAskingYesOrNo,
     sendActivityMenu,
     sendMemeMenu,
     sendBrianMeme,
     sendTrumpMeme,
-    sendPubMenu,
-    sendAppetizer,
     goBackToMainMenu,
-    goBackToLunchMenu,
     handleReserveTable,
-    handleShowRooms ,
-    sendMessageAskingQuality,
     sendMessageAskingPhoneNumber ,
     sendMessageDoneReserveTable,
     sendNotificationToTelegram

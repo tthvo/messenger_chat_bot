@@ -7,7 +7,7 @@ let setUpMessengerPlatform = (PAGE_ACCESS_TOKEN) => {
                 "get_started": {
                     "payload": "GET_STARTED"
                 },
-                /*
+                
                 "persistent_menu": [
                     {
                         "locale": "default",
@@ -24,10 +24,10 @@ let setUpMessengerPlatform = (PAGE_ACCESS_TOKEN) => {
                                 "title": "Make meme",
                                 "url": "https://imgflip.com/memegenerator/",
                                 "webview_height_ratio": "full"
-                            }
+                            },
                         ]
                     }
-                ],*/
+                ],
                 
                 "whitelisted_domains": [
                     "https://chatbot-protocol.herokuapp.com/"
@@ -35,7 +35,7 @@ let setUpMessengerPlatform = (PAGE_ACCESS_TOKEN) => {
             };
 
             request({
-                "uri": "https://graph.facebook.com/v7.0/me/messenger_profile",
+                "uri": "https://graph.facebook.com/v8.0/me/messenger_profile",
                 "qs": { "access_token": PAGE_ACCESS_TOKEN },
                 "method": "POST",
                 "json": data
