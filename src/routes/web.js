@@ -13,7 +13,7 @@ let initWebRoutes = (app) => {
     router.get("/profile", homepageController.getFacebookUserProfile);
 
     //Set up endpoint for collecting personal info and set up get started button & persistent menus
-    router.post("/set-up-user-fb-profile", homepageController.setUpUserFacebookProfile); 
+    router.post("/set-up-profile", homepageController.setUpUserFacebookProfile); 
     
     router.get("/test",async (req, res) =>{
         let user = await chatBotService.getFacebookUsername(3350311028355090);

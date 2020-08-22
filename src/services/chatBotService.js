@@ -106,7 +106,6 @@ let sendActivityMenu = (sender_psid) => {
             };
             //send a image with button view main menu
             await sendMessage(sender_psid, response);
-
             resolve("done!")
         } catch (e) {
             reject(e);
@@ -143,7 +142,7 @@ let sendMemeMenu = (sender_psid) => {
                             },
                             {
                                 "title": "TRUMP MEME",
-                                "subtitle": "Make American Great Again ?!! JK",
+                                "subtitle": "Sample of how to be great LOL",
                                 "image_url": "https://images.indianexpress.com/2017/11/trump-water-bottle-meme-759.jpg",
                                 "buttons": [
                                     {
@@ -174,11 +173,21 @@ let sendMemeMenu = (sender_psid) => {
 let sendBrianMeme = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try { 
+            let BrianMemeArr = [
+                "https://i.pinimg.com/236x/bc/9f/9f/bc9f9fea82a0fce900807e9625fc0388--brian-memes-classic-memes.jpg",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTkvw2MHBLUs76B0E4WP3B4fVIxNOJ0eNo1Vw&usqp=CAU",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTxkoao6ZLNdDDH1n5uDtiUXViMrggWP39r8A&usqp=CAU",
+                "https://i.imgflip.com/2yibbm.jpg",
+
+            ];
+
+            let random = Math.floor(Math.random() * 5);  
+            let source = BrianMemeArr[random];
             let response = {
                 "attachment":{
                     "type":"image", 
                     "payload":{
-                      "url":"https://i.pinimg.com/236x/bc/9f/9f/bc9f9fea82a0fce900807e9625fc0388--brian-memes-classic-memes.jpg", 
+                      "url": source, 
                       "is_reusable":true
                     }
                 }
@@ -194,30 +203,27 @@ let sendBrianMeme = (sender_psid) => {
 let sendTrumpMeme = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
+            let TrumpMemeArr = [
+                "https://i.redd.it/antyobs25se21.jpg",
+                "https://static.boredpanda.com/blog/wp-content/uploads/2020/08/donald-trump-axios-jonathan-swan-interview-funny-jokes-fb6-png__700.jpg",
+                "https://static.boredpanda.com/blog/wp-content/uploads/2020/08/donald-trump-axios-jonathan-swan-interview-funny-jokes-fb6-png__700.jpg",
+                "https://i.imgflip.com/3sjxri.jpg"
+            ];
+
+
+            let random = Math.floor(Math.random() * 5); 
+            let source = BrianMemeArr[random]; 
             let response = {
                 "attachment":{
                     "type":"image", 
                     "payload":{
-                      "url":"https://i.redd.it/antyobs25se21.jpg", 
+                      "url": source, 
                       "is_reusable":true
                     }
                 }
             };
 
             //send a welcome message
-            await sendMessage(sender_psid, response);
-        } catch (e) {
-            reject(e);
-        }
-    });
-};
-
-
-let handleReserveTable = (sender_psid) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let username = await getFacebookUsername(sender_psid);
-            let response = { text: `Hi ${username}, What time and date you would like to reserve a table ?` };
             await sendMessage(sender_psid, response);
         } catch (e) {
             reject(e);
@@ -256,116 +262,6 @@ let sendMessage = (sender_psid, response) => {
 };
 
 
-let sendMessageAskingPhoneNumber = (sender_id) => {
-    let request_body = {
-        "recipient": {
-            "id": sender_id
-        },
-        "messaging_type": "RESPONSE",
-        "message": {
-            "text": "Thank you. And what's the best phone number for us to reach you at?",
-            "quick_replies": [
-                {
-                    "content_type": "user_phone_number",
-                }
-            ]
-        }
-    };
-
-    // Send the HTTP request to the Messenger Platform
-    request({
-        "uri": "https://graph.facebook.com/v8.0/me/messages",
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        if (!err) {
-            console.log('message sent!')
-        } else {
-            console.error("Unable to send message:" + err);
-        }
-    });
-};
-
-let sendMessageDoneReserveTable = async (sender_id) => {
-    try {
-        let response = {
-            "attachment": {
-                "type": "image",
-                "payload": {
-                    "url": "https://bit.ly/giftDonalTrump"
-                }
-            }
-        };
-        await sendMessage(sender_id, response);
-
-        //get facebook username
-        let username = await getFacebookUsername(sender_id);
-
-        //send another message
-        let response2 = {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "button",
-                    "text": `Done! \nOur reservation team will contact you as soon as possible ${username}.\n \nWould you like to check our Main Menu?`,
-                    "buttons": [
-                        {
-                            "type": "postback",
-                            "title": "SHOW MAIN MENU",
-                            "payload": "MAIN_MENU"
-                        },
-                        {
-                            "type":"phone_number",
-                            "title":"☎ HOT LINE",
-                            "payload":"+911911"
-                        }
-                    ]
-                }
-            }
-        };
-        await sendMessage(sender_id, response2);
-    } catch (e) {
-        console.log(e);
-    }
-};
-
-let sendNotificationToTelegram = (user) => {
-    return new Promise((resolve, reject) => {
-        try {
-            let request_body = {
-                chat_id: process.env.TELEGRAM_GROUP_ID,
-                parse_mode: "HTML",
-                text: `
-| --- <b>A new reservation</b> --- |
-| ------------------------------------------------|
-| 1. Username: <b>${user.name}</b>   |
-| 2. Phone number: <b>${user.phoneNumber}</b> |
-| 3. Time: <b>${user.time}</b> |
-| 4. Quantity: <b>${user.quantity}</b> |
-| 5. Created at: ${user.createdAt} |
-| ------------------------------------------------ |                           
-      `
-            };
-
-            // Send the HTTP request to the Telegram
-            request({
-                "uri": `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
-                "method": "POST",
-                "json": request_body
-            }, (err, res, body) => {
-                if (!err) {
-                    resolve('done!')
-                } else {
-                    reject("Unable to send message:" + err);
-                }
-            });
-        } catch (e) {
-            reject(e);
-        }
-    });
-};
-
 export default  {
     getFacebookUsername,
     sendResponseWelcomeNewCustomer,
@@ -374,8 +270,4 @@ export default  {
     sendMemeMenu,
     sendBrianMeme,
     sendTrumpMeme,
-    handleReserveTable,
-    sendMessageAskingPhoneNumber ,
-    sendMessageDoneReserveTable,
-    sendNotificationToTelegram
 };

@@ -2,7 +2,7 @@ $(document).ready(function() {
     $("#submitFacebookProfile").on("click", function(event) {
         event.preventDefault();
         $.ajax({
-            url: `${window.location.origin}/set-up-user-fb-profile`,
+            url: `${window.location.origin}/set-up-profile`,
             method: "POST",
             data: {},
             success: function(data) {

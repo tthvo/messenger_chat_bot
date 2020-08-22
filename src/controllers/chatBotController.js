@@ -7,10 +7,6 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 let user = {
     name: "",
-    phoneNumber: "",
-    time: "",
-    quantity: "",
-    createdAt: ""
 };
 
 let postWebhook = (req, res) => {
@@ -81,30 +77,6 @@ let getWebhook = (req, res) => {
 let handleMessage = async (sender_psid, message) => {
     //checking quick reply
     if (message && message.quick_reply && message.quick_reply.payload) {
-        /*
-        if (message.quick_reply.payload === "SMALL" || message.quick_reply.payload === "MEDIUM" || message.quick_reply.payload === "LARGE") {
-            //asking about phone number
-            if(message.quick_reply.payload === "SMALL") user.quantity = "1-2 people";
-            if(message.quick_reply.payload === "MEDIUM") user.quantity = "2-5 people";
-            if(message.quick_reply.payload === "LARGE") user.quantity = "More than 5 people";
-
-            await chatBotService.sendMessageAskingPhoneNumber(sender_psid);
-            return;
-        }
-        // pay load is a phone number
-        if (message.quick_reply.payload !== " ") {
-            //done a reservation
-            // npm install --save moment to use moment
-            user.phoneNumber = message.quick_reply.payload;
-            user.createdAt = moment(Date.now()).zone("+07:00").format('MM/DD/YYYY h:mm A');
-            //send a notification to Telegram Group chat by Telegram bot.
-            await chatBotService.sendNotificationToTelegram(user);
-
-            // send messages to the user
-            await chatBotService.sendMessageDoneReserveTable(sender_psid);
-        }
-        return;*/
-
         if (message.quick_reply.payload === "YEAH_FINE") {
             await chatBotService.sendActivityMenu(sender_psid);
             return;
@@ -120,27 +92,9 @@ let handleMessage = async (sender_psid, message) => {
     let entity = handleMessageWithEntities(message);
     // Handle sentiment 
     let sentiment = handleMessageWithSentiment(message);
-    /*
-    if (entity.name === "wit$datetime") {
-        //handle quick reply message: asking about the party size , how many people
-        user.time = moment(entity.value).zone("+07:00").format('MM/DD/YYYY h:mm A');
-
-        
-    } else if (entity.name === "wit$phone_number") {
-        //handle quick reply message: done reserve table
-
-        user.phoneNumber = entity.value;
-        user.createdAt = moment(Date.now()).zone("+07:00").format('MM/DD/YYYY h:mm A');
-        //send a notification to Telegram Group chat by Telegram bot.
-        await chatBotService.sendNotificationToTelegram(user);
-
-        // send messages to the user
-        await chatBotService.sendMessageDoneReserveTable(sender_psid);
-
-    } */
 
     if (entity.name === "wit$greetings"){
-        let response = { "text": `Hello there.` };
+        let response = { "text": `Hello there` };
         callSendAPI(sender_psid, response );
         //default reply
     } else if (entity.name === "wit$thanks") {
@@ -154,7 +108,10 @@ let handleMessage = async (sender_psid, message) => {
         if (sentiment.value === "negative") {
             await chatBotService.sendMessageAskingYesOrNo(sender_psid);
 
-        } else {
+        } else if (message.text) {
+
+        }
+        else {
             let response = { "text": `Hey sorry I don't think I understand but I do feel sorry for you.` };
             callSendAPI(sender_psid, response );
         }
