@@ -8,6 +8,30 @@ let setUpMessengerPlatform = (PAGE_ACCESS_TOKEN) => {
                     "payload": "GET_STARTED"
                 },
                 
+                "persistent_menu": [
+                    {
+                        "locale": "default",
+                        "composer_input_disabled": false,
+                        "call_to_actions": [
+                            {
+                                "type": "postback",
+                                "title": "More Meme",
+                                "payload": "MEME"
+                            },
+                            {
+                                "type": "postback",
+                                "title": "Some Music",
+                                "payload": "MUSIC"
+                            },
+                            {
+                                "type": "web_url",
+                                "title": "Tic Tac To",
+                                "url": "https://playtictactoe.org/",
+                                "webview_height_ratio": "full"
+                            }
+                        ]
+                    }
+                ],
                 
                 "whitelisted_domains": [
                     "https://chatbot-protocol.herokuapp.com/"
