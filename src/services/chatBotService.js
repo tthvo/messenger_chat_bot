@@ -204,8 +204,8 @@ let sendTrumpMeme = (sender_psid) => {
             let TrumpMemeArr = [
                 "https://i.redd.it/antyobs25se21.jpg",
                 "https://static.boredpanda.com/blog/wp-content/uploads/2020/08/donald-trump-axios-jonathan-swan-interview-funny-jokes-fb6-png__700.jpg",
-                "https://static.boredpanda.com/blog/wp-content/uploads/2020/08/donald-trump-axios-jonathan-swan-interview-funny-jokes-fb6-png__700.jpg",
-                "https://i.imgflip.com/3sjxri.jpg"
+                "https://i.imgflip.com/3sjxri.jpg",
+                "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F20%2F2019%2F11%2Ftrump-note-2000.jpg&q=85"
             ];
 
 
