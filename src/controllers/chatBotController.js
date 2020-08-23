@@ -1,5 +1,5 @@
 import request from "request";
-import moment from "moment";
+//import moment from "moment";
 import chatBotService from "../services/chatBotService.js";
 
 const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
@@ -107,12 +107,21 @@ let handleMessage = async (sender_psid, message) => {
     } else {
         if (sentiment.value === "negative") {
             await chatBotService.sendMessageAskingYesOrNo(sender_psid);
+        }
+        else if (sentiment.value === "positive") {
+            let response = { "text": `You are feeling better! Hel yes!` };
+            callSendAPI(sender_psid, response );
 
         } else if (message.text) {
-
+            await chatBotService.listenToStory(sender_psid, message.text);
+            return;
+        } else if (message.attachments) {
+            //let attachment_url = received_message.attachments[0].payload.url;
+            let response = { "text": `Is that you most beautiful moment?` };
+            callSendAPI(sender_psid, response );
         }
         else {
-            let response = { "text": `Hey sorry I don't think I understand but I do feel sorry for you.` };
+            let response = { "text": `Hey sorry I don't think I understand but I hope you feel better.` };
             callSendAPI(sender_psid, response );
         }
         
@@ -177,6 +186,9 @@ let handlePostback = async (sender_psid, received_postback) => {
             break;
         case "MEME":
             await chatBotService.sendMemeMenu(sender_psid);
+            break;
+        case "MUSIC":
+            await chatBotService.sendMusic(sender_psid);
             break;
         case "BRIAN_MEME":
             await chatBotService.sendBrianMeme(sender_psid);

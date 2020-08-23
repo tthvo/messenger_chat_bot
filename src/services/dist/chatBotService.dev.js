@@ -230,7 +230,13 @@ var sendBrianMeme = function sendBrianMeme(sender_psid) {
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.prev = 0;
-            BrianMemeArr = ["https://i.pinimg.com/236x/bc/9f/9f/bc9f9fea82a0fce900807e9625fc0388--brian-memes-classic-memes.jpg", "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTkvw2MHBLUs76B0E4WP3B4fVIxNOJ0eNo1Vw&usqp=CAU", "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTxkoao6ZLNdDDH1n5uDtiUXViMrggWP39r8A&usqp=CAU", "https://i.imgflip.com/2yibbm.jpg"];
+
+            /*
+                "https://i.pinimg.com/236x/bc/9f/9f/bc9f9fea82a0fce900807e9625fc0388--brian-memes-classic-memes.jpg",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTkvw2MHBLUs76B0E4WP3B4fVIxNOJ0eNo1Vw&usqp=CAU",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTxkoao6ZLNdDDH1n5uDtiUXViMrggWP39r8A&usqp=CAU",
+                "https://i.imgflip.com/2yibbm.jpg",*/
+            BrianMemeArr = ["../images/brian_1.jpg", "../images/brian_2.jpg", "../images/brian_3.jpg", "../images/brian_4.jpg"];
             source = BrianMemeArr[Math.floor(Math.random() * 5)];
             response = {
               "attachment": {
@@ -271,7 +277,7 @@ var sendTrumpMeme = function sendTrumpMeme(sender_psid) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.prev = 0;
-            TrumpMemeArr = ["https://i.redd.it/antyobs25se21.jpg", "https://static.boredpanda.com/blog/wp-content/uploads/2020/08/donald-trump-axios-jonathan-swan-interview-funny-jokes-fb6-png__700.jpg", "https://i.imgflip.com/3sjxri.jpg", "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F20%2F2019%2F11%2Ftrump-note-2000.jpg&q=85"];
+            TrumpMemeArr = ["https://i.redd.it/antyobs25se21.jpg", "https://static.boredpanda.com/blog/wp-content/uploads/2020/08/donald-trump-axios-jonathan-swan-interview-funny-jokes-fb6-png__700.jpg", "https://i.imgflip.com/3sjxri.jpg", "../images/drinkTrump.jpg"];
             source = TrumpMemeArr[Math.floor(Math.random() * 5)];
             response = {
               "attachment": {
@@ -301,6 +307,87 @@ var sendTrumpMeme = function sendTrumpMeme(sender_psid) {
         }
       }
     }, null, null, [[0, 8]]);
+  });
+};
+
+var listenToStory = function listenToStory(sender_psid, received_messange) {
+  return new Promise(function _callee6(resolve, reject) {
+    var text_1, text_2, better, response_1, response_2;
+    return regeneratorRuntime.async(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+
+            if (/what|where|how/.test(received_messange)) {
+              // At least one match
+              text_1 = "Why don't you try looking back at your photo?";
+              text_2 = "Find your happiest moment and share with me :))";
+            } else if (/yes|exactly/.test(received_messange)) {
+              text_1 = "It is beautiful, isn't it?";
+              text_2 = "I bet you want to keep memories like this instead of anything else heh ?";
+            } else if (/right|true/.test(received_messange)) {
+              text_1 = "There you found your way to be happy!";
+              text_2 = "Shall we do something?";
+              better = true;
+            }
+
+            response_1 = {
+              "message": {
+                "text": text_1
+              }
+            };
+            response_2 = {
+              "message": {
+                "text": text_2
+              }
+            };
+            _context6.next = 6;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response_1));
+
+          case 6:
+            _context6.next = 8;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response_2));
+
+          case 8:
+            if (better) sendActivityMenu(sender_psid);
+            resolve("done");
+            _context6.next = 15;
+            break;
+
+          case 12:
+            _context6.prev = 12;
+            _context6.t0 = _context6["catch"](0);
+            reject(_context6.t0);
+
+          case 15:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, null, null, [[0, 12]]);
+  });
+};
+
+var sendMusic = function sendMusic(sender_psid) {
+  return new Promise(function _callee7(resolve, reject) {
+    return regeneratorRuntime.async(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            try {
+              //await sendMessage(sender_psid, response);
+              resolve("done");
+            } catch (e) {
+              reject(e);
+            }
+
+          case 1:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    });
   });
 };
 
@@ -342,6 +429,8 @@ var _default = {
   sendActivityMenu: sendActivityMenu,
   sendMemeMenu: sendMemeMenu,
   sendBrianMeme: sendBrianMeme,
-  sendTrumpMeme: sendTrumpMeme
+  sendTrumpMeme: sendTrumpMeme,
+  listenToStory: listenToStory,
+  sendMusic: sendMusic
 };
 exports["default"] = _default;

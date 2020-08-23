@@ -173,11 +173,16 @@ let sendMemeMenu = (sender_psid) => {
 let sendBrianMeme = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try { 
-            let BrianMemeArr = [
+            /*
                 "https://i.pinimg.com/236x/bc/9f/9f/bc9f9fea82a0fce900807e9625fc0388--brian-memes-classic-memes.jpg",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTkvw2MHBLUs76B0E4WP3B4fVIxNOJ0eNo1Vw&usqp=CAU",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTxkoao6ZLNdDDH1n5uDtiUXViMrggWP39r8A&usqp=CAU",
-                "https://i.imgflip.com/2yibbm.jpg",
+                "https://i.imgflip.com/2yibbm.jpg",*/
+            let BrianMemeArr = [
+                "../images/brian_1.jpg",
+                "../images/brian_2.jpg",
+                "../images/brian_3.jpg",
+                "../images/brian_4.jpg"
 
             ];
             let source = BrianMemeArr[Math.floor(Math.random() * 5)];
@@ -205,9 +210,8 @@ let sendTrumpMeme = (sender_psid) => {
                 "https://i.redd.it/antyobs25se21.jpg",
                 "https://static.boredpanda.com/blog/wp-content/uploads/2020/08/donald-trump-axios-jonathan-swan-interview-funny-jokes-fb6-png__700.jpg",
                 "https://i.imgflip.com/3sjxri.jpg",
-                "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F20%2F2019%2F11%2Ftrump-note-2000.jpg&q=85"
+                "../images/drinkTrump.jpg"
             ];
-
 
             let source = TrumpMemeArr[Math.floor(Math.random() * 5)];
             let response = {
@@ -226,6 +230,63 @@ let sendTrumpMeme = (sender_psid) => {
             reject(e);
         }
     });
+};
+
+let listenToStory = (sender_psid, received_messange) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let text_1;
+            let text_2;
+            var better;
+            if (/what|where|how/.test(received_messange)) {
+                // At least one match
+                text_1 = "Why don't you try looking back at your photo?";
+                text_2 = "Find your happiest moment and share with me :))"
+            } else if (/yes|exactly/.test(received_messange)) {
+                text_1 = "It is beautiful, isn't it?";
+                text_2 = "I bet you want to keep memories like this instead of anything else heh ?";
+            } else if (/right|true/.test(received_messange)) {
+                text_1 = "There you found your way to be happy!";
+                text_2 = "Shall we do something?";
+                better =true;
+            }
+            let response_1 = {
+                "message":{
+                    "text": text_1,
+                  }
+            };
+
+            let response_2 = {
+                "message":{
+                    "text": text_2,
+                  }
+            };
+            
+            await sendMessage(sender_psid, response_1);
+            await sendMessage(sender_psid, response_2);
+            if (better)
+                sendActivityMenu(sender_psid);
+            resolve("done");
+        } catch (e) {
+            reject(e);
+        }
+    });
+
+};
+
+let sendMusic = (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+           
+            
+            //await sendMessage(sender_psid, response);
+            resolve("done");
+        } catch (e) {
+            reject(e);
+        }
+    });
+    
+
 };
 
 let sendMessage = (sender_psid, response) => {
@@ -267,4 +328,6 @@ export default  {
     sendMemeMenu,
     sendBrianMeme,
     sendTrumpMeme,
+    listenToStory,
+    sendMusic
 };
