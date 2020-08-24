@@ -174,18 +174,15 @@ let sendBrianMeme = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try { 
             /*
+                */
+            let BrianMemeArr = [
                 "https://i.pinimg.com/236x/bc/9f/9f/bc9f9fea82a0fce900807e9625fc0388--brian-memes-classic-memes.jpg",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTkvw2MHBLUs76B0E4WP3B4fVIxNOJ0eNo1Vw&usqp=CAU",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTxkoao6ZLNdDDH1n5uDtiUXViMrggWP39r8A&usqp=CAU",
-                "https://i.imgflip.com/2yibbm.jpg",*/
-            let BrianMemeArr = [
-                "../images/brian_1.jpg",
-                "../images/brian_2.jpg",
-                "../images/brian_3.jpg",
-                "../images/brian_4.jpg"
-
+                "https://i.imgflip.com/2yibbm.jpg",
             ];
-            let source = BrianMemeArr[Math.floor(Math.random() * 5)];
+
+            let source = BrianMemeArr[Math.floor(Math.random() * 4)];
             let response = {
                 "attachment":{
                     "type":"image", 
@@ -210,10 +207,9 @@ let sendTrumpMeme = (sender_psid) => {
                 "https://i.redd.it/antyobs25se21.jpg",
                 "https://static.boredpanda.com/blog/wp-content/uploads/2020/08/donald-trump-axios-jonathan-swan-interview-funny-jokes-fb6-png__700.jpg",
                 "https://i.imgflip.com/3sjxri.jpg",
-                "../images/drinkTrump.jpg"
             ];
 
-            let source = TrumpMemeArr[Math.floor(Math.random() * 5)];
+            let source = TrumpMemeArr[Math.floor(Math.random() * 3)];
             let response = {
                 "attachment":{
                     "type":"image", 
@@ -232,40 +228,20 @@ let sendTrumpMeme = (sender_psid) => {
     });
 };
 
-let listenToStory = (sender_psid, received_messange) => {
+let listenToStory = (sender_psid, received_message) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let text_1;
-            let text_2;
-            var better;
-            if (/what|where|how/.test(received_messange)) {
-                // At least one match
-                text_1 = "Why don't you try looking back at your photo?";
-                text_2 = "Find your happiest moment and share with me :))"
-            } else if (/yes|exactly/.test(received_messange)) {
-                text_1 = "It is beautiful, isn't it?";
-                text_2 = "I bet you want to keep memories like this instead of anything else heh ?";
-            } else if (/right|true/.test(received_messange)) {
-                text_1 = "There you found your way to be happy!";
-                text_2 = "Shall we do something?";
-                better =true;
-            }
-            let response_1 = {
-                "message":{
-                    "text": text_1,
-                  }
-            };
+            let reply = "";
+            if (received_message === 'Why' || received_message === 'why') {
+                reply = "Because it it the moment you are happy :D";
+            } else
+                reply = "I am sorry to hear that";
 
-            let response_2 = {
-                "message":{
-                    "text": text_2,
-                  }
+
+            let response = {
+                "text": reply,
             };
-            
-            await sendMessage(sender_psid, response_1);
-            await sendMessage(sender_psid, response_2);
-            if (better)
-                sendActivityMenu(sender_psid);
+            await sendMessage(sender_psid, response);
             resolve("done");
         } catch (e) {
             reject(e);
@@ -277,9 +253,31 @@ let listenToStory = (sender_psid, received_messange) => {
 let sendMusic = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
-           
             
-            //await sendMessage(sender_psid, response);
+            let response = {
+                "message":{
+                    "attachment":{
+                        "type":"template",
+                        "payload":{
+                            "template_type":"open_graph",
+                            "elements":[
+                                {
+                                    "url":"https://open.spotify.com/album/2fenSS68JI1h4Fo296JfGr",
+                                    "buttons":[
+                                        {
+                                            "type":"web_url",
+                                            "url":"https://www.taylorswift.com",
+                                            "title":"I want this :)"
+                                        }              
+                                    ]      
+                                }
+                            ]
+                        }
+                    }
+                }    
+            };
+            //Send the music
+            await sendMessage(sender_psid, response);
             resolve("done");
         } catch (e) {
             reject(e);

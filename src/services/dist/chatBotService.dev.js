@@ -232,12 +232,9 @@ var sendBrianMeme = function sendBrianMeme(sender_psid) {
             _context4.prev = 0;
 
             /*
-                "https://i.pinimg.com/236x/bc/9f/9f/bc9f9fea82a0fce900807e9625fc0388--brian-memes-classic-memes.jpg",
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTkvw2MHBLUs76B0E4WP3B4fVIxNOJ0eNo1Vw&usqp=CAU",
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTxkoao6ZLNdDDH1n5uDtiUXViMrggWP39r8A&usqp=CAU",
-                "https://i.imgflip.com/2yibbm.jpg",*/
-            BrianMemeArr = ["../images/brian_1.jpg", "../images/brian_2.jpg", "../images/brian_3.jpg", "../images/brian_4.jpg"];
-            source = BrianMemeArr[Math.floor(Math.random() * 5)];
+                */
+            BrianMemeArr = ["https://i.pinimg.com/236x/bc/9f/9f/bc9f9fea82a0fce900807e9625fc0388--brian-memes-classic-memes.jpg", "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTkvw2MHBLUs76B0E4WP3B4fVIxNOJ0eNo1Vw&usqp=CAU", "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTxkoao6ZLNdDDH1n5uDtiUXViMrggWP39r8A&usqp=CAU", "https://i.imgflip.com/2yibbm.jpg"];
+            source = BrianMemeArr[Math.floor(Math.random() * 4)];
             response = {
               "attachment": {
                 "type": "image",
@@ -277,8 +274,8 @@ var sendTrumpMeme = function sendTrumpMeme(sender_psid) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.prev = 0;
-            TrumpMemeArr = ["https://i.redd.it/antyobs25se21.jpg", "https://static.boredpanda.com/blog/wp-content/uploads/2020/08/donald-trump-axios-jonathan-swan-interview-funny-jokes-fb6-png__700.jpg", "https://i.imgflip.com/3sjxri.jpg", "../images/drinkTrump.jpg"];
-            source = TrumpMemeArr[Math.floor(Math.random() * 5)];
+            TrumpMemeArr = ["https://i.redd.it/antyobs25se21.jpg", "https://static.boredpanda.com/blog/wp-content/uploads/2020/08/donald-trump-axios-jonathan-swan-interview-funny-jokes-fb6-png__700.jpg", "https://i.imgflip.com/3sjxri.jpg"];
+            source = TrumpMemeArr[Math.floor(Math.random() * 3)];
             response = {
               "attachment": {
                 "type": "image",
@@ -310,84 +307,91 @@ var sendTrumpMeme = function sendTrumpMeme(sender_psid) {
   });
 };
 
-var listenToStory = function listenToStory(sender_psid, received_messange) {
+var listenToStory = function listenToStory(sender_psid, received_message) {
   return new Promise(function _callee6(resolve, reject) {
-    var text_1, text_2, better, response_1, response_2;
+    var reply, response;
     return regeneratorRuntime.async(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
             _context6.prev = 0;
+            reply = "";
 
-            if (/what|where|how/.test(received_messange)) {
-              // At least one match
-              text_1 = "Why don't you try looking back at your photo?";
-              text_2 = "Find your happiest moment and share with me :))";
-            } else if (/yes|exactly/.test(received_messange)) {
-              text_1 = "It is beautiful, isn't it?";
-              text_2 = "I bet you want to keep memories like this instead of anything else heh ?";
-            } else if (/right|true/.test(received_messange)) {
-              text_1 = "There you found your way to be happy!";
-              text_2 = "Shall we do something?";
-              better = true;
-            }
+            if (received_message === 'Why' || received_message === 'why') {
+              reply = "Because it it the moment you are happy :D";
+            } else reply = "I am sorry to hear that";
 
-            response_1 = {
-              "message": {
-                "text": text_1
-              }
-            };
-            response_2 = {
-              "message": {
-                "text": text_2
-              }
+            response = {
+              "text": reply
             };
             _context6.next = 6;
-            return regeneratorRuntime.awrap(sendMessage(sender_psid, response_1));
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 6:
-            _context6.next = 8;
-            return regeneratorRuntime.awrap(sendMessage(sender_psid, response_2));
-
-          case 8:
-            if (better) sendActivityMenu(sender_psid);
             resolve("done");
-            _context6.next = 15;
+            _context6.next = 12;
             break;
 
-          case 12:
-            _context6.prev = 12;
+          case 9:
+            _context6.prev = 9;
             _context6.t0 = _context6["catch"](0);
             reject(_context6.t0);
 
-          case 15:
+          case 12:
           case "end":
             return _context6.stop();
         }
       }
-    }, null, null, [[0, 12]]);
+    }, null, null, [[0, 9]]);
   });
 };
 
 var sendMusic = function sendMusic(sender_psid) {
   return new Promise(function _callee7(resolve, reject) {
+    var response;
     return regeneratorRuntime.async(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            try {
-              //await sendMessage(sender_psid, response);
-              resolve("done");
-            } catch (e) {
-              reject(e);
-            }
+            _context7.prev = 0;
+            response = {
+              "message": {
+                "attachment": {
+                  "type": "template",
+                  "payload": {
+                    "template_type": "open_graph",
+                    "elements": [{
+                      "url": "https://open.spotify.com/album/2fenSS68JI1h4Fo296JfGr",
+                      "buttons": [{
+                        "type": "web_url",
+                        "url": "https://www.taylorswift.com",
+                        "title": "I want this :)"
+                      }]
+                    }]
+                  }
+                }
+              }
+            }; //Send the music
 
-          case 1:
+            _context7.next = 4;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
+
+          case 4:
+            resolve("done");
+            _context7.next = 10;
+            break;
+
+          case 7:
+            _context7.prev = 7;
+            _context7.t0 = _context7["catch"](0);
+            reject(_context7.t0);
+
+          case 10:
           case "end":
             return _context7.stop();
         }
       }
-    });
+    }, null, null, [[0, 7]]);
   });
 };
 

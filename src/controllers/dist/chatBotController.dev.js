@@ -70,7 +70,7 @@ var getWebhook = function getWebhook(req, res) {
 
 
 var handleMessage = function handleMessage(sender_psid, message) {
-  var response, entity, sentiment, _response, _response2, _response3, _response4, _response5, _response6;
+  var response, entity, sentiment, _response, _response2, _response3, _response4, attachment_url, _response5;
 
   return regeneratorRuntime.async(function handleMessage$(_context) {
     while (1) {
@@ -120,7 +120,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
           };
           callSendAPI(sender_psid, _response); //default reply
 
-          _context.next = 45;
+          _context.next = 46;
           break;
 
         case 18:
@@ -133,7 +133,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
             "text": "You are welcome!"
           };
           callSendAPI(sender_psid, _response2);
-          _context.next = 45;
+          _context.next = 46;
           break;
 
         case 23:
@@ -146,7 +146,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
             "text": "Bye bye. Hope you feel better. Good luck!"
           };
           callSendAPI(sender_psid, _response3);
-          _context.next = 45;
+          _context.next = 46;
           break;
 
         case 28:
@@ -159,7 +159,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
           return regeneratorRuntime.awrap(_chatBotService["default"].sendMessageAskingYesOrNo(sender_psid));
 
         case 31:
-          _context.next = 45;
+          _context.next = 46;
           break;
 
         case 33:
@@ -169,39 +169,38 @@ var handleMessage = function handleMessage(sender_psid, message) {
           }
 
           _response4 = {
-            "text": "You are feeling better! Hel yes!"
+            "text": "Great! I am so happy to hear that!"
           };
           callSendAPI(sender_psid, _response4);
-          _context.next = 45;
+          _context.next = 46;
           break;
 
         case 38:
-          if (!message.text) {
+          if (!message.attachments) {
             _context.next = 44;
             break;
           }
 
-          _context.next = 41;
-          return regeneratorRuntime.awrap(_chatBotService["default"].listenToStory(sender_psid, message.text));
-
-        case 41:
-          return _context.abrupt("return");
+          attachment_url = received_message.attachments[0].payload.url;
+          _response5 = {
+            "text": "And this is my most beautiful moment!",
+            "attachment": {
+              "type": "image",
+              "payload": {
+                "url": attachment_url,
+                "is_reusable": true
+              }
+            }
+          };
+          callSendAPI(sender_psid, _response5);
+          _context.next = 46;
+          break;
 
         case 44:
-          if (message.attachments) {
-            //let attachment_url = received_message.attachments[0].payload.url;
-            _response5 = {
-              "text": "Is that you most beautiful moment?"
-            };
-            callSendAPI(sender_psid, _response5);
-          } else {
-            _response6 = {
-              "text": "Hey sorry I don't think I understand but I hope you feel better."
-            };
-            callSendAPI(sender_psid, _response6);
-          }
+          _context.next = 46;
+          return regeneratorRuntime.awrap(_chatBotService["default"].listenToStory(sender_psid, message.text));
 
-        case 45:
+        case 46:
         case "end":
           return _context.stop();
       }
@@ -210,7 +209,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
 };
 
 var handleMessageWithEntities = function handleMessageWithEntities(message) {
-  var entitiesArr = ["wit$greetings", "wit$thanks", "wit$bye", "wit$datetime:$datetime", "wit$phone_number:phone_number"];
+  var entitiesArr = ["wit$greetings", "wit$thanks", "wit$bye"];
   var entityChosen = "";
   var data = {}; // data is an object saving value and name of the entity.
 
@@ -232,7 +231,7 @@ var handleMessageWithSentiment = function handleMessageWithSentiment(message) {
   var sentiment = {};
   var mood = firstEntity(message.nlp, 'wit$sentiment');
 
-  if (mood && mood.confidence > 0.7) {
+  if (mood && mood.confidence > 0.8) {
     sentiment.value = mood.value;
   }
 

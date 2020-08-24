@@ -109,29 +109,32 @@ let handleMessage = async (sender_psid, message) => {
             await chatBotService.sendMessageAskingYesOrNo(sender_psid);
         }
         else if (sentiment.value === "positive") {
-            let response = { "text": `You are feeling better! Hel yes!` };
+            let response = { "text": `Great! I am so happy to hear that!` };
             callSendAPI(sender_psid, response );
-
-        } else if (message.text) {
-            await chatBotService.listenToStory(sender_psid, message.text);
-            return;
         } else if (message.attachments) {
-            //let attachment_url = received_message.attachments[0].payload.url;
-            let response = { "text": `Is that you most beautiful moment?` };
-            callSendAPI(sender_psid, response );
+            let attachment_url = received_message.attachments[0].payload.url;
+            let response = {
+                "text":"And this is my most beautiful moment!",
+                "attachment":{
+                    "type":"image", 
+                    "payload":{
+                      "url": attachment_url, 
+                      "is_reusable":true
+                    }
+                }
+            };
+            callSendAPI(sender_psid, response);
+            
+        } else {
+            await chatBotService.listenToStory(sender_psid, message.text);
         }
-        else {
-            let response = { "text": `Hey sorry I don't think I understand but I hope you feel better.` };
-            callSendAPI(sender_psid, response );
-        }
-        
     }
 };
 
 
 
 let handleMessageWithEntities = (message) => {
-    let entitiesArr = ["wit$greetings", "wit$thanks", "wit$bye", "wit$datetime:$datetime", "wit$phone_number:phone_number"];
+    let entitiesArr = ["wit$greetings", "wit$thanks", "wit$bye"];
     
     let entityChosen = "";
     let data = {}; // data is an object saving value and name of the entity.
@@ -156,7 +159,7 @@ let handleMessageWithEntities = (message) => {
 let handleMessageWithSentiment = (message) => {
     let sentiment = {};
     let mood = firstEntity(message.nlp, 'wit$sentiment');
-    if (mood && mood.confidence > 0.7) {
+    if (mood && mood.confidence > 0.8) {
         sentiment.value = mood.value;
     };
     return sentiment;
