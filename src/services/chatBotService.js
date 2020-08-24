@@ -259,7 +259,7 @@ let sendMusic = (sender_psid) => {
                     "attachment":{
                         "type":"template",
                         "payload":{
-                            "template_type":"open_graph",
+                            "template_type":"generic",
                             "elements":[
                                 {
                                     "url":"https://open.spotify.com/album/2fenSS68JI1h4Fo296JfGr",
