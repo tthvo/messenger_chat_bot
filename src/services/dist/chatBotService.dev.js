@@ -317,8 +317,14 @@ var listenToStory = function listenToStory(sender_psid, received_message) {
             _context6.prev = 0;
             reply = "";
 
-            if (received_message === 'Why' || received_message === 'why') {
+            if (received_message.toLowerCase().includes('why')) {
               reply = "Because it it the moment you are happy :D";
+            } else if (received_message.toLowerCase().includes('no')) {
+              reply = "You know I will always be there for you.";
+            } else if (received_message.toLowerCase().includes('yes') || received_message.toLowerCase().includes('fine')) {
+              reply = "I am listening";
+            } else if (received_message.toLowerCase().includes("how")) {
+              reply = "Why don't you look back in your photo and send me your most beautiful moment?";
             } else reply = "I am sorry to hear that";
 
             response = {
@@ -371,14 +377,12 @@ var sendMusic = function sendMusic(sender_psid) {
                     "buttons": [{
                       "type": "web_url",
                       "url": "https://www.taylorswift.com",
-                      "title": "View Website"
+                      "title": "About Taylor Swift"
                     }]
                   }]
                 }
               }
-            }; //
-            //
-            //Send the music
+            }; //Send the music
 
             _context7.next = 4;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));

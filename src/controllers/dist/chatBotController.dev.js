@@ -181,7 +181,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
             break;
           }
 
-          attachment_url = received_message.attachments[0].payload.url;
+          attachment_url = message.attachments[0].payload.url;
           _response5 = {
             "text": "And this is my most beautiful moment!",
             "attachment": {

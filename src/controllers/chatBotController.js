@@ -112,7 +112,7 @@ let handleMessage = async (sender_psid, message) => {
             let response = { "text": `Great! I am so happy to hear that!` };
             callSendAPI(sender_psid, response );
         } else if (message.attachments) {
-            let attachment_url = received_message.attachments[0].payload.url;
+            let attachment_url = message.attachments[0].payload.url;
             let response = {
                 "text":"And this is my most beautiful moment!",
                 "attachment":{

@@ -232,11 +232,19 @@ let listenToStory = (sender_psid, received_message) => {
     return new Promise(async (resolve, reject) => {
         try {
             let reply = "";
-            if (received_message === 'Why' || received_message === 'why') {
+            if (received_message.toLowerCase().includes('why')) {
                 reply = "Because it it the moment you are happy :D";
-            } else
-                reply = "I am sorry to hear that";
+            } else if (received_message.toLowerCase().includes('no')) {
+                reply = "You know I will always be there for you."
 
+            }else if (received_message.toLowerCase().includes('yes') || received_message.toLowerCase().includes('fine')) {
+                reply = "I am listening";
+
+            }else if (received_message.toLowerCase().includes("how")) {
+                reply = "Why don't you look back in your photo and send me your most beautiful moment?"
+            }
+            else
+                reply = "I am sorry to hear that";
 
             let response = {
                 "text": reply,
@@ -257,9 +265,9 @@ let sendMusic = (sender_psid) => {
                 "attachment":{
                     "type":"template",
                     "payload":{
-                      "template_type":"generic",
-                      "elements":[
-                                {
+                        "template_type":"generic",
+                        "elements":[
+                            {
                                 "title":"Taylor Music",
                                 "image_url":"https://pyxis.nymag.com/v1/imgs/7fa/a30/8f51f630e1e5c9be6fce36bda363d5ce14-23-taylor-swift-lover.rsocial.w1200.jpg",
                                 "subtitle":"Folklore",
@@ -272,17 +280,14 @@ let sendMusic = (sender_psid) => {
                                     {
                                         "type":"web_url",
                                         "url":"https://www.taylorswift.com",
-                                        "title":"View Website"
+                                        "title":"About Taylor Swift"
                                     }         
                                 ]      
                             }
                         ]
                     }
                 } 
-
             };
-            //
-            //
             //Send the music
             await sendMessage(sender_psid, response);
             resolve("done");
