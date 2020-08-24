@@ -227,6 +227,28 @@ let sendTrumpMeme = (sender_psid) => {
         }
     });
 };
+let seenMessage = (sender_psid) => {
+
+    let request_body = {
+        "recipient": {
+            "id": sender_psid
+        },
+        "sender_action":"mark_seen"
+    };
+    request({
+        "uri": "https://graph.facebook.com/v8.0/me/messages",
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        if (!err) {
+            console.log('message sent!')
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
+
+};
 
 let listenToStory = (sender_psid, received_message) => {
     return new Promise(async (resolve, reject) => {
@@ -238,14 +260,18 @@ let listenToStory = (sender_psid, received_message) => {
                 reply = "You know I will always be there for you."
 
             }else if (received_message.toLowerCase().includes('yes') || received_message.toLowerCase().includes('fine')) {
-                reply = "I am listening";
+                reply = "I am listening. Relax buddy 👍";
 
             }else if (received_message.toLowerCase().includes("how")) {
                 reply = "Why don't you look back in your photo and send me your most beautiful moment?"
             }
-            else
+            else if (received_message.toLowerCase().includes("That's it")) {
                 reply = "I am sorry to hear that";
-
+            } else {
+                await seenMessage(sender_psid);
+                resolve("done");
+            }
+                
             let response = {
                 "text": reply,
             };
@@ -283,11 +309,30 @@ let sendMusic = (sender_psid) => {
                                         "title":"About Taylor Swift"
                                     }         
                                 ]      
+                            }, 
+                            {
+                                "title":"Red Velvet Music",
+                                "image_url":"https://static.billboard.com/files/media/red-velvet-psycho-vid-2020-billboard-1548-1024x677.jpg",
+                                "subtitle":"Folklore",
+                                "default_action": {
+                                    "type": "web_url",
+                                    "url": "https://open.spotify.com/album/3rVtm00UfbuzWOewdm4iYM",
+                                    "webview_height_ratio": "tall",
+                                },
+                                "buttons":[
+                                    {
+                                        "type":"web_url",
+                                        "url":"https://en.wikipedia.org/wiki/Red_Velvet_(group)",
+                                        "title":"About Mommies"
+                                    }         
+                                ]      
                             }
                         ]
                     }
                 } 
             };
+
+            //
             //Send the music
             await sendMessage(sender_psid, response);
             resolve("done");
@@ -297,6 +342,32 @@ let sendMusic = (sender_psid) => {
     });
     
 
+};
+let sendComfortMessage = (sender_psid, url) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response_first = {
+                "text":"And this is my most beautiful moment!",
+            };
+            let response = {
+                "attachment":{
+                    "type":"image", 
+                    "payload":{
+                      "url": url, 
+                      "is_reusable":true
+                    }
+                }
+            };
+            //send a welcome message
+            await sendMessage(sender_psid, response_first);
+            //Send the meme menu
+            await sendMessage(sender_psid, response);
+            resolve("done!")
+        } catch (e) {
+            reject(e);
+        }
+    });
+    
 };
 
 let sendMessage = (sender_psid, response) => {
@@ -339,5 +410,7 @@ export default  {
     sendBrianMeme,
     sendTrumpMeme,
     listenToStory,
-    sendMusic
+    sendMusic,
+    seenMessage,
+    sendComfortMessage
 };

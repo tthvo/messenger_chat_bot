@@ -70,7 +70,7 @@ var getWebhook = function getWebhook(req, res) {
 
 
 var handleMessage = function handleMessage(sender_psid, message) {
-  var response, entity, sentiment, _response, _response2, _response3, _response4, attachment_url, _response5;
+  var response, entity, sentiment, _response, _response2, _response3, _response4, attachment_url;
 
   return regeneratorRuntime.async(function handleMessage$(_context) {
     while (1) {
@@ -182,17 +182,10 @@ var handleMessage = function handleMessage(sender_psid, message) {
           }
 
           attachment_url = message.attachments[0].payload.url;
-          _response5 = {
-            "text": "And this is my most beautiful moment!",
-            "attachment": {
-              "type": "image",
-              "payload": {
-                "url": attachment_url,
-                "is_reusable": true
-              }
-            }
-          };
-          callSendAPI(sender_psid, _response5);
+          _context.next = 42;
+          return regeneratorRuntime.awrap(_chatBotService["default"].sendComfortMessage(sender_psid, attachment_url));
+
+        case 42:
           _context.next = 46;
           break;
 

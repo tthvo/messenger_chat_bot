@@ -113,18 +113,8 @@ let handleMessage = async (sender_psid, message) => {
             callSendAPI(sender_psid, response );
         } else if (message.attachments) {
             let attachment_url = message.attachments[0].payload.url;
-            let response = {
-                "text":"And this is my most beautiful moment!",
-                "attachment":{
-                    "type":"image", 
-                    "payload":{
-                      "url": attachment_url, 
-                      "is_reusable":true
-                    }
-                }
-            };
-            callSendAPI(sender_psid, response);
-            
+            await chatBotService.sendComfortMessage(sender_psid,attachment_url);
+
         } else {
             await chatBotService.listenToStory(sender_psid, message.text);
         }

@@ -307,6 +307,29 @@ var sendTrumpMeme = function sendTrumpMeme(sender_psid) {
   });
 };
 
+var seenMessage = function seenMessage(sender_psid) {
+  var request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action": "mark_seen"
+  };
+  (0, _request["default"])({
+    "uri": "https://graph.facebook.com/v8.0/me/messages",
+    "qs": {
+      "access_token": PAGE_ACCESS_TOKEN
+    },
+    "method": "POST",
+    "json": request_body
+  }, function (err, res, body) {
+    if (!err) {
+      console.log('message sent!');
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  });
+};
+
 var listenToStory = function listenToStory(sender_psid, received_message) {
   return new Promise(function _callee6(resolve, reject) {
     var reply, response;
@@ -317,38 +340,85 @@ var listenToStory = function listenToStory(sender_psid, received_message) {
             _context6.prev = 0;
             reply = "";
 
-            if (received_message.toLowerCase().includes('why')) {
-              reply = "Because it it the moment you are happy :D";
-            } else if (received_message.toLowerCase().includes('no')) {
-              reply = "You know I will always be there for you.";
-            } else if (received_message.toLowerCase().includes('yes') || received_message.toLowerCase().includes('fine')) {
-              reply = "I am listening";
-            } else if (received_message.toLowerCase().includes("how")) {
-              reply = "Why don't you look back in your photo and send me your most beautiful moment?";
-            } else reply = "I am sorry to hear that";
+            if (!received_message.toLowerCase().includes('why')) {
+              _context6.next = 6;
+              break;
+            }
 
+            reply = "Because it it the moment you are happy :D";
+            _context6.next = 25;
+            break;
+
+          case 6:
+            if (!received_message.toLowerCase().includes('no')) {
+              _context6.next = 10;
+              break;
+            }
+
+            reply = "You know I will always be there for you.";
+            _context6.next = 25;
+            break;
+
+          case 10:
+            if (!(received_message.toLowerCase().includes('yes') || received_message.toLowerCase().includes('fine'))) {
+              _context6.next = 14;
+              break;
+            }
+
+            reply = "I am listening. Relax buddy 👍";
+            _context6.next = 25;
+            break;
+
+          case 14:
+            if (!received_message.toLowerCase().includes("how")) {
+              _context6.next = 18;
+              break;
+            }
+
+            reply = "Why don't you look back in your photo and send me your most beautiful moment?";
+            _context6.next = 25;
+            break;
+
+          case 18:
+            if (!received_message.toLowerCase().includes("That's it")) {
+              _context6.next = 22;
+              break;
+            }
+
+            reply = "I am sorry to hear that";
+            _context6.next = 25;
+            break;
+
+          case 22:
+            _context6.next = 24;
+            return regeneratorRuntime.awrap(seenMessage(sender_psid));
+
+          case 24:
+            resolve("done");
+
+          case 25:
             response = {
               "text": reply
             };
-            _context6.next = 6;
+            _context6.next = 28;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
-          case 6:
+          case 28:
             resolve("done");
-            _context6.next = 12;
+            _context6.next = 34;
             break;
 
-          case 9:
-            _context6.prev = 9;
+          case 31:
+            _context6.prev = 31;
             _context6.t0 = _context6["catch"](0);
             reject(_context6.t0);
 
-          case 12:
+          case 34:
           case "end":
             return _context6.stop();
         }
       }
-    }, null, null, [[0, 9]]);
+    }, null, null, [[0, 31]]);
   });
 };
 
@@ -379,10 +449,25 @@ var sendMusic = function sendMusic(sender_psid) {
                       "url": "https://www.taylorswift.com",
                       "title": "About Taylor Swift"
                     }]
+                  }, {
+                    "title": "Red Velvet Music",
+                    "image_url": "https://static.billboard.com/files/media/red-velvet-psycho-vid-2020-billboard-1548-1024x677.jpg",
+                    "subtitle": "Folklore",
+                    "default_action": {
+                      "type": "web_url",
+                      "url": "https://open.spotify.com/album/3rVtm00UfbuzWOewdm4iYM",
+                      "webview_height_ratio": "tall"
+                    },
+                    "buttons": [{
+                      "type": "web_url",
+                      "url": "https://en.wikipedia.org/wiki/Red_Velvet_(group)",
+                      "title": "About Mommies"
+                    }]
                   }]
                 }
               }
-            }; //Send the music
+            }; //
+            //Send the music
 
             _context7.next = 4;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
@@ -403,6 +488,53 @@ var sendMusic = function sendMusic(sender_psid) {
         }
       }
     }, null, null, [[0, 7]]);
+  });
+};
+
+var sendComfortMessage = function sendComfortMessage(sender_psid, url) {
+  return new Promise(function _callee8(resolve, reject) {
+    var response_first, response;
+    return regeneratorRuntime.async(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.prev = 0;
+            response_first = {
+              "text": "And this is my most beautiful moment!"
+            };
+            response = {
+              "attachment": {
+                "type": "image",
+                "payload": {
+                  "url": url,
+                  "is_reusable": true
+                }
+              }
+            }; //send a welcome message
+
+            _context8.next = 5;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response_first));
+
+          case 5:
+            _context8.next = 7;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
+
+          case 7:
+            resolve("done!");
+            _context8.next = 13;
+            break;
+
+          case 10:
+            _context8.prev = 10;
+            _context8.t0 = _context8["catch"](0);
+            reject(_context8.t0);
+
+          case 13:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, null, null, [[0, 10]]);
   });
 };
 
@@ -446,6 +578,8 @@ var _default = {
   sendBrianMeme: sendBrianMeme,
   sendTrumpMeme: sendTrumpMeme,
   listenToStory: listenToStory,
-  sendMusic: sendMusic
+  sendMusic: sendMusic,
+  seenMessage: seenMessage,
+  sendComfortMessage: sendComfortMessage
 };
 exports["default"] = _default;
