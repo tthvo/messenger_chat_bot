@@ -380,7 +380,7 @@ var listenToStory = function listenToStory(sender_psid, received_message) {
             break;
 
           case 18:
-            if (!received_message.toLowerCase().includes("That's it")) {
+            if (!received_message.toLowerCase().includes("huhu")) {
               _context6.next = 22;
               break;
             }

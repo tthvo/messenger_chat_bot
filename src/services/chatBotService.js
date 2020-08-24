@@ -265,7 +265,7 @@ let listenToStory = (sender_psid, received_message) => {
             }else if (received_message.toLowerCase().includes("how")) {
                 reply = "Why don't you look back in your photo and send me your most beautiful moment?"
             }
-            else if (received_message.toLowerCase().includes("That's it")) {
+            else if (received_message.toLowerCase().includes("huhu")) {
                 reply = "I am sorry to hear that";
             } else {
                 await seenMessage(sender_psid);
