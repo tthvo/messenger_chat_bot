@@ -253,29 +253,36 @@ let listenToStory = (sender_psid, received_message) => {
 let sendMusic = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
-            
             let response = {
-                "message":{
-                    "attachment":{
-                        "type":"template",
-                        "payload":{
-                            "template_type":"generic",
-                            "elements":[
+                "attachment":{
+                    "type":"template",
+                    "payload":{
+                      "template_type":"generic",
+                      "elements":[
                                 {
-                                    "url":"https://open.spotify.com/album/2fenSS68JI1h4Fo296JfGr",
-                                    "buttons":[
-                                        {
-                                            "type":"web_url",
-                                            "url":"https://www.taylorswift.com",
-                                            "title":"I want this :)"
-                                        }              
-                                    ]      
-                                }
-                            ]
-                        }
+                                "title":"Taylor Music",
+                                "image_url":"https://pyxis.nymag.com/v1/imgs/7fa/a30/8f51f630e1e5c9be6fce36bda363d5ce14-23-taylor-swift-lover.rsocial.w1200.jpg",
+                                "subtitle":"Folklore",
+                                "default_action": {
+                                    "type": "web_url",
+                                    "url": "https://open.spotify.com/album/2fenSS68JI1h4Fo296JfGr3",
+                                    "webview_height_ratio": "tall",
+                                },
+                                "buttons":[
+                                    {
+                                        "type":"web_url",
+                                        "url":"https://www.taylorswift.com",
+                                        "title":"View Website"
+                                    }         
+                                ]      
+                            }
+                        ]
                     }
-                }    
+                } 
+
             };
+            //
+            //
             //Send the music
             await sendMessage(sender_psid, response);
             resolve("done");

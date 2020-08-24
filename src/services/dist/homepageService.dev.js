@@ -21,15 +21,15 @@ var setUpMessengerPlatform = function setUpMessengerPlatform(PAGE_ACCESS_TOKEN) 
           "composer_input_disabled": false,
           "call_to_actions": [{
             "type": "postback",
-            "title": "More Meme",
+            "title": "🤣 More Meme 🤣",
             "payload": "MEME"
           }, {
             "type": "postback",
-            "title": "Some Music",
+            "title": "🎼 Some Music 🎼",
             "payload": "MUSIC"
           }, {
             "type": "web_url",
-            "title": "Tic Tac To",
+            "title": "🎲 Tic Tac To 🎲",
             "url": "https://playtictactoe.org/",
             "webview_height_ratio": "full"
           }]

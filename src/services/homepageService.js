@@ -15,17 +15,17 @@ let setUpMessengerPlatform = (PAGE_ACCESS_TOKEN) => {
                         "call_to_actions": [
                             {
                                 "type": "postback",
-                                "title": "More Meme",
+                                "title": "🤣 More Meme 🤣",
                                 "payload": "MEME"
                             },
                             {
                                 "type": "postback",
-                                "title": "Some Music",
+                                "title": "🎼 Some Music 🎼",
                                 "payload": "MUSIC"
                             },
                             {
                                 "type": "web_url",
-                                "title": "Tic Tac To",
+                                "title": "🎲 Tic Tac To 🎲",
                                 "url": "https://playtictactoe.org/",
                                 "webview_height_ratio": "full"
                             }

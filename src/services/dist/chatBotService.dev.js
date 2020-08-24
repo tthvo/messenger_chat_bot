@@ -355,23 +355,30 @@ var sendMusic = function sendMusic(sender_psid) {
           case 0:
             _context7.prev = 0;
             response = {
-              "message": {
-                "attachment": {
-                  "type": "template",
-                  "payload": {
-                    "template_type": "generic",
-                    "elements": [{
-                      "url": "https://open.spotify.com/album/2fenSS68JI1h4Fo296JfGr",
-                      "buttons": [{
-                        "type": "web_url",
-                        "url": "https://www.taylorswift.com",
-                        "title": "I want this :)"
-                      }]
+              "attachment": {
+                "type": "template",
+                "payload": {
+                  "template_type": "generic",
+                  "elements": [{
+                    "title": "Taylor Music",
+                    "image_url": "https://pyxis.nymag.com/v1/imgs/7fa/a30/8f51f630e1e5c9be6fce36bda363d5ce14-23-taylor-swift-lover.rsocial.w1200.jpg",
+                    "subtitle": "Folklore",
+                    "default_action": {
+                      "type": "web_url",
+                      "url": "https://open.spotify.com/album/2fenSS68JI1h4Fo296JfGr3",
+                      "webview_height_ratio": "tall"
+                    },
+                    "buttons": [{
+                      "type": "web_url",
+                      "url": "https://www.taylorswift.com",
+                      "title": "View Website"
                     }]
-                  }
+                  }]
                 }
               }
-            }; //Send the music
+            }; //
+            //
+            //Send the music
 
             _context7.next = 4;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
