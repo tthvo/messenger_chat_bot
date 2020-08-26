@@ -70,19 +70,19 @@ var getWebhook = function getWebhook(req, res) {
 
 
 var handleMessage = function handleMessage(sender_psid, message) {
-  var response, entity, sentiment, _response, _response2, _response3, _response4, attachment_url;
+  var entity, response, _response, _response2;
 
   return regeneratorRuntime.async(function handleMessage$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           if (!(message && message.quick_reply && message.quick_reply.payload)) {
-            _context.next = 11;
+            _context.next = 33;
             break;
           }
 
           if (!(message.quick_reply.payload === "YEAH_FINE")) {
-            _context.next = 7;
+            _context.next = 6;
             break;
           }
 
@@ -90,110 +90,128 @@ var handleMessage = function handleMessage(sender_psid, message) {
           return regeneratorRuntime.awrap(_chatBotService["default"].sendActivityMenu(sender_psid));
 
         case 4:
-          return _context.abrupt("return");
+          _context.next = 33;
+          break;
 
-        case 7:
+        case 6:
           if (!(message.quick_reply.payload === "SORRY_NO")) {
             _context.next = 11;
             break;
           }
 
-          response = {
-            "text": "I am sorry. Do you want to talk about it?"
-          };
-          callSendAPI(sender_psid, response);
-          return _context.abrupt("return");
+          _context.next = 9;
+          return regeneratorRuntime.awrap(_chatBotService["default"].sendBye(sender_psid));
+
+        case 9:
+          _context.next = 33;
+          break;
 
         case 11:
-          //handle text message
-          entity = handleMessageWithEntities(message); // Handle sentiment 
-
-          sentiment = handleMessageWithSentiment(message);
-
-          if (!(entity.name === "wit$greetings")) {
-            _context.next = 18;
+          if (!(message.quick_reply.payload === "DONE")) {
+            _context.next = 16;
             break;
           }
 
-          _response = {
-            "text": "Hello there"
-          };
-          callSendAPI(sender_psid, _response); //default reply
+          _context.next = 14;
+          return regeneratorRuntime.awrap(_chatBotService["default"].sendMessageAskingYesOrNo(sender_psid));
 
-          _context.next = 46;
+        case 14:
+          _context.next = 33;
           break;
 
-        case 18:
-          if (!(entity.name === "wit$thanks")) {
-            _context.next = 23;
+        case 16:
+          if (!(message.quick_reply.payload === "NOT_YET")) {
+            _context.next = 20;
             break;
           }
 
-          _response2 = {
-            "text": "You are welcome!"
-          };
-          callSendAPI(sender_psid, _response2);
-          _context.next = 46;
+          _chatBotService["default"].redo(sender_psid);
+
+          _context.next = 33;
           break;
+
+        case 20:
+          if (!(message.quick_reply.payload === "START" || message.quick_reply.payload === "WAIT")) {
+            _context.next = 25;
+            break;
+          }
+
+          _context.next = 23;
+          return regeneratorRuntime.awrap(_chatBotService["default"].listenToStory(sender_psid, message.text));
 
         case 23:
-          if (!(entity.name === "wit$bye")) {
-            _context.next = 28;
+          _context.next = 33;
+          break;
+
+        case 25:
+          if (!(message.quick_reply.payload === "STOP")) {
+            _context.next = 30;
             break;
           }
 
-          _response3 = {
-            "text": "Bye bye. Hope you feel better. Good luck!"
-          };
-          callSendAPI(sender_psid, _response3);
-          _context.next = 46;
-          break;
+          _context.next = 28;
+          return regeneratorRuntime.awrap(_chatBotService["default"].sendMessageAskingYesOrNo(sender_psid));
 
         case 28:
-          if (!(sentiment.value === "negative")) {
+          _context.next = 33;
+          break;
+
+        case 30:
+          if (!(message.quick_reply.payload === "DUMP")) {
             _context.next = 33;
             break;
           }
 
-          _context.next = 31;
-          return regeneratorRuntime.awrap(_chatBotService["default"].sendMessageAskingYesOrNo(sender_psid));
-
-        case 31:
-          _context.next = 46;
-          break;
+          _context.next = 33;
+          return regeneratorRuntime.awrap(_chatBotService["default"].dumpTheTrash(sender_psid, Math.floor(Math.random() * 3)));
 
         case 33:
-          if (!(sentiment.value === "positive")) {
-            _context.next = 38;
+          //handle text message
+          entity = handleMessageWithEntities(message);
+
+          if (!(entity.name === "wit$greetings")) {
+            _context.next = 39;
             break;
           }
 
-          _response4 = {
-            "text": "Great! I am so happy to hear that!"
+          response = {
+            "text": "Hello there"
           };
-          callSendAPI(sender_psid, _response4);
-          _context.next = 46;
+          callSendAPI(sender_psid, response);
+          _context.next = 51;
           break;
 
-        case 38:
-          if (!message.attachments) {
+        case 39:
+          if (!(entity.name === "wit$thanks")) {
             _context.next = 44;
             break;
           }
 
-          attachment_url = message.attachments[0].payload.url;
-          _context.next = 42;
-          return regeneratorRuntime.awrap(_chatBotService["default"].sendComfortMessage(sender_psid, attachment_url));
-
-        case 42:
-          _context.next = 46;
+          _response = {
+            "text": "You are welcome!"
+          };
+          callSendAPI(sender_psid, _response);
+          _context.next = 51;
           break;
 
         case 44:
-          _context.next = 46;
+          if (!(entity.name === "wit$bye")) {
+            _context.next = 49;
+            break;
+          }
+
+          _response2 = {
+            "text": "Bye bye. See you later :D"
+          };
+          callSendAPI(sender_psid, _response2);
+          _context.next = 51;
+          break;
+
+        case 49:
+          _context.next = 51;
           return regeneratorRuntime.awrap(_chatBotService["default"].listenToStory(sender_psid, message.text));
 
-        case 46:
+        case 51:
         case "end":
           return _context.stop();
       }
@@ -217,25 +235,7 @@ var handleMessageWithEntities = function handleMessageWithEntities(message) {
 
   data.name = entityChosen;
   return data;
-}; //Detect negative mood
-
-
-var handleMessageWithSentiment = function handleMessageWithSentiment(message) {
-  var sentiment = {};
-  var mood = firstEntity(message.nlp, 'wit$sentiment');
-
-  if (mood && mood.confidence > 0.65) {
-    sentiment.value = mood.value;
-  }
-
-  ;
-  return sentiment;
-}; //Function that return the traits of the a sentence
-
-
-function firstEntity(nlp, name) {
-  return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
-} // Handles messaging_postbacks events
+}; // Handles messaging_postbacks events
 
 
 var handlePostback = function handlePostback(sender_psid, received_postback) {

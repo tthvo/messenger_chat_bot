@@ -1,6 +1,8 @@
 import request from "request";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
+var record = 0;
+
 let getFacebookUsername = (sender_psid) => {
     return new Promise((resolve, reject) => {
         // Send the HTTP request to the Messenger Platform
@@ -24,9 +26,14 @@ let getFacebookUsername = (sender_psid) => {
 let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let response_first = { "text": `Hi ${username}. I am Quill. Nice to meet you buddy!` };
+            let response_first = { "text": `Hi ${username}. Welcome to The Anger Dumpster` };
+            let response_second = {
+                "text":"Here you can bring me your anger. Then I dump it down for you."
+            };
             //send a welcome message
             await sendMessage(sender_psid, response_first);
+            await sendMessage(sender_psid, response_second);
+            await askingStartOrStop(sender_psid);
             resolve("done!")
         } catch (e) {
             reject(e);
@@ -35,14 +42,63 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
     });
 };
 
-let sendMessageAskingYesOrNo = (sender_id) => {
+let askingStartOrStop = (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let request_body = {
+                "recipient": {
+                    "id": sender_psid
+                },
+                "messaging_type": "RESPONSE",
+                "message": {
+                    "text": "Shall we start? :D",
+                    "quick_replies": [
+                        {
+                            "content_type": "text",
+                            "title": "Fine",
+                            "payload": "START",
+                        }, {
+                            "content_type": "text",
+                            "title": "Sorry no",
+                            "payload": "STOP",
+                        }
+                    ]
+                }
+            };
+
+            // Send the HTTP request to the Messenger Platform
+            request({
+                "uri": "https://graph.facebook.com/v8.0/me/messages",
+                "qs": { "access_token": PAGE_ACCESS_TOKEN },
+                "method": "POST",
+                "json": request_body
+            }, (err, res, body) => {
+                if (!err) {
+                    console.log('message sent!')
+                } else {
+                    console.error("Unable to send message:" + err);
+                }
+            });
+
+            resolve('done');
+        } catch (e) {
+            reject(e);
+        }
+
+    });
+    
+};
+
+let sendMessageAskingYesOrNo = (sender_psid) => {
+
+
     let request_body = {
         "recipient": {
-            "id": sender_id
+            "id": sender_psid
         },
         "messaging_type": "RESPONSE",
         "message": {
-            "text": "Are you ok? Do you want to do something for fun?",
+            "text": "Before you go, don't you want to do something fun? You can always look it up in the bottom right menu :D",
             "quick_replies": [
                 {
                     "content_type": "text",
@@ -98,7 +154,7 @@ let sendActivityMenu = (sender_psid) => {
                                         "type": "postback",
                                         "title": "Meme",
                                         "payload": "MEME",
-                                    }
+                                    },
                                 ],
                             } ]
                     }
@@ -227,62 +283,6 @@ let sendTrumpMeme = (sender_psid) => {
         }
     });
 };
-let seenMessage = (sender_psid) => {
-
-    let request_body = {
-        "recipient": {
-            "id": sender_psid
-        },
-        "sender_action":"mark_seen"
-    };
-    request({
-        "uri": "https://graph.facebook.com/v8.0/me/messages",
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        if (!err) {
-            console.log('message sent!')
-        } else {
-            console.error("Unable to send message:" + err);
-        }
-    });
-
-};
-
-let listenToStory = (sender_psid, received_message) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let reply = "";
-            if (received_message.toLowerCase().includes('why')) {
-                reply = "Because it it the moment you are happy :D";
-            } else if (received_message.toLowerCase().includes('no')) {
-                reply = "You know I will always be there for you."
-
-            }else if (received_message.toLowerCase().includes('yes') || received_message.toLowerCase().includes('fine')) {
-                reply = "I am listening. Relax buddy 👍";
-
-            }else if (received_message.toLowerCase().includes("how")) {
-                reply = "Why don't you look back in your photo and send me your most beautiful moment?"
-            }
-            else if (received_message.toLowerCase().includes("huhu")) {
-                reply = "I am sorry to hear that";
-            } else {
-                await seenMessage(sender_psid);
-                resolve("done");
-            }
-                
-            let response = {
-                "text": reply,
-            };
-            await sendMessage(sender_psid, response);
-            resolve("done");
-        } catch (e) {
-            reject(e);
-        }
-    });
-
-};
 
 let sendMusic = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
@@ -343,32 +343,6 @@ let sendMusic = (sender_psid) => {
     
 
 };
-let sendComfortMessage = (sender_psid, url) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let response_first = {
-                "text":"And this is my most beautiful moment!",
-            };
-            let response = {
-                "attachment":{
-                    "type":"image", 
-                    "payload":{
-                      "url": url, 
-                      "is_reusable":true
-                    }
-                }
-            };
-            //send a welcome message
-            await sendMessage(sender_psid, response_first);
-            //Send the meme menu
-            await sendMessage(sender_psid, response);
-            resolve("done!")
-        } catch (e) {
-            reject(e);
-        }
-    });
-    
-};
 
 let sendMessage = (sender_psid, response) => {
     return new Promise((resolve, reject) => {
@@ -400,6 +374,212 @@ let sendMessage = (sender_psid, response) => {
     });
 };
 
+let seenMessage = (sender_psid) => {
+
+    let request_body = {
+        "recipient": {
+            "id": sender_psid
+        },
+        "sender_action":"mark_seen"
+    };
+    request({
+        "uri": "https://graph.facebook.com/v8.0/me/messages",
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        if (!err) {
+            console.log('message sent!')
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
+
+};
+
+let listenToStory = (sender_psid, received_message) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response = {"text": "Alright! Pass the garbage to me 😤"}
+            let sentiment = handleMessageWithSentiment(received_message);
+            if (sentiment.value === 'negative') {
+                if (sentiment.confidence >= 0.8) record -= 2;
+                else record -= 1;
+                seenMessage(sender_psid);
+            } else if (sentiment.value === 'positive') {
+                await handlePositive(sender_psid, received_message);
+            } else if (received_message === 'done' || received_message === 'That\'s it' || received_message === 'time to dump' ) {
+                await askDumpOrNot(sender_psid);
+            }
+            resolve("done");
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
+let handlePositive = (sender_psid, received_message) => {
+    let request_body = {
+        "recipient": {
+            "id": sender_psid
+        },
+        "messaging_type": "RESPONSE",
+        "message": {
+            "text": "I am glad to hear that. Are you feeling better now?",
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": "Yes I am !",
+                    "payload": "DONE",
+                    "image_url":"https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/smiling-face-with-open-mouth.png"
+                }, {
+                    "content_type": "text",
+                    "title": "Sorry no..",
+                    "payload": "NOT_YET",
+                    "image_url":"https://emojiprints.com/wp-content/uploads/Crying-Face-Emoji-Classic-Round-Sticker.jpg"
+                }
+            ]
+        }
+    };
+    // Send the HTTP request to the Messenger Platform
+    request({
+        "uri": "https://graph.facebook.com/v8.0/me/messages",
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        if (!err) {
+            console.log('message sent!')
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
+
+};
+
+let sendBye =  (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response = {"text": "Thank you for coming to the Dumpster! I hope the best for you!"}
+            await sendMessage(sender_psid, response);
+            resolve("done");
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
+let redo = (sender_psid) => {
+    askingStartOrStop(sender_psid);
+};
+
+let sayScore = (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response = {"text":`You negativity: ${record}`};
+            await sendMessage(sender_psid, response);
+            resolve('done');
+        } catch (e) {
+            reject(e);
+        }
+
+    });
+   
+
+};
+
+let askDumpOrNot = (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let request_body = {
+                "recipient": {
+                    "id": sender_psid
+                },
+                "messaging_type": "RESPONSE",
+                "message": {
+                    "text": "Shall we start? :D",
+                    "quick_replies": [
+                        {
+                            "content_type": "text",
+                            "title": "Dump!",
+                            "payload": "DUMP",
+                        }, {
+                            "content_type": "text",
+                            "title": "Wait",
+                            "payload": "WAIT",
+                        }
+                    ]
+                }
+            };
+
+            // Send the HTTP request to the Messenger Platform
+            request({
+                "uri": "https://graph.facebook.com/v8.0/me/messages",
+                "qs": { "access_token": PAGE_ACCESS_TOKEN },
+                "method": "POST",
+                "json": request_body
+            }, (err, res, body) => {
+                if (!err) {
+                    console.log('message sent!')
+                } else {
+                    console.error("Unable to send message:" + err);
+                }
+            });
+
+            resolve('done');
+        } catch (e) {
+            reject(e);
+        }
+
+    });
+    
+};
+
+let dumpTheTrash = (sender_psid, option) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let Arr = [
+                "https://media.tenor.com/images/85fd7e7119e2a63ade45991953119ddf/tenor.gif",  // In and out
+                "https://media1.tenor.com/images/9761847bcf035fb1ea3411803856f6f7/tenor.gif",  //Man in the dumpster
+                "https://media2.giphy.com/media/26uf35ez3HpmLIX6g/giphy.gif",  // Machine
+            ];
+
+            let source = Arr[option]; // 0 <= option <= 2
+            let response = {
+                "attachment":{
+                    "type":"image", 
+                    "payload":{
+                      "url": source, 
+                      "is_reusable":true
+                    }
+                }
+            };
+            await sayScore(sender_psid);
+            //send a welcome message
+            await sendMessage(sender_psid, response);
+            resolve("done");
+        } catch (e) {
+            reject(e);
+        }
+    });
+
+};
+
+//Detect negative mood
+let handleMessageWithSentiment = (message) => {
+    let sentiment = {};
+    let mood = firstEntity(message.nlp, 'wit$sentiment');
+    if (mood && mood.confidence > 0.65) {
+        sentiment.value = mood.value;
+        sentiment.confidence = mood.confidence;
+    };
+    return sentiment;
+
+};
+//Function that return the traits of the a sentence
+function firstEntity(nlp, name) {
+    return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
+}
 
 export default  {
     getFacebookUsername,
@@ -412,5 +592,10 @@ export default  {
     listenToStory,
     sendMusic,
     seenMessage,
-    sendComfortMessage
+    handlePositive,
+    dumpTheTrash,
+    sendBye,
+    redo,
+    askingStartOrStop,
+    askDumpOrNot
 };

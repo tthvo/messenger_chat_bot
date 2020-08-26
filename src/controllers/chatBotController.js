@@ -79,45 +79,34 @@ let handleMessage = async (sender_psid, message) => {
     if (message && message.quick_reply && message.quick_reply.payload) {
         if (message.quick_reply.payload === "YEAH_FINE") {
             await chatBotService.sendActivityMenu(sender_psid);
-            return;
-
         } else if (message.quick_reply.payload === "SORRY_NO") {
-            let response = { "text": `I am sorry. Do you want to talk about it?` };
-            callSendAPI(sender_psid, response);
-            return;
+            await chatBotService.sendBye(sender_psid);
+        } else if (message.quick_reply.payload === "DONE") {
+            await chatBotService.sendMessageAskingYesOrNo(sender_psid);
+        } else if (message.quick_reply.payload === "NOT_YET") {
+            chatBotService.redo(sender_psid);
+        } else if (message.quick_reply.payload === "START" || message.quick_reply.payload === "WAIT") {
+            await chatBotService.listenToStory(sender_psid, message.text);
+        } else if (message.quick_reply.payload === "STOP") {
+            await chatBotService.sendMessageAskingYesOrNo(sender_psid);
+        }else if (message.quick_reply.payload === "DUMP") {
+            await chatBotService.dumpTheTrash(sender_psid, Math.floor(Math.random() * 3)); 
         }
     }
 
     //handle text message
     let entity = handleMessageWithEntities(message);
-    // Handle sentiment 
-    let sentiment = handleMessageWithSentiment(message);
-
     if (entity.name === "wit$greetings"){
         let response = { "text": `Hello there` };
         callSendAPI(sender_psid, response );
-        //default reply
     } else if (entity.name === "wit$thanks") {
         let response = { "text": `You are welcome!` };
         callSendAPI(sender_psid, response );
-
     } else if (entity.name === "wit$bye") {
-        let response = { "text": `Bye bye. Hope you feel better. Good luck!` };
+        let response = { "text": `Bye bye. See you later :D`};
         callSendAPI(sender_psid, response );
     } else {
-        if (sentiment.value === "negative") {
-            await chatBotService.sendMessageAskingYesOrNo(sender_psid);
-        }
-        else if (sentiment.value === "positive") {
-            let response = { "text": `Great! I am so happy to hear that!` };
-            callSendAPI(sender_psid, response );
-        } else if (message.attachments) {
-            let attachment_url = message.attachments[0].payload.url;
-            await chatBotService.sendComfortMessage(sender_psid,attachment_url);
-
-        } else {
-            await chatBotService.listenToStory(sender_psid, message.text);
-        }
+        await chatBotService.listenToStory(sender_psid, message.text);  
     }
 };
 
@@ -143,24 +132,6 @@ let handleMessageWithEntities = (message) => {
     data.name = entityChosen;
     return data;
 };
-
-
-//Detect negative mood
-let handleMessageWithSentiment = (message) => {
-    let sentiment = {};
-    let mood = firstEntity(message.nlp, 'wit$sentiment');
-    if (mood && mood.confidence > 0.65) {
-        sentiment.value = mood.value;
-    };
-    return sentiment;
-
-};
-
-//Function that return the traits of the a sentence
-function firstEntity(nlp, name) {
-    return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
-}
-
 
 // Handles messaging_postbacks events
 let handlePostback = async (sender_psid, received_postback) => {

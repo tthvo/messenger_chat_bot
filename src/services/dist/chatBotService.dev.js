@@ -10,6 +10,7 @@ var _request = _interopRequireDefault(require("request"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+var record = 0;
 
 var getFacebookUsername = function getFacebookUsername(sender_psid) {
   return new Promise(function (resolve, reject) {
@@ -33,46 +34,112 @@ var getFacebookUsername = function getFacebookUsername(sender_psid) {
 
 var sendResponseWelcomeNewCustomer = function sendResponseWelcomeNewCustomer(username, sender_psid) {
   return new Promise(function _callee(resolve, reject) {
-    var response_first;
+    var response_first, response_second;
     return regeneratorRuntime.async(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
             response_first = {
-              "text": "Hi ".concat(username, ". I am Quill. Nice to meet you buddy!")
+              "text": "Hi ".concat(username, ". Welcome to The Anger Dumpster")
+            };
+            response_second = {
+              "text": "Here you can bring me your anger. Then I dump it down for you."
             }; //send a welcome message
 
-            _context.next = 4;
+            _context.next = 5;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response_first));
 
-          case 4:
-            resolve("done!");
-            _context.next = 10;
-            break;
+          case 5:
+            _context.next = 7;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response_second));
 
           case 7:
-            _context.prev = 7;
+            _context.next = 9;
+            return regeneratorRuntime.awrap(askingStartOrStop(sender_psid));
+
+          case 9:
+            resolve("done!");
+            _context.next = 15;
+            break;
+
+          case 12:
+            _context.prev = 12;
             _context.t0 = _context["catch"](0);
             reject(_context.t0);
 
-          case 10:
+          case 15:
           case "end":
             return _context.stop();
         }
       }
-    }, null, null, [[0, 7]]);
+    }, null, null, [[0, 12]]);
   });
 };
 
-var sendMessageAskingYesOrNo = function sendMessageAskingYesOrNo(sender_id) {
+var askingStartOrStop = function askingStartOrStop(sender_psid) {
+  return new Promise(function _callee2(resolve, reject) {
+    var request_body;
+    return regeneratorRuntime.async(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            try {
+              request_body = {
+                "recipient": {
+                  "id": sender_psid
+                },
+                "messaging_type": "RESPONSE",
+                "message": {
+                  "text": "Shall we start? :D",
+                  "quick_replies": [{
+                    "content_type": "text",
+                    "title": "Fine",
+                    "payload": "START"
+                  }, {
+                    "content_type": "text",
+                    "title": "Sorry no",
+                    "payload": "STOP"
+                  }]
+                }
+              }; // Send the HTTP request to the Messenger Platform
+
+              (0, _request["default"])({
+                "uri": "https://graph.facebook.com/v8.0/me/messages",
+                "qs": {
+                  "access_token": PAGE_ACCESS_TOKEN
+                },
+                "method": "POST",
+                "json": request_body
+              }, function (err, res, body) {
+                if (!err) {
+                  console.log('message sent!');
+                } else {
+                  console.error("Unable to send message:" + err);
+                }
+              });
+              resolve('done');
+            } catch (e) {
+              reject(e);
+            }
+
+          case 1:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    });
+  });
+};
+
+var sendMessageAskingYesOrNo = function sendMessageAskingYesOrNo(sender_psid) {
   var request_body = {
     "recipient": {
-      "id": sender_id
+      "id": sender_psid
     },
     "messaging_type": "RESPONSE",
     "message": {
-      "text": "Are you ok? Do you want to do something for fun?",
+      "text": "Before you go, don't you want to do something fun? You can always look it up in the bottom right menu :D",
       "quick_replies": [{
         "content_type": "text",
         "title": "Yeah fine",
@@ -104,13 +171,13 @@ var sendMessageAskingYesOrNo = function sendMessageAskingYesOrNo(sender_id) {
 };
 
 var sendActivityMenu = function sendActivityMenu(sender_psid) {
-  return new Promise(function _callee2(resolve, reject) {
+  return new Promise(function _callee3(resolve, reject) {
     var response;
-    return regeneratorRuntime.async(function _callee2$(_context2) {
+    return regeneratorRuntime.async(function _callee3$(_context3) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
-            _context2.prev = 0;
+            _context3.prev = 0;
             response = {
               "attachment": {
                 "type": "template",
@@ -134,22 +201,22 @@ var sendActivityMenu = function sendActivityMenu(sender_psid) {
               }
             }; //send a image with button view main menu
 
-            _context2.next = 4;
+            _context3.next = 4;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 4:
             resolve("done!");
-            _context2.next = 10;
+            _context3.next = 10;
             break;
 
           case 7:
-            _context2.prev = 7;
-            _context2.t0 = _context2["catch"](0);
-            reject(_context2.t0);
+            _context3.prev = 7;
+            _context3.t0 = _context3["catch"](0);
+            reject(_context3.t0);
 
           case 10:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
       }
     }, null, null, [[0, 7]]);
@@ -157,13 +224,13 @@ var sendActivityMenu = function sendActivityMenu(sender_psid) {
 };
 
 var sendMemeMenu = function sendMemeMenu(sender_psid) {
-  return new Promise(function _callee3(resolve, reject) {
+  return new Promise(function _callee4(resolve, reject) {
     var response_first, response;
-    return regeneratorRuntime.async(function _callee3$(_context3) {
+    return regeneratorRuntime.async(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            _context3.prev = 0;
+            _context4.prev = 0;
             response_first = {
               "text": "Great choice! Let's have a look at meme menu.",
               "sender_action": "typing_on"
@@ -196,26 +263,26 @@ var sendMemeMenu = function sendMemeMenu(sender_psid) {
               }
             }; //send a welcome message
 
-            _context3.next = 5;
+            _context4.next = 5;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response_first));
 
           case 5:
-            _context3.next = 7;
+            _context4.next = 7;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 7:
             resolve("done!");
-            _context3.next = 13;
+            _context4.next = 13;
             break;
 
           case 10:
-            _context3.prev = 10;
-            _context3.t0 = _context3["catch"](0);
-            reject(_context3.t0);
+            _context4.prev = 10;
+            _context4.t0 = _context4["catch"](0);
+            reject(_context4.t0);
 
           case 13:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
     }, null, null, [[0, 10]]);
@@ -223,13 +290,13 @@ var sendMemeMenu = function sendMemeMenu(sender_psid) {
 };
 
 var sendBrianMeme = function sendBrianMeme(sender_psid) {
-  return new Promise(function _callee4(resolve, reject) {
+  return new Promise(function _callee5(resolve, reject) {
     var BrianMemeArr, source, response;
-    return regeneratorRuntime.async(function _callee4$(_context4) {
+    return regeneratorRuntime.async(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context4.prev = 0;
+            _context5.prev = 0;
 
             /*
                 */
@@ -244,22 +311,22 @@ var sendBrianMeme = function sendBrianMeme(sender_psid) {
                 }
               }
             };
-            _context4.next = 6;
+            _context5.next = 6;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 6:
             resolve("done!");
-            _context4.next = 12;
+            _context5.next = 12;
             break;
 
           case 9:
-            _context4.prev = 9;
-            _context4.t0 = _context4["catch"](0);
-            reject(_context4.t0);
+            _context5.prev = 9;
+            _context5.t0 = _context5["catch"](0);
+            reject(_context5.t0);
 
           case 12:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
     }, null, null, [[0, 9]]);
@@ -267,13 +334,13 @@ var sendBrianMeme = function sendBrianMeme(sender_psid) {
 };
 
 var sendTrumpMeme = function sendTrumpMeme(sender_psid) {
-  return new Promise(function _callee5(resolve, reject) {
+  return new Promise(function _callee6(resolve, reject) {
     var TrumpMemeArr, source, response;
-    return regeneratorRuntime.async(function _callee5$(_context5) {
+    return regeneratorRuntime.async(function _callee6$(_context6) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
-            _context5.prev = 0;
+            _context6.prev = 0;
             TrumpMemeArr = ["https://i.redd.it/antyobs25se21.jpg", "https://static.boredpanda.com/blog/wp-content/uploads/2020/08/donald-trump-axios-jonathan-swan-interview-funny-jokes-fb6-png__700.jpg", "https://i.imgflip.com/3sjxri.jpg"];
             source = TrumpMemeArr[Math.floor(Math.random() * 3)];
             response = {
@@ -286,139 +353,24 @@ var sendTrumpMeme = function sendTrumpMeme(sender_psid) {
               }
             }; //send a welcome message
 
-            _context5.next = 6;
+            _context6.next = 6;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 6:
-            _context5.next = 11;
+            _context6.next = 11;
             break;
 
           case 8:
-            _context5.prev = 8;
-            _context5.t0 = _context5["catch"](0);
-            reject(_context5.t0);
-
-          case 11:
-          case "end":
-            return _context5.stop();
-        }
-      }
-    }, null, null, [[0, 8]]);
-  });
-};
-
-var seenMessage = function seenMessage(sender_psid) {
-  var request_body = {
-    "recipient": {
-      "id": sender_psid
-    },
-    "sender_action": "mark_seen"
-  };
-  (0, _request["default"])({
-    "uri": "https://graph.facebook.com/v8.0/me/messages",
-    "qs": {
-      "access_token": PAGE_ACCESS_TOKEN
-    },
-    "method": "POST",
-    "json": request_body
-  }, function (err, res, body) {
-    if (!err) {
-      console.log('message sent!');
-    } else {
-      console.error("Unable to send message:" + err);
-    }
-  });
-};
-
-var listenToStory = function listenToStory(sender_psid, received_message) {
-  return new Promise(function _callee6(resolve, reject) {
-    var reply, response;
-    return regeneratorRuntime.async(function _callee6$(_context6) {
-      while (1) {
-        switch (_context6.prev = _context6.next) {
-          case 0:
-            _context6.prev = 0;
-            reply = "";
-
-            if (!received_message.toLowerCase().includes('why')) {
-              _context6.next = 6;
-              break;
-            }
-
-            reply = "Because it it the moment you are happy :D";
-            _context6.next = 25;
-            break;
-
-          case 6:
-            if (!received_message.toLowerCase().includes('no')) {
-              _context6.next = 10;
-              break;
-            }
-
-            reply = "You know I will always be there for you.";
-            _context6.next = 25;
-            break;
-
-          case 10:
-            if (!(received_message.toLowerCase().includes('yes') || received_message.toLowerCase().includes('fine'))) {
-              _context6.next = 14;
-              break;
-            }
-
-            reply = "I am listening. Relax buddy 👍";
-            _context6.next = 25;
-            break;
-
-          case 14:
-            if (!received_message.toLowerCase().includes("how")) {
-              _context6.next = 18;
-              break;
-            }
-
-            reply = "Why don't you look back in your photo and send me your most beautiful moment?";
-            _context6.next = 25;
-            break;
-
-          case 18:
-            if (!received_message.toLowerCase().includes("huhu")) {
-              _context6.next = 22;
-              break;
-            }
-
-            reply = "I am sorry to hear that";
-            _context6.next = 25;
-            break;
-
-          case 22:
-            _context6.next = 24;
-            return regeneratorRuntime.awrap(seenMessage(sender_psid));
-
-          case 24:
-            resolve("done");
-
-          case 25:
-            response = {
-              "text": reply
-            };
-            _context6.next = 28;
-            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
-
-          case 28:
-            resolve("done");
-            _context6.next = 34;
-            break;
-
-          case 31:
-            _context6.prev = 31;
+            _context6.prev = 8;
             _context6.t0 = _context6["catch"](0);
             reject(_context6.t0);
 
-          case 34:
+          case 11:
           case "end":
             return _context6.stop();
         }
       }
-    }, null, null, [[0, 31]]);
+    }, null, null, [[0, 8]]);
   });
 };
 
@@ -491,53 +443,6 @@ var sendMusic = function sendMusic(sender_psid) {
   });
 };
 
-var sendComfortMessage = function sendComfortMessage(sender_psid, url) {
-  return new Promise(function _callee8(resolve, reject) {
-    var response_first, response;
-    return regeneratorRuntime.async(function _callee8$(_context8) {
-      while (1) {
-        switch (_context8.prev = _context8.next) {
-          case 0:
-            _context8.prev = 0;
-            response_first = {
-              "text": "And this is my most beautiful moment!"
-            };
-            response = {
-              "attachment": {
-                "type": "image",
-                "payload": {
-                  "url": url,
-                  "is_reusable": true
-                }
-              }
-            }; //send a welcome message
-
-            _context8.next = 5;
-            return regeneratorRuntime.awrap(sendMessage(sender_psid, response_first));
-
-          case 5:
-            _context8.next = 7;
-            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
-
-          case 7:
-            resolve("done!");
-            _context8.next = 13;
-            break;
-
-          case 10:
-            _context8.prev = 10;
-            _context8.t0 = _context8["catch"](0);
-            reject(_context8.t0);
-
-          case 13:
-          case "end":
-            return _context8.stop();
-        }
-      }
-    }, null, null, [[0, 10]]);
-  });
-};
-
 var sendMessage = function sendMessage(sender_psid, response) {
   return new Promise(function (resolve, reject) {
     try {
@@ -569,6 +474,324 @@ var sendMessage = function sendMessage(sender_psid, response) {
   });
 };
 
+var seenMessage = function seenMessage(sender_psid) {
+  var request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action": "mark_seen"
+  };
+  (0, _request["default"])({
+    "uri": "https://graph.facebook.com/v8.0/me/messages",
+    "qs": {
+      "access_token": PAGE_ACCESS_TOKEN
+    },
+    "method": "POST",
+    "json": request_body
+  }, function (err, res, body) {
+    if (!err) {
+      console.log('message sent!');
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  });
+};
+
+var listenToStory = function listenToStory(sender_psid, received_message) {
+  return new Promise(function _callee8(resolve, reject) {
+    var response, sentiment;
+    return regeneratorRuntime.async(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.prev = 0;
+            response = {
+              "text": "Alright! Pass the garbage to me 😤"
+            };
+            sentiment = handleMessageWithSentiment(received_message);
+
+            if (!(sentiment.value === 'negative')) {
+              _context8.next = 8;
+              break;
+            }
+
+            if (sentiment.confidence >= 0.8) record -= 2;else record -= 1;
+            seenMessage(sender_psid);
+            _context8.next = 16;
+            break;
+
+          case 8:
+            if (!(sentiment.value === 'positive')) {
+              _context8.next = 13;
+              break;
+            }
+
+            _context8.next = 11;
+            return regeneratorRuntime.awrap(handlePositive(sender_psid, received_message));
+
+          case 11:
+            _context8.next = 16;
+            break;
+
+          case 13:
+            if (!(received_message === 'done' || received_message === 'That\'s it' || received_message === 'time to dump')) {
+              _context8.next = 16;
+              break;
+            }
+
+            _context8.next = 16;
+            return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
+
+          case 16:
+            resolve("done");
+            _context8.next = 22;
+            break;
+
+          case 19:
+            _context8.prev = 19;
+            _context8.t0 = _context8["catch"](0);
+            reject(_context8.t0);
+
+          case 22:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, null, null, [[0, 19]]);
+  });
+};
+
+var handlePositive = function handlePositive(sender_psid, received_message) {
+  var request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "messaging_type": "RESPONSE",
+    "message": {
+      "text": "I am glad to hear that. Are you feeling better now?",
+      "quick_replies": [{
+        "content_type": "text",
+        "title": "Yes I am !",
+        "payload": "DONE",
+        "image_url": "https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/smiling-face-with-open-mouth.png"
+      }, {
+        "content_type": "text",
+        "title": "Sorry no..",
+        "payload": "NOT_YET",
+        "image_url": "https://emojiprints.com/wp-content/uploads/Crying-Face-Emoji-Classic-Round-Sticker.jpg"
+      }]
+    }
+  }; // Send the HTTP request to the Messenger Platform
+
+  (0, _request["default"])({
+    "uri": "https://graph.facebook.com/v8.0/me/messages",
+    "qs": {
+      "access_token": PAGE_ACCESS_TOKEN
+    },
+    "method": "POST",
+    "json": request_body
+  }, function (err, res, body) {
+    if (!err) {
+      console.log('message sent!');
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  });
+};
+
+var sendBye = function sendBye(sender_psid) {
+  return new Promise(function _callee9(resolve, reject) {
+    var response;
+    return regeneratorRuntime.async(function _callee9$(_context9) {
+      while (1) {
+        switch (_context9.prev = _context9.next) {
+          case 0:
+            _context9.prev = 0;
+            response = {
+              "text": "Thank you for coming to the Dumpster! I hope the best for you!"
+            };
+            _context9.next = 4;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
+
+          case 4:
+            resolve("done");
+            _context9.next = 10;
+            break;
+
+          case 7:
+            _context9.prev = 7;
+            _context9.t0 = _context9["catch"](0);
+            reject(_context9.t0);
+
+          case 10:
+          case "end":
+            return _context9.stop();
+        }
+      }
+    }, null, null, [[0, 7]]);
+  });
+};
+
+var redo = function redo(sender_psid) {
+  askingStartOrStop(sender_psid);
+};
+
+var sayScore = function sayScore(sender_psid) {
+  return new Promise(function _callee10(resolve, reject) {
+    var response;
+    return regeneratorRuntime.async(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            _context10.prev = 0;
+            response = {
+              "text": "You negativity: ".concat(record)
+            };
+            _context10.next = 4;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
+
+          case 4:
+            resolve('done');
+            _context10.next = 10;
+            break;
+
+          case 7:
+            _context10.prev = 7;
+            _context10.t0 = _context10["catch"](0);
+            reject(_context10.t0);
+
+          case 10:
+          case "end":
+            return _context10.stop();
+        }
+      }
+    }, null, null, [[0, 7]]);
+  });
+};
+
+var askDumpOrNot = function askDumpOrNot(sender_psid) {
+  return new Promise(function _callee11(resolve, reject) {
+    var request_body;
+    return regeneratorRuntime.async(function _callee11$(_context11) {
+      while (1) {
+        switch (_context11.prev = _context11.next) {
+          case 0:
+            try {
+              request_body = {
+                "recipient": {
+                  "id": sender_psid
+                },
+                "messaging_type": "RESPONSE",
+                "message": {
+                  "text": "Shall we start? :D",
+                  "quick_replies": [{
+                    "content_type": "text",
+                    "title": "Dump!",
+                    "payload": "DUMP"
+                  }, {
+                    "content_type": "text",
+                    "title": "Wait",
+                    "payload": "WAIT"
+                  }]
+                }
+              }; // Send the HTTP request to the Messenger Platform
+
+              (0, _request["default"])({
+                "uri": "https://graph.facebook.com/v8.0/me/messages",
+                "qs": {
+                  "access_token": PAGE_ACCESS_TOKEN
+                },
+                "method": "POST",
+                "json": request_body
+              }, function (err, res, body) {
+                if (!err) {
+                  console.log('message sent!');
+                } else {
+                  console.error("Unable to send message:" + err);
+                }
+              });
+              resolve('done');
+            } catch (e) {
+              reject(e);
+            }
+
+          case 1:
+          case "end":
+            return _context11.stop();
+        }
+      }
+    });
+  });
+};
+
+var dumpTheTrash = function dumpTheTrash(sender_psid, option) {
+  return new Promise(function _callee12(resolve, reject) {
+    var Arr, source, response;
+    return regeneratorRuntime.async(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
+            _context12.prev = 0;
+            Arr = ["https://media.tenor.com/images/85fd7e7119e2a63ade45991953119ddf/tenor.gif", // In and out
+            "https://media1.tenor.com/images/9761847bcf035fb1ea3411803856f6f7/tenor.gif", //Man in the dumpster
+            "https://media2.giphy.com/media/26uf35ez3HpmLIX6g/giphy.gif" // Machine
+            ];
+            source = Arr[option]; // 0 <= option <= 2
+
+            response = {
+              "attachment": {
+                "type": "image",
+                "payload": {
+                  "url": source,
+                  "is_reusable": true
+                }
+              }
+            };
+            _context12.next = 6;
+            return regeneratorRuntime.awrap(sayScore(sender_psid));
+
+          case 6:
+            _context12.next = 8;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
+
+          case 8:
+            resolve("done");
+            _context12.next = 14;
+            break;
+
+          case 11:
+            _context12.prev = 11;
+            _context12.t0 = _context12["catch"](0);
+            reject(_context12.t0);
+
+          case 14:
+          case "end":
+            return _context12.stop();
+        }
+      }
+    }, null, null, [[0, 11]]);
+  });
+}; //Detect negative mood
+
+
+var handleMessageWithSentiment = function handleMessageWithSentiment(message) {
+  var sentiment = {};
+  var mood = firstEntity(message.nlp, 'wit$sentiment');
+
+  if (mood && mood.confidence > 0.65) {
+    sentiment.value = mood.value;
+    sentiment.confidence = mood.confidence;
+  }
+
+  ;
+  return sentiment;
+}; //Function that return the traits of the a sentence
+
+
+function firstEntity(nlp, name) {
+  return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
+}
+
 var _default = {
   getFacebookUsername: getFacebookUsername,
   sendResponseWelcomeNewCustomer: sendResponseWelcomeNewCustomer,
@@ -580,6 +803,11 @@ var _default = {
   listenToStory: listenToStory,
   sendMusic: sendMusic,
   seenMessage: seenMessage,
-  sendComfortMessage: sendComfortMessage
+  handlePositive: handlePositive,
+  dumpTheTrash: dumpTheTrash,
+  sendBye: sendBye,
+  redo: redo,
+  askingStartOrStop: askingStartOrStop,
+  askDumpOrNot: askDumpOrNot
 };
 exports["default"] = _default;
