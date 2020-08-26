@@ -11,6 +11,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 var record = 0;
+var already = false;
 
 var getFacebookUsername = function getFacebookUsername(sender_psid) {
   return new Promise(function (resolve, reject) {
@@ -79,19 +80,29 @@ var sendResponseWelcomeNewCustomer = function sendResponseWelcomeNewCustomer(use
 
 var askingStartOrStop = function askingStartOrStop(sender_psid) {
   return new Promise(function _callee2(resolve, reject) {
-    var request_body;
+    var text, request_body;
     return regeneratorRuntime.async(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             try {
+              text = "";
+              already = true;
+
+              if (!already) {
+                text = "Shall we start dumping something? :D";
+                already = true;
+              } else {
+                text = "Shall we dump some more things? :D";
+              }
+
               request_body = {
                 "recipient": {
                   "id": sender_psid
                 },
                 "messaging_type": "RESPONSE",
                 "message": {
-                  "text": "Shall we start? :D",
+                  "text": text,
                   "quick_replies": [{
                     "content_type": "text",
                     "title": "Fine",
@@ -497,74 +508,75 @@ var seenMessage = function seenMessage(sender_psid) {
   });
 };
 
-var listenToStory = function listenToStory(sender_psid, received_message) {
+var listenToStory = function listenToStory(sender_psid, message) {
   return new Promise(function _callee8(resolve, reject) {
-    var sentiment, response;
+    var received_message, sentiment, response;
     return regeneratorRuntime.async(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
             _context8.prev = 0;
-            sentiment = handleMessageWithSentiment(received_message);
+            received_message = message.text;
+            sentiment = handleMessageWithSentiment(message);
 
             if (!(sentiment.value === 'negative')) {
-              _context8.next = 7;
+              _context8.next = 8;
               break;
             }
 
             if (sentiment.confidence >= 0.8) record = record - 2;else record = record - 1;
             seenMessage(sender_psid);
-            _context8.next = 19;
+            _context8.next = 20;
             break;
 
-          case 7:
+          case 8:
             if (!(received_message === 'done' || received_message === 'That\'s it' || received_message === 'time to dump')) {
-              _context8.next = 12;
+              _context8.next = 13;
               break;
             }
 
-            _context8.next = 10;
+            _context8.next = 11;
             return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
-          case 10:
-            _context8.next = 19;
+          case 11:
+            _context8.next = 20;
             break;
 
-          case 12:
+          case 13:
             if (!received_message.toLowerCase().includes('how are you')) {
-              _context8.next = 18;
+              _context8.next = 19;
               break;
             }
 
             response = {
               "text": "I am great. Thank you for asking."
             };
-            _context8.next = 16;
+            _context8.next = 17;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
-          case 16:
-            _context8.next = 19;
+          case 17:
+            _context8.next = 20;
             break;
-
-          case 18:
-            seenMessage(sender_psid);
 
           case 19:
+            seenMessage(sender_psid);
+
+          case 20:
             resolve("done");
-            _context8.next = 25;
+            _context8.next = 26;
             break;
 
-          case 22:
-            _context8.prev = 22;
+          case 23:
+            _context8.prev = 23;
             _context8.t0 = _context8["catch"](0);
             reject(_context8.t0);
 
-          case 25:
+          case 26:
           case "end":
             return _context8.stop();
         }
       }
-    }, null, null, [[0, 22]]);
+    }, null, null, [[0, 23]]);
   });
 };
 

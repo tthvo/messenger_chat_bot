@@ -106,7 +106,7 @@ let handleMessage = async (sender_psid, message) => {
         let response = { "text": `Bye bye. See you later :D`};
         callSendAPI(sender_psid, response );
     } else {
-        await chatBotService.listenToStory(sender_psid, message.text);  
+        await chatBotService.listenToStory(sender_psid, message);  
     }
 };
 

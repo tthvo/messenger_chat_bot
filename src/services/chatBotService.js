@@ -2,6 +2,7 @@ import request from "request";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 var record = 0;
+var already = false;
 
 let getFacebookUsername = (sender_psid) => {
     return new Promise((resolve, reject) => {
@@ -45,13 +46,22 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
 let askingStartOrStop = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
+            let text = "";
+            already = true;
+            if (!already) {
+                text = "Shall we start dumping something? :D";
+                already = true;
+            } else {
+                text = "Shall we dump some more things? :D";
+            }
+
             let request_body = {
                 "recipient": {
                     "id": sender_psid
                 },
                 "messaging_type": "RESPONSE",
                 "message": {
-                    "text": "Shall we start? :D",
+                    "text": text,
                     "quick_replies": [
                         {
                             "content_type": "text",
@@ -397,10 +407,11 @@ let seenMessage = (sender_psid) => {
 
 };
 
-let listenToStory = (sender_psid, received_message) => {
+let listenToStory = (sender_psid, message) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let sentiment = handleMessageWithSentiment(received_message);
+            let received_message = message.text;
+            let sentiment = handleMessageWithSentiment(message);
             if (sentiment.value === 'negative') {
                 if (sentiment.confidence >= 0.8) record = record - 2;
                 else record = record - 1;
@@ -459,7 +470,7 @@ let handlePositive = (sender_psid, received_message) => {
 
 };
 
-let sendBye =  (sender_psid) => {
+let sendBye = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let response = {"text": "Thank you for coming to the Dumpster! I hope the best for you!"}

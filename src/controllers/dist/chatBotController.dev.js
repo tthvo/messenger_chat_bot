@@ -209,7 +209,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
 
         case 49:
           _context.next = 51;
-          return regeneratorRuntime.awrap(_chatBotService["default"].listenToStory(sender_psid, message.text));
+          return regeneratorRuntime.awrap(_chatBotService["default"].listenToStory(sender_psid, message));
 
         case 51:
         case "end":
