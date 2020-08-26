@@ -70,7 +70,7 @@ var getWebhook = function getWebhook(req, res) {
 
 
 var handleMessage = function handleMessage(sender_psid, message) {
-  var entity, response, _response, _response2;
+  var response, entity, _response, _response2, _response3;
 
   return regeneratorRuntime.async(function handleMessage$(_context) {
     while (1) {
@@ -136,10 +136,10 @@ var handleMessage = function handleMessage(sender_psid, message) {
             break;
           }
 
-          _context.next = 23;
-          return regeneratorRuntime.awrap(_chatBotService["default"].listenToStory(sender_psid, message.text));
-
-        case 23:
+          response = {
+            "text": "Alright! Pass the garbage to me 😤!"
+          };
+          callSendAPI(sender_psid, response);
           _context.next = 33;
           break;
 
@@ -174,10 +174,10 @@ var handleMessage = function handleMessage(sender_psid, message) {
             break;
           }
 
-          response = {
+          _response = {
             "text": "Hello there"
           };
-          callSendAPI(sender_psid, response);
+          callSendAPI(sender_psid, _response);
           _context.next = 51;
           break;
 
@@ -187,10 +187,10 @@ var handleMessage = function handleMessage(sender_psid, message) {
             break;
           }
 
-          _response = {
+          _response2 = {
             "text": "You are welcome!"
           };
-          callSendAPI(sender_psid, _response);
+          callSendAPI(sender_psid, _response2);
           _context.next = 51;
           break;
 
@@ -200,10 +200,10 @@ var handleMessage = function handleMessage(sender_psid, message) {
             break;
           }
 
-          _response2 = {
+          _response3 = {
             "text": "Bye bye. See you later :D"
           };
-          callSendAPI(sender_psid, _response2);
+          callSendAPI(sender_psid, _response3);
           _context.next = 51;
           break;
 

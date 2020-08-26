@@ -86,7 +86,8 @@ let handleMessage = async (sender_psid, message) => {
         } else if (message.quick_reply.payload === "NOT_YET") {
             chatBotService.redo(sender_psid);
         } else if (message.quick_reply.payload === "START" || message.quick_reply.payload === "WAIT") {
-            await chatBotService.listenToStory(sender_psid, message.text);
+            let response = {"text": "Alright! Pass the garbage to me 😤!"}
+            callSendAPI(sender_psid, response);
         } else if (message.quick_reply.payload === "STOP") {
             await chatBotService.sendMessageAskingYesOrNo(sender_psid);
         }else if (message.quick_reply.payload === "DUMP") {

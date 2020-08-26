@@ -499,69 +499,62 @@ var seenMessage = function seenMessage(sender_psid) {
 
 var listenToStory = function listenToStory(sender_psid, received_message) {
   return new Promise(function _callee8(resolve, reject) {
-    var response, sentiment;
+    var sentiment;
     return regeneratorRuntime.async(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
             _context8.prev = 0;
-            response = {
-              "text": "Alright! Pass the garbage to me 😤"
-            };
-            _context8.next = 4;
-            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
-
-          case 4:
             sentiment = handleMessageWithSentiment(received_message);
 
             if (!(sentiment.value === 'negative')) {
-              _context8.next = 10;
+              _context8.next = 7;
               break;
             }
 
             if (sentiment.confidence >= 0.8) record -= 2;else record -= 1;
             seenMessage(sender_psid);
-            _context8.next = 18;
+            _context8.next = 15;
             break;
 
-          case 10:
+          case 7:
             if (!(sentiment.value === 'positive')) {
+              _context8.next = 12;
+              break;
+            }
+
+            _context8.next = 10;
+            return regeneratorRuntime.awrap(handlePositive(sender_psid, received_message));
+
+          case 10:
+            _context8.next = 15;
+            break;
+
+          case 12:
+            if (!(received_message === 'done' || received_message === 'That\'s it' || received_message === 'time to dump')) {
               _context8.next = 15;
               break;
             }
 
-            _context8.next = 13;
-            return regeneratorRuntime.awrap(handlePositive(sender_psid, received_message));
-
-          case 13:
-            _context8.next = 18;
-            break;
-
-          case 15:
-            if (!(received_message === 'done' || received_message === 'That\'s it' || received_message === 'time to dump')) {
-              _context8.next = 18;
-              break;
-            }
-
-            _context8.next = 18;
+            _context8.next = 15;
             return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
-          case 18:
+          case 15:
             resolve("done");
-            _context8.next = 24;
+            _context8.next = 21;
             break;
 
-          case 21:
-            _context8.prev = 21;
+          case 18:
+            _context8.prev = 18;
             _context8.t0 = _context8["catch"](0);
             reject(_context8.t0);
 
-          case 24:
+          case 21:
           case "end":
             return _context8.stop();
         }
       }
-    }, null, null, [[0, 21]]);
+    }, null, null, [[0, 18]]);
   });
 };
 
