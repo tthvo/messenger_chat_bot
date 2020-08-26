@@ -1,10 +1,11 @@
 #Idea
 
-Therapy bot for JAMIE
+THE ANGER DUMPSTER
 
 Features: 
-    Take in text messages -> recognize certain keywords to evaluate mood -> send out a comforting
-    Suggest something to do -> musics, memes, movies
-    Do simple reply like saying thanks, goodbye and hello
-    Unique feature: Make jokes based on texts
+- Take in negative comments and give out scores, send a pic/gif make the idea of speaking out those unspoken (negative) thoughts as a way to dump garbage
+- Suggest fun activities: Meme, Music
+
+
+Tools: Node JS, Heroku Platform
 
