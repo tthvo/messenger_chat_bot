@@ -499,7 +499,7 @@ var seenMessage = function seenMessage(sender_psid) {
 
 var listenToStory = function listenToStory(sender_psid, received_message) {
   return new Promise(function _callee8(resolve, reject) {
-    var sentiment;
+    var sentiment, response;
     return regeneratorRuntime.async(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
@@ -512,49 +512,59 @@ var listenToStory = function listenToStory(sender_psid, received_message) {
               break;
             }
 
-            if (sentiment.confidence >= 0.8) record -= 2;else record -= 1;
+            if (sentiment.confidence >= 0.8) record = record - 2;else record = record - 1;
             seenMessage(sender_psid);
-            _context8.next = 15;
+            _context8.next = 19;
             break;
 
           case 7:
-            if (!(sentiment.value === 'positive')) {
+            if (!(received_message === 'done' || received_message === 'That\'s it' || received_message === 'time to dump')) {
               _context8.next = 12;
               break;
             }
 
             _context8.next = 10;
-            return regeneratorRuntime.awrap(handlePositive(sender_psid, received_message));
+            return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
           case 10:
-            _context8.next = 15;
+            _context8.next = 19;
             break;
 
           case 12:
-            if (!(received_message === 'done' || received_message === 'That\'s it' || received_message === 'time to dump')) {
-              _context8.next = 15;
+            if (!received_message.toLowerCase().includes('how are you')) {
+              _context8.next = 18;
               break;
             }
 
-            _context8.next = 15;
-            return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
+            response = {
+              "text": "I am great. Thank you for asking."
+            };
+            _context8.next = 16;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
-          case 15:
-            resolve("done");
-            _context8.next = 21;
+          case 16:
+            _context8.next = 19;
             break;
 
           case 18:
-            _context8.prev = 18;
+            seenMessage(sender_psid);
+
+          case 19:
+            resolve("done");
+            _context8.next = 25;
+            break;
+
+          case 22:
+            _context8.prev = 22;
             _context8.t0 = _context8["catch"](0);
             reject(_context8.t0);
 
-          case 21:
+          case 25:
           case "end":
             return _context8.stop();
         }
       }
-    }, null, null, [[0, 18]]);
+    }, null, null, [[0, 22]]);
   });
 };
 
@@ -565,7 +575,7 @@ var handlePositive = function handlePositive(sender_psid, received_message) {
     },
     "messaging_type": "RESPONSE",
     "message": {
-      "text": "I am glad to hear that. Are you feeling better now?",
+      "text": "You are welcome. Are you feeling better now?",
       "quick_replies": [{
         "content_type": "text",
         "title": "Yes I am !",
@@ -680,7 +690,7 @@ var askDumpOrNot = function askDumpOrNot(sender_psid) {
                 },
                 "messaging_type": "RESPONSE",
                 "message": {
-                  "text": "Shall we start? :D",
+                  "text": "Time to dump? :D",
                   "quick_replies": [{
                     "content_type": "text",
                     "title": "Dump!",
@@ -752,21 +762,25 @@ var dumpTheTrash = function dumpTheTrash(sender_psid, option) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 8:
+            _context12.next = 10;
+            return regeneratorRuntime.awrap(askingStartOrStop(sender_psid));
+
+          case 10:
             resolve("done");
-            _context12.next = 14;
+            _context12.next = 16;
             break;
 
-          case 11:
-            _context12.prev = 11;
+          case 13:
+            _context12.prev = 13;
             _context12.t0 = _context12["catch"](0);
             reject(_context12.t0);
 
-          case 14:
+          case 16:
           case "end":
             return _context12.stop();
         }
       }
-    }, null, null, [[0, 11]]);
+    }, null, null, [[0, 13]]);
   });
 }; //Detect negative mood
 
@@ -775,7 +789,7 @@ var handleMessageWithSentiment = function handleMessageWithSentiment(message) {
   var sentiment = {};
   var mood = firstEntity(message.nlp, 'wit$sentiment');
 
-  if (mood && mood.confidence > 0.65) {
+  if (mood && mood.confidence > 0.6) {
     sentiment.value = mood.value;
     sentiment.confidence = mood.confidence;
   }

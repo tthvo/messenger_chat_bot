@@ -70,7 +70,7 @@ var getWebhook = function getWebhook(req, res) {
 
 
 var handleMessage = function handleMessage(sender_psid, message) {
-  var response, entity, _response, _response2, _response3;
+  var response, entity, _response, _response2;
 
   return regeneratorRuntime.async(function handleMessage$(_context) {
     while (1) {
@@ -187,10 +187,10 @@ var handleMessage = function handleMessage(sender_psid, message) {
             break;
           }
 
-          _response2 = {
-            "text": "You are welcome!"
-          };
-          callSendAPI(sender_psid, _response2);
+          _context.next = 42;
+          return regeneratorRuntime.awrap(_chatBotService["default"].handlePositive(sender_psid, message.text));
+
+        case 42:
           _context.next = 51;
           break;
 
@@ -200,10 +200,10 @@ var handleMessage = function handleMessage(sender_psid, message) {
             break;
           }
 
-          _response3 = {
+          _response2 = {
             "text": "Bye bye. See you later :D"
           };
-          callSendAPI(sender_psid, _response3);
+          callSendAPI(sender_psid, _response2);
           _context.next = 51;
           break;
 

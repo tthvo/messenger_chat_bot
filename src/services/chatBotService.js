@@ -402,13 +402,16 @@ let listenToStory = (sender_psid, received_message) => {
         try {
             let sentiment = handleMessageWithSentiment(received_message);
             if (sentiment.value === 'negative') {
-                if (sentiment.confidence >= 0.8) record -= 2;
-                else record -= 1;
+                if (sentiment.confidence >= 0.8) record = record - 2;
+                else record = record - 1;
                 seenMessage(sender_psid);
-            } else if (sentiment.value === 'positive') {
-                await handlePositive(sender_psid, received_message);
-            } else if (received_message === 'done' || received_message === 'That\'s it' || received_message === 'time to dump' ) {
+            } else if(received_message === 'done' || received_message === 'That\'s it' || received_message === 'time to dump' ) {
                 await askDumpOrNot(sender_psid);
+            } else if(received_message.toLowerCase().includes('how are you')) {
+                let response = {"text": "I am great. Thank you for asking."}
+                await sendMessage(sender_psid, response);
+            } else {
+                seenMessage(sender_psid);
             }
             resolve("done");
         } catch (e) {
@@ -424,7 +427,7 @@ let handlePositive = (sender_psid, received_message) => {
         },
         "messaging_type": "RESPONSE",
         "message": {
-            "text": "I am glad to hear that. Are you feeling better now?",
+            "text": "You are welcome. Are you feeling better now?",
             "quick_replies": [
                 {
                     "content_type": "text",
@@ -496,7 +499,7 @@ let askDumpOrNot = (sender_psid) => {
                 },
                 "messaging_type": "RESPONSE",
                 "message": {
-                    "text": "Shall we start? :D",
+                    "text": "Time to dump? :D",
                     "quick_replies": [
                         {
                             "content_type": "text",
@@ -556,6 +559,7 @@ let dumpTheTrash = (sender_psid, option) => {
             await sayScore(sender_psid);
             //send a welcome message
             await sendMessage(sender_psid, response);
+            await askingStartOrStop(sender_psid);
             resolve("done");
         } catch (e) {
             reject(e);
@@ -568,7 +572,7 @@ let dumpTheTrash = (sender_psid, option) => {
 let handleMessageWithSentiment = (message) => {
     let sentiment = {};
     let mood = firstEntity(message.nlp, 'wit$sentiment');
-    if (mood && mood.confidence > 0.65) {
+    if (mood && mood.confidence > 0.6) {
         sentiment.value = mood.value;
         sentiment.confidence = mood.confidence;
     };

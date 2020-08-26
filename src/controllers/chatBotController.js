@@ -101,8 +101,7 @@ let handleMessage = async (sender_psid, message) => {
         let response = { "text": `Hello there` };
         callSendAPI(sender_psid, response );
     } else if (entity.name === "wit$thanks") {
-        let response = { "text": `You are welcome!` };
-        callSendAPI(sender_psid, response );
+        await chatBotService.handlePositive(sender_psid, message.text);
     } else if (entity.name === "wit$bye") {
         let response = { "text": `Bye bye. See you later :D`};
         callSendAPI(sender_psid, response );
