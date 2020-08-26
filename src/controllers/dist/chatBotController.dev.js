@@ -235,8 +235,13 @@ var handleMessageWithEntities = function handleMessageWithEntities(message) {
 
   data.name = entityChosen;
   return data;
-}; // Handles messaging_postbacks events
+};
 
+function firstEntity(nlp, name) {
+  return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
+}
+
+; // Handles messaging_postbacks events
 
 var handlePostback = function handlePostback(sender_psid, received_postback) {
   var response, payload, username;

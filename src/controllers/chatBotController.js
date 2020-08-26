@@ -133,6 +133,10 @@ let handleMessageWithEntities = (message) => {
     return data;
 };
 
+function firstEntity(nlp, name) {
+    return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
+};
+
 // Handles messaging_postbacks events
 let handlePostback = async (sender_psid, received_postback) => {
     let response;

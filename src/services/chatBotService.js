@@ -401,6 +401,7 @@ let listenToStory = (sender_psid, received_message) => {
     return new Promise(async (resolve, reject) => {
         try {
             let response = {"text": "Alright! Pass the garbage to me 😤"}
+            await sendMessage(sender_psid, response);
             let sentiment = handleMessageWithSentiment(received_message);
             if (sentiment.value === 'negative') {
                 if (sentiment.confidence >= 0.8) record -= 2;

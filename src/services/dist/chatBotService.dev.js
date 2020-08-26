@@ -508,56 +508,60 @@ var listenToStory = function listenToStory(sender_psid, received_message) {
             response = {
               "text": "Alright! Pass the garbage to me 😤"
             };
+            _context8.next = 4;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
+
+          case 4:
             sentiment = handleMessageWithSentiment(received_message);
 
             if (!(sentiment.value === 'negative')) {
-              _context8.next = 8;
+              _context8.next = 10;
               break;
             }
 
             if (sentiment.confidence >= 0.8) record -= 2;else record -= 1;
             seenMessage(sender_psid);
-            _context8.next = 16;
+            _context8.next = 18;
             break;
 
-          case 8:
+          case 10:
             if (!(sentiment.value === 'positive')) {
-              _context8.next = 13;
+              _context8.next = 15;
               break;
             }
 
-            _context8.next = 11;
+            _context8.next = 13;
             return regeneratorRuntime.awrap(handlePositive(sender_psid, received_message));
 
-          case 11:
-            _context8.next = 16;
+          case 13:
+            _context8.next = 18;
             break;
 
-          case 13:
+          case 15:
             if (!(received_message === 'done' || received_message === 'That\'s it' || received_message === 'time to dump')) {
-              _context8.next = 16;
+              _context8.next = 18;
               break;
             }
 
-            _context8.next = 16;
+            _context8.next = 18;
             return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
-          case 16:
+          case 18:
             resolve("done");
-            _context8.next = 22;
+            _context8.next = 24;
             break;
 
-          case 19:
-            _context8.prev = 19;
+          case 21:
+            _context8.prev = 21;
             _context8.t0 = _context8["catch"](0);
             reject(_context8.t0);
 
-          case 22:
+          case 24:
           case "end":
             return _context8.stop();
         }
       }
-    }, null, null, [[0, 19]]);
+    }, null, null, [[0, 21]]);
   });
 };
 
