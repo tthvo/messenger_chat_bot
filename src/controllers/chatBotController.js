@@ -98,11 +98,16 @@ let handleMessage = async (sender_psid, message) => {
     let entity = handleMessageWithEntities(message);
     if (entity.name === "wit$greetings"){
         let response;
-        if (message.text.toLowerCase().includes('how are you')) 
+        var ask = false;
+        if (message.text.toLowerCase().includes('how are you')) {
             response = {"text": "I am great. Thank you for asking."}
-        else 
-            response = { "text": `Hello there` };
-        callSendAPI(sender_psid, response );
+            ask = true;
+        }
+        else {
+            response = { "text": `Hello there` };       
+        }
+        await chatBotService.sendMessage(sender_psid, response);
+        if (!ask) await chatBotService.askingStartOrStop(sender_psid);
     } else if (entity.name === "wit$thanks") {
         await chatBotService.handlePositive(sender_psid, message.text);
     } else if (entity.name === "wit$bye") {

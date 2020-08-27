@@ -404,27 +404,41 @@ var sendMusic = function sendMusic(sender_psid) {
                     "subtitle": "Folklore",
                     "default_action": {
                       "type": "web_url",
-                      "url": "https://open.spotify.com/album/2fenSS68JI1h4Fo296JfGr3",
+                      "url": "https://www.youtube.com/watch?v=KsZ6tROaVOQ&list=PLkqz3S84Tw-QfG01Bz1QYgJnvKXcgpLQ-",
                       "webview_height_ratio": "tall"
                     },
                     "buttons": [{
                       "type": "web_url",
-                      "url": "https://www.taylorswift.com",
-                      "title": "About Taylor Swift"
+                      "url": "https://www.youtube.com/watch?v=KsZ6tROaVOQ&list=PLkqz3S84Tw-QfG01Bz1QYgJnvKXcgpLQ-",
+                      "title": "Take me there"
                     }]
                   }, {
                     "title": "Red Velvet Music",
                     "image_url": "https://static.billboard.com/files/media/red-velvet-psycho-vid-2020-billboard-1548-1024x677.jpg",
-                    "subtitle": "Folklore",
+                    "subtitle": "Red Flavor",
                     "default_action": {
                       "type": "web_url",
-                      "url": "https://open.spotify.com/album/3rVtm00UfbuzWOewdm4iYM",
+                      "url": "https://www.youtube.com/watch?v=J_CFBjAyPWE&list=RDEMK_G5MH5gqHCt0QkBaUH7jQ&start_radio=1",
                       "webview_height_ratio": "tall"
                     },
                     "buttons": [{
                       "type": "web_url",
-                      "url": "https://en.wikipedia.org/wiki/Red_Velvet_(group)",
-                      "title": "About Mommies"
+                      "url": "https://www.youtube.com/watch?v=J_CFBjAyPWE&list=RDEMK_G5MH5gqHCt0QkBaUH7jQ&start_radio=1",
+                      "title": "Take me there"
+                    }]
+                  }, {
+                    "title": "BlackPink t Music",
+                    "image_url": "https://media.vogue.co.uk/photos/5ef5c7b196e2923cb3e2316d/master/pass/BlackPink.jpg",
+                    "subtitle": "Black Pink in your area",
+                    "default_action": {
+                      "type": "web_url",
+                      "url": "https://www.youtube.com/watch?v=ioNng23DkIM&list=PLNF8K9Ddz0kKfujG6blfAxngYh_C66C_q",
+                      "webview_height_ratio": "tall"
+                    },
+                    "buttons": [{
+                      "type": "web_url",
+                      "url": "https://www.youtube.com/watch?v=ioNng23DkIM&list=PLNF8K9Ddz0kKfujG6blfAxngYh_C66C_q",
+                      "title": "Take me there"
                     }]
                   }]
                 }
@@ -569,7 +583,7 @@ var sendStart = function sendStart(sender_psid) {
 
 var listenToStory = function listenToStory(sender_psid, message) {
   return new Promise(function _callee10(resolve, reject) {
-    var received_message, sentiment, response, _response, _response2, _response3;
+    var received_message, sentiment, response, _response, _response2, _response3, _response4;
 
     return regeneratorRuntime.async(function _callee10$(_context10) {
       while (1) {
@@ -580,18 +594,18 @@ var listenToStory = function listenToStory(sender_psid, message) {
             sentiment = handleMessageWithSentiment(message);
 
             if (!(sentiment.value === 'negative')) {
-              _context10.next = 27;
+              _context10.next = 36;
               break;
             }
 
-            if (!received_message.toLowerCase().includes('kill')) {
+            if (!(received_message.toLowerCase() === 'sad')) {
               _context10.next = 13;
               break;
             }
 
-            record -= 10;
+            record -= 1;
             response = {
-              "text": "🙀"
+              "text": "I am sorry to hear that"
             };
             _context10.next = 9;
             return regeneratorRuntime.awrap(seenMessage(sender_psid));
@@ -601,18 +615,18 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 11:
-            _context10.next = 25;
+            _context10.next = 34;
             break;
 
           case 13:
-            if (!received_message.toLowerCase().includes('cockroaches')) {
+            if (!(received_message.toLowerCase().includes('kill') || received_message.toLowerCase().includes('murder'))) {
               _context10.next = 22;
               break;
             }
 
             record -= 5;
             _response = {
-              "text": "Usually they sleep right next to you at night 😂😂😂"
+              "text": "🙀"
             };
             _context10.next = 18;
             return regeneratorRuntime.awrap(seenMessage(sender_psid));
@@ -622,88 +636,109 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response));
 
           case 20:
-            _context10.next = 25;
+            _context10.next = 34;
             break;
 
           case 22:
-            record -= 1;
-            _context10.next = 25;
-            return regeneratorRuntime.awrap(seenMessage(sender_psid));
-
-          case 25:
-            _context10.next = 49;
-            break;
-
-          case 27:
-            if (!(received_message.toLowerCase() === 'sed')) {
-              _context10.next = 36;
+            if (!received_message.toLowerCase().includes('cockroaches')) {
+              _context10.next = 31;
               break;
             }
 
-            record -= 2;
+            record -= 3;
             _response2 = {
-              "text": "I am sorry to hear that"
+              "text": "Usually they sleep right next to you at night 😂😂😂"
             };
-            _context10.next = 32;
+            _context10.next = 27;
             return regeneratorRuntime.awrap(seenMessage(sender_psid));
 
-          case 32:
-            _context10.next = 34;
+          case 27:
+            _context10.next = 29;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response2));
 
+          case 29:
+            _context10.next = 34;
+            break;
+
+          case 31:
+            record -= 1;
+            _context10.next = 34;
+            return regeneratorRuntime.awrap(seenMessage(sender_psid));
+
           case 34:
-            _context10.next = 49;
+            _context10.next = 58;
             break;
 
           case 36:
-            if (!(received_message.toLowerCase() === 'done')) {
-              _context10.next = 41;
+            if (!(received_message.toLowerCase() === 'sed')) {
+              _context10.next = 45;
               break;
             }
 
-            _context10.next = 39;
-            return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
-
-          case 39:
-            _context10.next = 49;
-            break;
+            record -= 1;
+            _response3 = {
+              "text": "I am sorry to hear that"
+            };
+            _context10.next = 41;
+            return regeneratorRuntime.awrap(seenMessage(sender_psid));
 
           case 41:
-            if (!received_message.toLowerCase().includes('how are you')) {
-              _context10.next = 47;
+            _context10.next = 43;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, _response3));
+
+          case 43:
+            _context10.next = 58;
+            break;
+
+          case 45:
+            if (!(received_message.toLowerCase() === 'done')) {
+              _context10.next = 50;
               break;
             }
 
-            _response3 = {
-              "text": "I am great. Thank you for asking."
-            };
-            _context10.next = 45;
-            return regeneratorRuntime.awrap(sendMessage(sender_psid, _response3));
+            _context10.next = 48;
+            return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
-          case 45:
-            _context10.next = 49;
+          case 48:
+            _context10.next = 58;
             break;
 
-          case 47:
+          case 50:
+            if (!received_message.toLowerCase().includes('how are you')) {
+              _context10.next = 56;
+              break;
+            }
+
+            _response4 = {
+              "text": "I am great. Thank you for asking."
+            };
+            _context10.next = 54;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, _response4));
+
+          case 54:
+            _context10.next = 58;
+            break;
+
+          case 56:
             record -= 1;
             seenMessage(sender_psid);
 
-          case 49:
+          case 58:
             resolve("done");
-            _context10.next = 55;
+            _context10.next = 64;
             break;
 
-          case 52:
-            _context10.prev = 52;
+          case 61:
+            _context10.prev = 61;
             _context10.t0 = _context10["catch"](0);
             reject(_context10.t0);
 
-          case 55:
+          case 64:
           case "end":
             return _context10.stop();
         }
       }
-    }, null, null, [[0, 52]]);
+    }, null, null, [[0, 61]]);
   });
 };
 
@@ -753,28 +788,30 @@ var sendBye = function sendBye(sender_psid) {
         switch (_context11.prev = _context11.next) {
           case 0:
             _context11.prev = 0;
+            record = 0;
+            already = false;
             response = {
               "text": "Thank you for coming to the Dumpster! I hope the best for you!"
             };
-            _context11.next = 4;
+            _context11.next = 6;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
-          case 4:
+          case 6:
             resolve("done");
-            _context11.next = 10;
+            _context11.next = 12;
             break;
 
-          case 7:
-            _context11.prev = 7;
+          case 9:
+            _context11.prev = 9;
             _context11.t0 = _context11["catch"](0);
             reject(_context11.t0);
 
-          case 10:
+          case 12:
           case "end":
             return _context11.stop();
         }
       }
-    }, null, null, [[0, 7]]);
+    }, null, null, [[0, 9]]);
   });
 };
 
@@ -964,6 +1001,7 @@ var _default = {
   redo: redo,
   askingStartOrStop: askingStartOrStop,
   askDumpOrNot: askDumpOrNot,
-  sendStart: sendStart
+  sendStart: sendStart,
+  sendMessage: sendMessage
 };
 exports["default"] = _default;

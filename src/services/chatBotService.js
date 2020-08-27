@@ -309,31 +309,48 @@ let sendMusic = (sender_psid) => {
                                 "subtitle":"Folklore",
                                 "default_action": {
                                     "type": "web_url",
-                                    "url": "https://open.spotify.com/album/2fenSS68JI1h4Fo296JfGr3",
+                                    "url": "https://www.youtube.com/watch?v=KsZ6tROaVOQ&list=PLkqz3S84Tw-QfG01Bz1QYgJnvKXcgpLQ-",
                                     "webview_height_ratio": "tall",
                                 },
                                 "buttons":[
                                     {
                                         "type":"web_url",
-                                        "url":"https://www.taylorswift.com",
-                                        "title":"About Taylor Swift"
+                                        "url":"https://www.youtube.com/watch?v=KsZ6tROaVOQ&list=PLkqz3S84Tw-QfG01Bz1QYgJnvKXcgpLQ-",
+                                        "title":"Take me there"
                                     }         
                                 ]      
                             }, 
                             {
                                 "title":"Red Velvet Music",
                                 "image_url":"https://static.billboard.com/files/media/red-velvet-psycho-vid-2020-billboard-1548-1024x677.jpg",
-                                "subtitle":"Folklore",
+                                "subtitle":"Red Flavor",
                                 "default_action": {
                                     "type": "web_url",
-                                    "url": "https://open.spotify.com/album/3rVtm00UfbuzWOewdm4iYM",
+                                    "url": "https://www.youtube.com/watch?v=J_CFBjAyPWE&list=RDEMK_G5MH5gqHCt0QkBaUH7jQ&start_radio=1",
                                     "webview_height_ratio": "tall",
                                 },
                                 "buttons":[
                                     {
                                         "type":"web_url",
-                                        "url":"https://en.wikipedia.org/wiki/Red_Velvet_(group)",
-                                        "title":"About Mommies"
+                                        "url":"https://www.youtube.com/watch?v=J_CFBjAyPWE&list=RDEMK_G5MH5gqHCt0QkBaUH7jQ&start_radio=1",
+                                        "title":"Take me there"
+                                    }         
+                                ]      
+                            }, 
+                            {
+                                "title":"BlackPink t Music",
+                                "image_url":"https://media.vogue.co.uk/photos/5ef5c7b196e2923cb3e2316d/master/pass/BlackPink.jpg",
+                                "subtitle":"Black Pink in your area",
+                                "default_action": {
+                                    "type": "web_url",
+                                    "url": "https://www.youtube.com/watch?v=ioNng23DkIM&list=PLNF8K9Ddz0kKfujG6blfAxngYh_C66C_q",
+                                    "webview_height_ratio": "tall",
+                                },
+                                "buttons":[
+                                    {
+                                        "type":"web_url",
+                                        "url":"https://www.youtube.com/watch?v=ioNng23DkIM&list=PLNF8K9Ddz0kKfujG6blfAxngYh_C66C_q",
+                                        "title":"Take me there"
                                     }         
                                 ]      
                             }
@@ -434,13 +451,19 @@ let listenToStory = (sender_psid, message) => {
             let received_message = message.text;
             let sentiment = handleMessageWithSentiment(message);
             if (sentiment.value === 'negative') {
-                if (received_message.toLowerCase().includes('kill')) {
-                    record -= 10;
+                if (received_message.toLowerCase() === 'sad') {
+                    record -= 1;
+                    let response = {"text": "I am sorry to hear that"};
+                    await seenMessage(sender_psid);
+                    await sendMessage(sender_psid, response);
+                }
+                else if (received_message.toLowerCase().includes('kill') || received_message.toLowerCase().includes('murder')) {
+                    record -= 5;
                     let response = {"text": "🙀"};
                     await seenMessage(sender_psid);
                     await sendMessage(sender_psid, response);
                 } else if (received_message.toLowerCase().includes('cockroaches')) {
-                    record -= 5;
+                    record -= 3;
                     let response = {"text": "Usually they sleep right next to you at night 😂😂😂"};
                     await seenMessage(sender_psid);
                     await sendMessage(sender_psid, response);
@@ -448,9 +471,8 @@ let listenToStory = (sender_psid, message) => {
                     record -= 1;
                     await seenMessage(sender_psid);
                 }  
-            
             } else if (received_message.toLowerCase() === 'sed') {
-                record -= 2;
+                record -= 1;
                 let response = {"text": "I am sorry to hear that"};
                 await seenMessage(sender_psid);
                 await sendMessage(sender_psid, response);
@@ -512,6 +534,8 @@ let handlePositive = (sender_psid, received_message) => {
 let sendBye = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
+            record = 0;
+            already = false;
             let response = {"text": "Thank you for coming to the Dumpster! I hope the best for you!"}
             await sendMessage(sender_psid, response);
             resolve("done");
@@ -659,5 +683,6 @@ export default  {
     redo,
     askingStartOrStop,
     askDumpOrNot,
-    sendStart
+    sendStart,
+    sendMessage 
 };
