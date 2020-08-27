@@ -86,8 +86,7 @@ let handleMessage = async (sender_psid, message) => {
         } else if (message.quick_reply.payload === "NOT_YET") {
             chatBotService.redo(sender_psid);
         } else if (message.quick_reply.payload === "START" || message.quick_reply.payload === "WAIT") {
-            let response = {"text": "Alright! Pass the garbage to me 😤!"}
-            callSendAPI(sender_psid, response);
+            await chatBotService.sendStart(sender_psid);
         } else if (message.quick_reply.payload === "STOP") {
             await chatBotService.sendMessageAskingYesOrNo(sender_psid);
         }else if (message.quick_reply.payload === "DUMP") {
@@ -98,7 +97,11 @@ let handleMessage = async (sender_psid, message) => {
     //handle text message
     let entity = handleMessageWithEntities(message);
     if (entity.name === "wit$greetings"){
-        let response = { "text": `Hello there` };
+        let response;
+        if (message.text.toLowerCase().includes('how are you')) 
+            response = {"text": "I am great. Thank you for asking."}
+        else 
+            response = { "text": `Hello there` };
         callSendAPI(sender_psid, response );
     } else if (entity.name === "wit$thanks") {
         await chatBotService.handlePositive(sender_psid, message.text);

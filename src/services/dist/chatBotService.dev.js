@@ -486,97 +486,223 @@ var sendMessage = function sendMessage(sender_psid, response) {
 };
 
 var seenMessage = function seenMessage(sender_psid) {
-  var request_body = {
-    "recipient": {
-      "id": sender_psid
-    },
-    "sender_action": "mark_seen"
-  };
-  (0, _request["default"])({
-    "uri": "https://graph.facebook.com/v8.0/me/messages",
-    "qs": {
-      "access_token": PAGE_ACCESS_TOKEN
-    },
-    "method": "POST",
-    "json": request_body
-  }, function (err, res, body) {
-    if (!err) {
-      console.log('message sent!');
-    } else {
-      console.error("Unable to send message:" + err);
-    }
-  });
-};
-
-var listenToStory = function listenToStory(sender_psid, message) {
   return new Promise(function _callee8(resolve, reject) {
-    var received_message, sentiment, response;
+    var request_body;
     return regeneratorRuntime.async(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
-            _context8.prev = 0;
-            received_message = message.text;
-            sentiment = handleMessageWithSentiment(message);
-
-            if (!(sentiment.value === 'negative')) {
-              _context8.next = 8;
-              break;
+            try {
+              request_body = {
+                "recipient": {
+                  "id": sender_psid
+                },
+                "sender_action": "mark_seen"
+              };
+              (0, _request["default"])({
+                "uri": "https://graph.facebook.com/v8.0/me/messages",
+                "qs": {
+                  "access_token": PAGE_ACCESS_TOKEN
+                },
+                "method": "POST",
+                "json": request_body
+              }, function (err, res, body) {
+                if (!err) {
+                  console.log('message sent!');
+                } else {
+                  console.error("Unable to send message:" + err);
+                }
+              });
+              resolve("done");
+            } catch (e) {
+              reject(e);
             }
 
-            if (sentiment.confidence >= 0.8) record = record - 2;else record = record - 1;
-            seenMessage(sender_psid);
-            _context8.next = 20;
-            break;
-
-          case 8:
-            if (!(received_message === 'done' || received_message === 'That\'s it' || received_message === 'time to dump')) {
-              _context8.next = 13;
-              break;
-            }
-
-            _context8.next = 11;
-            return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
-
-          case 11:
-            _context8.next = 20;
-            break;
-
-          case 13:
-            if (!received_message.toLowerCase().includes('how are you')) {
-              _context8.next = 19;
-              break;
-            }
-
-            response = {
-              "text": "I am great. Thank you for asking."
-            };
-            _context8.next = 17;
-            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
-
-          case 17:
-            _context8.next = 20;
-            break;
-
-          case 19:
-            seenMessage(sender_psid);
-
-          case 20:
-            resolve("done");
-            _context8.next = 26;
-            break;
-
-          case 23:
-            _context8.prev = 23;
-            _context8.t0 = _context8["catch"](0);
-            reject(_context8.t0);
-
-          case 26:
+          case 1:
           case "end":
             return _context8.stop();
         }
       }
-    }, null, null, [[0, 23]]);
+    });
+  });
+};
+
+var sendStart = function sendStart(sender_psid) {
+  return new Promise(function _callee9(resolve, reject) {
+    var response1, response2;
+    return regeneratorRuntime.async(function _callee9$(_context9) {
+      while (1) {
+        switch (_context9.prev = _context9.next) {
+          case 0:
+            _context9.prev = 0;
+            response1 = {
+              "text": "Alright! Pass the garbage to me 😤!"
+            };
+            response2 = {
+              "text": "And remember to send 'Done' when you are done :D"
+            };
+            _context9.next = 5;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response1));
+
+          case 5:
+            _context9.next = 7;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response2));
+
+          case 7:
+            resolve('done');
+            _context9.next = 13;
+            break;
+
+          case 10:
+            _context9.prev = 10;
+            _context9.t0 = _context9["catch"](0);
+            reject(_context9.t0);
+
+          case 13:
+          case "end":
+            return _context9.stop();
+        }
+      }
+    }, null, null, [[0, 10]]);
+  });
+};
+
+var listenToStory = function listenToStory(sender_psid, message) {
+  return new Promise(function _callee10(resolve, reject) {
+    var received_message, sentiment, response, _response, _response2, _response3;
+
+    return regeneratorRuntime.async(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            _context10.prev = 0;
+            received_message = message.text;
+            sentiment = handleMessageWithSentiment(message);
+
+            if (!(sentiment.value === 'negative')) {
+              _context10.next = 27;
+              break;
+            }
+
+            if (!received_message.toLowerCase().includes('kill')) {
+              _context10.next = 13;
+              break;
+            }
+
+            record -= 10;
+            response = {
+              "text": "🙀"
+            };
+            _context10.next = 9;
+            return regeneratorRuntime.awrap(seenMessage(sender_psid));
+
+          case 9:
+            _context10.next = 11;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
+
+          case 11:
+            _context10.next = 25;
+            break;
+
+          case 13:
+            if (!received_message.toLowerCase().includes('cockroaches')) {
+              _context10.next = 22;
+              break;
+            }
+
+            record -= 5;
+            _response = {
+              "text": "Usually they sleep right next to you at night 😂😂😂"
+            };
+            _context10.next = 18;
+            return regeneratorRuntime.awrap(seenMessage(sender_psid));
+
+          case 18:
+            _context10.next = 20;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, _response));
+
+          case 20:
+            _context10.next = 25;
+            break;
+
+          case 22:
+            record -= 1;
+            _context10.next = 25;
+            return regeneratorRuntime.awrap(seenMessage(sender_psid));
+
+          case 25:
+            _context10.next = 48;
+            break;
+
+          case 27:
+            if (!(received_message.toLowerCase() === 'sed')) {
+              _context10.next = 36;
+              break;
+            }
+
+            record -= 2;
+            _response2 = {
+              "text": "I am sorry to hear that"
+            };
+            _context10.next = 32;
+            return regeneratorRuntime.awrap(seenMessage(sender_psid));
+
+          case 32:
+            _context10.next = 34;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, _response2));
+
+          case 34:
+            _context10.next = 48;
+            break;
+
+          case 36:
+            if (!(received_message.toLowerCase() === 'done')) {
+              _context10.next = 41;
+              break;
+            }
+
+            _context10.next = 39;
+            return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
+
+          case 39:
+            _context10.next = 48;
+            break;
+
+          case 41:
+            if (!received_message.toLowerCase().includes('how are you')) {
+              _context10.next = 47;
+              break;
+            }
+
+            _response3 = {
+              "text": "I am great. Thank you for asking."
+            };
+            _context10.next = 45;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, _response3));
+
+          case 45:
+            _context10.next = 48;
+            break;
+
+          case 47:
+            seenMessage(sender_psid);
+
+          case 48:
+            resolve("done");
+            _context10.next = 54;
+            break;
+
+          case 51:
+            _context10.prev = 51;
+            _context10.t0 = _context10["catch"](0);
+            reject(_context10.t0);
+
+          case 54:
+          case "end":
+            return _context10.stop();
+        }
+      }
+    }, null, null, [[0, 51]]);
   });
 };
 
@@ -619,32 +745,32 @@ var handlePositive = function handlePositive(sender_psid, received_message) {
 };
 
 var sendBye = function sendBye(sender_psid) {
-  return new Promise(function _callee9(resolve, reject) {
+  return new Promise(function _callee11(resolve, reject) {
     var response;
-    return regeneratorRuntime.async(function _callee9$(_context9) {
+    return regeneratorRuntime.async(function _callee11$(_context11) {
       while (1) {
-        switch (_context9.prev = _context9.next) {
+        switch (_context11.prev = _context11.next) {
           case 0:
-            _context9.prev = 0;
+            _context11.prev = 0;
             response = {
               "text": "Thank you for coming to the Dumpster! I hope the best for you!"
             };
-            _context9.next = 4;
+            _context11.next = 4;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 4:
             resolve("done");
-            _context9.next = 10;
+            _context11.next = 10;
             break;
 
           case 7:
-            _context9.prev = 7;
-            _context9.t0 = _context9["catch"](0);
-            reject(_context9.t0);
+            _context11.prev = 7;
+            _context11.t0 = _context11["catch"](0);
+            reject(_context11.t0);
 
           case 10:
           case "end":
-            return _context9.stop();
+            return _context11.stop();
         }
       }
     }, null, null, [[0, 7]]);
@@ -652,48 +778,53 @@ var sendBye = function sendBye(sender_psid) {
 };
 
 var redo = function redo(sender_psid) {
+  already = false;
+  record = 0;
   askingStartOrStop(sender_psid);
 };
 
 var sayScore = function sayScore(sender_psid) {
-  return new Promise(function _callee10(resolve, reject) {
-    var response;
-    return regeneratorRuntime.async(function _callee10$(_context10) {
+  return new Promise(function _callee12(resolve, reject) {
+    var textArr, chosen, response;
+    return regeneratorRuntime.async(function _callee12$(_context12) {
       while (1) {
-        switch (_context10.prev = _context10.next) {
+        switch (_context12.prev = _context12.next) {
           case 0:
-            _context10.prev = 0;
+            _context12.prev = 0;
+            textArr = ["So aggressive 😮", "Fairly negative 😮", "Not much negativity though"];
+            chosen = 0;
+            if (score > -5) chosen = 2;else if (score > -10) chosen = 1;
             response = {
-              "text": "You negativity: ".concat(record)
+              "text": textArr[chosen]
             };
-            _context10.next = 4;
+            _context12.next = 7;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
-          case 4:
+          case 7:
             resolve('done');
-            _context10.next = 10;
+            _context12.next = 13;
             break;
 
-          case 7:
-            _context10.prev = 7;
-            _context10.t0 = _context10["catch"](0);
-            reject(_context10.t0);
-
           case 10:
+            _context12.prev = 10;
+            _context12.t0 = _context12["catch"](0);
+            reject(_context12.t0);
+
+          case 13:
           case "end":
-            return _context10.stop();
+            return _context12.stop();
         }
       }
-    }, null, null, [[0, 7]]);
+    }, null, null, [[0, 10]]);
   });
 };
 
 var askDumpOrNot = function askDumpOrNot(sender_psid) {
-  return new Promise(function _callee11(resolve, reject) {
+  return new Promise(function _callee13(resolve, reject) {
     var request_body;
-    return regeneratorRuntime.async(function _callee11$(_context11) {
+    return regeneratorRuntime.async(function _callee13$(_context13) {
       while (1) {
-        switch (_context11.prev = _context11.next) {
+        switch (_context13.prev = _context13.next) {
           case 0:
             try {
               request_body = {
@@ -736,7 +867,7 @@ var askDumpOrNot = function askDumpOrNot(sender_psid) {
 
           case 1:
           case "end":
-            return _context11.stop();
+            return _context13.stop();
         }
       }
     });
@@ -744,13 +875,13 @@ var askDumpOrNot = function askDumpOrNot(sender_psid) {
 };
 
 var dumpTheTrash = function dumpTheTrash(sender_psid, option) {
-  return new Promise(function _callee12(resolve, reject) {
+  return new Promise(function _callee14(resolve, reject) {
     var Arr, source, response;
-    return regeneratorRuntime.async(function _callee12$(_context12) {
+    return regeneratorRuntime.async(function _callee14$(_context14) {
       while (1) {
-        switch (_context12.prev = _context12.next) {
+        switch (_context14.prev = _context14.next) {
           case 0:
-            _context12.prev = 0;
+            _context14.prev = 0;
             Arr = ["https://media.tenor.com/images/85fd7e7119e2a63ade45991953119ddf/tenor.gif", // In and out
             "https://media1.tenor.com/images/9761847bcf035fb1ea3411803856f6f7/tenor.gif", //Man in the dumpster
             "https://media2.giphy.com/media/26uf35ez3HpmLIX6g/giphy.gif" // Machine
@@ -766,30 +897,30 @@ var dumpTheTrash = function dumpTheTrash(sender_psid, option) {
                 }
               }
             };
-            _context12.next = 6;
+            _context14.next = 6;
             return regeneratorRuntime.awrap(sayScore(sender_psid));
 
           case 6:
-            _context12.next = 8;
+            _context14.next = 8;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 8:
-            _context12.next = 10;
+            _context14.next = 10;
             return regeneratorRuntime.awrap(askingStartOrStop(sender_psid));
 
           case 10:
             resolve("done");
-            _context12.next = 16;
+            _context14.next = 16;
             break;
 
           case 13:
-            _context12.prev = 13;
-            _context12.t0 = _context12["catch"](0);
-            reject(_context12.t0);
+            _context14.prev = 13;
+            _context14.t0 = _context14["catch"](0);
+            reject(_context14.t0);
 
           case 16:
           case "end":
-            return _context12.stop();
+            return _context14.stop();
         }
       }
     }, null, null, [[0, 13]]);
@@ -831,6 +962,7 @@ var _default = {
   sendBye: sendBye,
   redo: redo,
   askingStartOrStop: askingStartOrStop,
-  askDumpOrNot: askDumpOrNot
+  askDumpOrNot: askDumpOrNot,
+  sendStart: sendStart
 };
 exports["default"] = _default;

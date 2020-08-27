@@ -385,23 +385,44 @@ let sendMessage = (sender_psid, response) => {
 };
 
 let seenMessage = (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let request_body = {
+                "recipient": {
+                    "id": sender_psid
+                },
+                "sender_action":"mark_seen"
+            };
+            request({
+                "uri": "https://graph.facebook.com/v8.0/me/messages",
+                "qs": { "access_token": PAGE_ACCESS_TOKEN },
+                "method": "POST",
+                "json": request_body
+            }, (err, res, body) => {
+                if (!err) {
+                    console.log('message sent!')
+                } else {
+                    console.error("Unable to send message:" + err);
+                }
+            });
+            resolve("done");
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
 
-    let request_body = {
-        "recipient": {
-            "id": sender_psid
-        },
-        "sender_action":"mark_seen"
-    };
-    request({
-        "uri": "https://graph.facebook.com/v8.0/me/messages",
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        if (!err) {
-            console.log('message sent!')
-        } else {
-            console.error("Unable to send message:" + err);
+let sendStart = (sender_psid) => {
+   
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response1 = {"text": "Alright! Pass the garbage to me 😤!"};
+            let response2 = {"text": "And remember to send 'Done' when you are done :D"};
+            await sendMessage(sender_psid, response1);
+            await sendMessage(sender_psid, response2);
+            resolve('done');
+        } catch (e) {
+            reject(e);
         }
     });
 
@@ -413,13 +434,30 @@ let listenToStory = (sender_psid, message) => {
             let received_message = message.text;
             let sentiment = handleMessageWithSentiment(message);
             if (sentiment.value === 'negative') {
-                if (sentiment.confidence >= 0.8) record = record - 2;
-                else record = record - 1;
-                seenMessage(sender_psid);
-            } else if(received_message === 'done' || received_message === 'That\'s it' || received_message === 'time to dump' ) {
+                if (received_message.toLowerCase().includes('kill')) {
+                    record -= 10;
+                    let response = {"text": "🙀"};
+                    await seenMessage(sender_psid);
+                    await sendMessage(sender_psid, response);
+                } else if (received_message.toLowerCase().includes('cockroaches')) {
+                    record -= 5;
+                    let response = {"text": "Usually they sleep right next to you at night 😂😂😂"};
+                    await seenMessage(sender_psid);
+                    await sendMessage(sender_psid, response);
+                } else {
+                    record -= 1;
+                    await seenMessage(sender_psid);
+                }  
+            
+            } else if (received_message.toLowerCase() === 'sed') {
+                record -= 2;
+                let response = {"text": "I am sorry to hear that"};
+                await seenMessage(sender_psid);
+                await sendMessage(sender_psid, response);
+            } else if(received_message.toLowerCase() === 'done') {
                 await askDumpOrNot(sender_psid);
             } else if(received_message.toLowerCase().includes('how are you')) {
-                let response = {"text": "I am great. Thank you for asking."}
+                let response = {"text": "I am great. Thank you for asking."};
                 await sendMessage(sender_psid, response);
             } else {
                 seenMessage(sender_psid);
@@ -483,19 +521,27 @@ let sendBye = (sender_psid) => {
 };
 
 let redo = (sender_psid) => {
+    already = false;
+    record = 0;
     askingStartOrStop(sender_psid);
 };
 
 let sayScore = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let response = {"text":`You negativity: ${record}`};
+            let textArr = ["So aggressive 😮", "Fairly negative 😮", "Not much negativity though"];
+            var chosen = 0;
+            if (score > -5)
+                chosen = 2;
+            else if (score > -10)
+                chosen = 1;
+
+            let response = {"text": textArr[chosen]};
             await sendMessage(sender_psid, response);
             resolve('done');
         } catch (e) {
             reject(e);
         }
-
     });
    
 
@@ -611,5 +657,6 @@ export default  {
     sendBye,
     redo,
     askingStartOrStop,
-    askDumpOrNot
+    askDumpOrNot,
+    sendStart
 };

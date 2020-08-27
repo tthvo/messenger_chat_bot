@@ -70,7 +70,7 @@ var getWebhook = function getWebhook(req, res) {
 
 
 var handleMessage = function handleMessage(sender_psid, message) {
-  var response, entity, _response, _response2;
+  var entity, response, _response;
 
   return regeneratorRuntime.async(function handleMessage$(_context) {
     while (1) {
@@ -136,10 +136,10 @@ var handleMessage = function handleMessage(sender_psid, message) {
             break;
           }
 
-          response = {
-            "text": "Alright! Pass the garbage to me 😤!"
-          };
-          callSendAPI(sender_psid, response);
+          _context.next = 23;
+          return regeneratorRuntime.awrap(_chatBotService["default"].sendStart(sender_psid));
+
+        case 23:
           _context.next = 33;
           break;
 
@@ -174,10 +174,12 @@ var handleMessage = function handleMessage(sender_psid, message) {
             break;
           }
 
-          _response = {
+          if (message.text.toLowerCase().includes('how are you')) response = {
+            "text": "I am great. Thank you for asking."
+          };else response = {
             "text": "Hello there"
           };
-          callSendAPI(sender_psid, _response);
+          callSendAPI(sender_psid, response);
           _context.next = 51;
           break;
 
@@ -200,10 +202,10 @@ var handleMessage = function handleMessage(sender_psid, message) {
             break;
           }
 
-          _response2 = {
+          _response = {
             "text": "Bye bye. See you later :D"
           };
-          callSendAPI(sender_psid, _response2);
+          callSendAPI(sender_psid, _response);
           _context.next = 51;
           break;
 
