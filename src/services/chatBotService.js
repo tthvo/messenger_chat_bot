@@ -460,6 +460,7 @@ let listenToStory = (sender_psid, message) => {
                 let response = {"text": "I am great. Thank you for asking."};
                 await sendMessage(sender_psid, response);
             } else {
+                record -= 1;
                 seenMessage(sender_psid);
             }
             resolve("done");
@@ -531,9 +532,9 @@ let sayScore = (sender_psid) => {
         try {
             let textArr = ["So aggressive 😮", "Fairly negative 😮", "Not much negativity though"];
             var chosen = 0;
-            if (score > -5)
+            if (record > -5)
                 chosen = 2;
-            else if (score > -10)
+            else if (record > -10)
                 chosen = 1;
 
             let response = {"text": textArr[chosen]};

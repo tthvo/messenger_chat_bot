@@ -631,7 +631,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(seenMessage(sender_psid));
 
           case 25:
-            _context10.next = 48;
+            _context10.next = 49;
             break;
 
           case 27:
@@ -652,7 +652,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response2));
 
           case 34:
-            _context10.next = 48;
+            _context10.next = 49;
             break;
 
           case 36:
@@ -665,7 +665,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
           case 39:
-            _context10.next = 48;
+            _context10.next = 49;
             break;
 
           case 41:
@@ -681,28 +681,29 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response3));
 
           case 45:
-            _context10.next = 48;
+            _context10.next = 49;
             break;
 
           case 47:
+            record -= 1;
             seenMessage(sender_psid);
 
-          case 48:
+          case 49:
             resolve("done");
-            _context10.next = 54;
+            _context10.next = 55;
             break;
 
-          case 51:
-            _context10.prev = 51;
+          case 52:
+            _context10.prev = 52;
             _context10.t0 = _context10["catch"](0);
             reject(_context10.t0);
 
-          case 54:
+          case 55:
           case "end":
             return _context10.stop();
         }
       }
-    }, null, null, [[0, 51]]);
+    }, null, null, [[0, 52]]);
   });
 };
 
@@ -793,7 +794,7 @@ var sayScore = function sayScore(sender_psid) {
             _context12.prev = 0;
             textArr = ["So aggressive 😮", "Fairly negative 😮", "Not much negativity though"];
             chosen = 0;
-            if (score > -5) chosen = 2;else if (score > -10) chosen = 1;
+            if (record > -5) chosen = 2;else if (record > -10) chosen = 1;
             response = {
               "text": textArr[chosen]
             };
