@@ -82,7 +82,8 @@ let handleMessage = async (sender_psid, message) => {
         } else if (message.quick_reply.payload === "SORRY_NO") { // Send bye
             await chatBotService.sendBye(sender_psid);
         } else if (message.quick_reply.payload === "DONE") { // Happy or not
-            await chatBotService.sendMessageAskingYesOrNo(sender_psid);
+            let response = {"text": "I am happy that you are!"};
+            await chatBotService.sendMessage(sender_psid,response);
         } else if (message.quick_reply.payload === "NOT_YET") { // Want to dump more
             chatBotService.redo(sender_psid);
         } else if (message.quick_reply.payload === "START" || message.quick_reply.payload === "WAIT") { // Start putting trash or put more trash

@@ -70,14 +70,14 @@ var getWebhook = function getWebhook(req, res) {
 
 
 var handleMessage = function handleMessage(sender_psid, message) {
-  var entity, response, ask, _response;
+  var response, entity, _response, ask, _response2;
 
   return regeneratorRuntime.async(function handleMessage$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           if (!(message && message.quick_reply && message.quick_reply.payload)) {
-            _context.next = 33;
+            _context.next = 34;
             break;
           }
 
@@ -90,7 +90,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
           return regeneratorRuntime.awrap(_chatBotService["default"].sendActivityMenu(sender_psid));
 
         case 4:
-          _context.next = 33;
+          _context.next = 34;
           break;
 
         case 6:
@@ -103,139 +103,143 @@ var handleMessage = function handleMessage(sender_psid, message) {
           return regeneratorRuntime.awrap(_chatBotService["default"].sendBye(sender_psid));
 
         case 9:
-          _context.next = 33;
+          _context.next = 34;
           break;
 
         case 11:
           if (!(message.quick_reply.payload === "DONE")) {
-            _context.next = 16;
+            _context.next = 17;
             break;
           }
 
-          _context.next = 14;
-          return regeneratorRuntime.awrap(_chatBotService["default"].sendMessageAskingYesOrNo(sender_psid));
+          // Happy or not
+          response = {
+            "text": "I am happy that you are!"
+          };
+          _context.next = 15;
+          return regeneratorRuntime.awrap(_chatBotService["default"].sendMessage(sender_psid, response));
 
-        case 14:
-          _context.next = 33;
+        case 15:
+          _context.next = 34;
           break;
 
-        case 16:
+        case 17:
           if (!(message.quick_reply.payload === "NOT_YET")) {
-            _context.next = 20;
+            _context.next = 21;
             break;
           }
 
           // Want to dump more
           _chatBotService["default"].redo(sender_psid);
 
-          _context.next = 33;
+          _context.next = 34;
           break;
 
-        case 20:
+        case 21:
           if (!(message.quick_reply.payload === "START" || message.quick_reply.payload === "WAIT")) {
-            _context.next = 25;
+            _context.next = 26;
             break;
           }
 
-          _context.next = 23;
+          _context.next = 24;
           return regeneratorRuntime.awrap(_chatBotService["default"].sendStart(sender_psid));
 
-        case 23:
-          _context.next = 33;
+        case 24:
+          _context.next = 34;
           break;
 
-        case 25:
+        case 26:
           if (!(message.quick_reply.payload === "STOP")) {
-            _context.next = 30;
+            _context.next = 31;
             break;
           }
 
-          _context.next = 28;
+          _context.next = 29;
           return regeneratorRuntime.awrap(_chatBotService["default"].sendMessageAskingYesOrNo(sender_psid));
 
-        case 28:
-          _context.next = 33;
+        case 29:
+          _context.next = 34;
           break;
 
-        case 30:
+        case 31:
           if (!(message.quick_reply.payload === "DUMP")) {
-            _context.next = 33;
+            _context.next = 34;
             break;
           }
 
-          _context.next = 33;
+          _context.next = 34;
           return regeneratorRuntime.awrap(_chatBotService["default"].dumpTheTrash(sender_psid, Math.floor(Math.random() * 3)));
 
-        case 33:
+        case 34:
           //handle attachments
           //handle text message
           entity = handleMessageWithEntities(message);
 
           if (!(entity.name === "wit$greetings")) {
-            _context.next = 44;
+            _context.next = 45;
             break;
           }
 
           ask = false; // Check if the greeting is just a 'how are you'
 
           if (message.text.toLowerCase().includes('how are you')) {
-            response = {
+            _response = {
               "text": "I am great. Thank you for asking."
             };
             ask = true;
           } else {
-            response = {
+            _response = {
               "text": "Hello there"
             };
           }
 
-          _context.next = 39;
-          return regeneratorRuntime.awrap(_chatBotService["default"].sendMessage(sender_psid, response));
+          _context.next = 40;
+          return regeneratorRuntime.awrap(_chatBotService["default"].sendMessage(sender_psid, _response));
 
-        case 39:
+        case 40:
           if (ask) {
-            _context.next = 42;
+            _context.next = 43;
             break;
           }
 
-          _context.next = 42;
+          _context.next = 43;
           return regeneratorRuntime.awrap(_chatBotService["default"].askingStartOrStop(sender_psid));
 
-        case 42:
-          _context.next = 56;
+        case 43:
+          _context.next = 57;
           break;
 
-        case 44:
+        case 45:
           if (!(entity.name === "wit$thanks")) {
-            _context.next = 49;
+            _context.next = 50;
             break;
           }
 
-          _context.next = 47;
+          _context.next = 48;
           return regeneratorRuntime.awrap(_chatBotService["default"].handlePositive(sender_psid, message.text));
 
-        case 47:
-          _context.next = 56;
+        case 48:
+          _context.next = 57;
           break;
 
-        case 49:
+        case 50:
           if (!(entity.name === "wit$bye")) {
-            _context.next = 54;
+            _context.next = 55;
             break;
           }
 
-          _response = {
+          _response2 = {
             "text": "Bye bye. See you later :D"
           };
-          callSendAPI(sender_psid, _response);
-          _context.next = 56;
+          callSendAPI(sender_psid, _response2);
+          _context.next = 57;
           break;
 
-        case 54:
-          _context.next = 56;
+        case 55:
+          _context.next = 57;
           return regeneratorRuntime.awrap(_chatBotService["default"].listenToStory(sender_psid, message));
 
-        case 56:
+        case 57:
         case "end":
           return _context.stop();
       }
