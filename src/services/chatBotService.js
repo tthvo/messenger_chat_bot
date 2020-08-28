@@ -3,6 +3,8 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 var record = 0;
 var already = false;
+var menuAlready = false;
+
 
 let getFacebookUsername = (sender_psid) => {
     return new Promise((resolve, reject) => {
@@ -101,14 +103,20 @@ let askingStartOrStop = (sender_psid) => {
 
 let sendMessageAskingYesOrNo = (sender_psid) => {
 
-
+    
+    let text;
+    if (!menuAlready) {
+        text = "Before you go, don't you want to do something fun? You can always look it up in the bottom right menu :D";
+    } else {
+        text: "Wanna have some more fun activities?"
+    }
     let request_body = {
         "recipient": {
             "id": sender_psid
         },
         "messaging_type": "RESPONSE",
         "message": {
-            "text": "Before you go, don't you want to do something fun? You can always look it up in the bottom right menu :D",
+            "text": text,
             "quick_replies": [
                 {
                     "content_type": "text",
@@ -448,33 +456,29 @@ let sendStart = (sender_psid) => {
 let listenToStory = (sender_psid, message) => {
     return new Promise(async (resolve, reject) => {
         try {
+            await seenMessage(sender_psid);
             let received_message = message.text;
             let sentiment = handleMessageWithSentiment(message);
             if (sentiment.value === 'negative') {
                 if (received_message.toLowerCase() === 'sad') {
                     record -= 1;
                     let response = {"text": "I am sorry to hear that"};
-                    await seenMessage(sender_psid);
                     await sendMessage(sender_psid, response);
                 }
                 else if (received_message.toLowerCase().includes('kill') || received_message.toLowerCase().includes('murder')) {
                     record -= 5;
-                    let response = {"text": "🙀"};
-                    await seenMessage(sender_psid);
+                    let response = {"text": "🙀🙀🙀"};
                     await sendMessage(sender_psid, response);
                 } else if (received_message.toLowerCase().includes('cockroaches')) {
                     record -= 3;
                     let response = {"text": "Usually they sleep right next to you at night 😂😂😂"};
-                    await seenMessage(sender_psid);
                     await sendMessage(sender_psid, response);
                 } else {
-                    record -= 1;
-                    await seenMessage(sender_psid);
+                    record -= 1;                 
                 }  
-            } else if (received_message.toLowerCase() === 'sed') {
+            } else if (received_message.toLowerCase().includes('sed')) {
                 record -= 1;
-                let response = {"text": "I am sorry to hear that"};
-                await seenMessage(sender_psid);
+                let response = {"text": "*pat pat :("};                
                 await sendMessage(sender_psid, response);
             } else if(received_message.toLowerCase() === 'done') {
                 await askDumpOrNot(sender_psid);
@@ -482,8 +486,7 @@ let listenToStory = (sender_psid, message) => {
                 let response = {"text": "I am great. Thank you for asking."};
                 await sendMessage(sender_psid, response);
             } else {
-                record -= 1;
-                seenMessage(sender_psid);
+                record -= 1;              
             }
             resolve("done");
         } catch (e) {
@@ -534,8 +537,9 @@ let handlePositive = (sender_psid, received_message) => {
 let sendBye = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
-            record = 0;
             already = false;
+            record = 0;
+            menuAlready = false;
             let response = {"text": "Thank you for coming to the Dumpster! I hope the best for you!"}
             await sendMessage(sender_psid, response);
             resolve("done");
@@ -548,13 +552,14 @@ let sendBye = (sender_psid) => {
 let redo = (sender_psid) => {
     already = false;
     record = 0;
+    menuAlready = false;
     askingStartOrStop(sender_psid);
 };
 
 let sayScore = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let textArr = ["So aggressive 😮", "Fairly negative 😮", "Not much negativity though"];
+            let textArr = ["That was aggressive 😮", "Fairly negative 😮", "Not much negativity though"];
             var chosen = 0;
             if (record > -5)
                 chosen = 2;

@@ -77,28 +77,30 @@ let getWebhook = (req, res) => {
 let handleMessage = async (sender_psid, message) => {
     //checking quick reply
     if (message && message.quick_reply && message.quick_reply.payload) {
-        if (message.quick_reply.payload === "YEAH_FINE") {
+        if (message.quick_reply.payload === "YEAH_FINE") { //Send activity menu
             await chatBotService.sendActivityMenu(sender_psid);
-        } else if (message.quick_reply.payload === "SORRY_NO") {
+        } else if (message.quick_reply.payload === "SORRY_NO") { // Send bye
             await chatBotService.sendBye(sender_psid);
-        } else if (message.quick_reply.payload === "DONE") {
+        } else if (message.quick_reply.payload === "DONE") { // Happy or not
             await chatBotService.sendMessageAskingYesOrNo(sender_psid);
-        } else if (message.quick_reply.payload === "NOT_YET") {
+        } else if (message.quick_reply.payload === "NOT_YET") { // Want to dump more
             chatBotService.redo(sender_psid);
-        } else if (message.quick_reply.payload === "START" || message.quick_reply.payload === "WAIT") {
+        } else if (message.quick_reply.payload === "START" || message.quick_reply.payload === "WAIT") { // Start putting trash or put more trash
             await chatBotService.sendStart(sender_psid);
-        } else if (message.quick_reply.payload === "STOP") {
+        } else if (message.quick_reply.payload === "STOP") { //Done with dumping
             await chatBotService.sendMessageAskingYesOrNo(sender_psid);
-        }else if (message.quick_reply.payload === "DUMP") {
+        }else if (message.quick_reply.payload === "DUMP") { // Dump the trash
             await chatBotService.dumpTheTrash(sender_psid, Math.floor(Math.random() * 3)); 
         }
     }
+    //handle attachments
+
 
     //handle text message
     let entity = handleMessageWithEntities(message);
     if (entity.name === "wit$greetings"){
         let response;
-        var ask = false;
+        var ask = false; // Check if the greeting is just a 'how are you'
         if (message.text.toLowerCase().includes('how are you')) {
             response = {"text": "I am great. Thank you for asking."}
             ask = true;

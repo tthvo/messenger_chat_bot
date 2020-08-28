@@ -12,6 +12,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 var record = 0;
 var already = false;
+var menuAlready = false;
 
 var getFacebookUsername = function getFacebookUsername(sender_psid) {
   return new Promise(function (resolve, reject) {
@@ -144,13 +145,21 @@ var askingStartOrStop = function askingStartOrStop(sender_psid) {
 };
 
 var sendMessageAskingYesOrNo = function sendMessageAskingYesOrNo(sender_psid) {
+  var text;
+
+  if (!menuAlready) {
+    text = "Before you go, don't you want to do something fun? You can always look it up in the bottom right menu :D";
+  } else {
+    text: "Wanna have some more fun activities?";
+  }
+
   var request_body = {
     "recipient": {
       "id": sender_psid
     },
     "messaging_type": "RESPONSE",
     "message": {
-      "text": "Before you go, don't you want to do something fun? You can always look it up in the bottom right menu :D",
+      "text": text,
       "quick_replies": [{
         "content_type": "text",
         "title": "Yeah fine",
@@ -590,11 +599,15 @@ var listenToStory = function listenToStory(sender_psid, message) {
         switch (_context10.prev = _context10.next) {
           case 0:
             _context10.prev = 0;
+            _context10.next = 3;
+            return regeneratorRuntime.awrap(seenMessage(sender_psid));
+
+          case 3:
             received_message = message.text;
             sentiment = handleMessageWithSentiment(message);
 
             if (!(sentiment.value === 'negative')) {
-              _context10.next = 36;
+              _context10.next = 30;
               break;
             }
 
@@ -607,41 +620,33 @@ var listenToStory = function listenToStory(sender_psid, message) {
             response = {
               "text": "I am sorry to hear that"
             };
-            _context10.next = 9;
-            return regeneratorRuntime.awrap(seenMessage(sender_psid));
-
-          case 9:
             _context10.next = 11;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 11:
-            _context10.next = 34;
+            _context10.next = 28;
             break;
 
           case 13:
             if (!(received_message.toLowerCase().includes('kill') || received_message.toLowerCase().includes('murder'))) {
-              _context10.next = 22;
+              _context10.next = 20;
               break;
             }
 
             record -= 5;
             _response = {
-              "text": "🙀"
+              "text": "🙀🙀🙀"
             };
             _context10.next = 18;
-            return regeneratorRuntime.awrap(seenMessage(sender_psid));
-
-          case 18:
-            _context10.next = 20;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response));
 
-          case 20:
-            _context10.next = 34;
+          case 18:
+            _context10.next = 28;
             break;
 
-          case 22:
+          case 20:
             if (!received_message.toLowerCase().includes('cockroaches')) {
-              _context10.next = 31;
+              _context10.next = 27;
               break;
             }
 
@@ -649,96 +654,85 @@ var listenToStory = function listenToStory(sender_psid, message) {
             _response2 = {
               "text": "Usually they sleep right next to you at night 😂😂😂"
             };
-            _context10.next = 27;
-            return regeneratorRuntime.awrap(seenMessage(sender_psid));
-
-          case 27:
-            _context10.next = 29;
+            _context10.next = 25;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response2));
 
-          case 29:
-            _context10.next = 34;
+          case 25:
+            _context10.next = 28;
             break;
 
-          case 31:
+          case 27:
             record -= 1;
-            _context10.next = 34;
-            return regeneratorRuntime.awrap(seenMessage(sender_psid));
 
-          case 34:
-            _context10.next = 58;
+          case 28:
+            _context10.next = 49;
             break;
 
-          case 36:
-            if (!(received_message.toLowerCase() === 'sed')) {
-              _context10.next = 45;
+          case 30:
+            if (!received_message.toLowerCase().includes('sed')) {
+              _context10.next = 37;
               break;
             }
 
             record -= 1;
             _response3 = {
-              "text": "I am sorry to hear that"
+              "text": "*pat pat :("
             };
-            _context10.next = 41;
-            return regeneratorRuntime.awrap(seenMessage(sender_psid));
-
-          case 41:
-            _context10.next = 43;
+            _context10.next = 35;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response3));
 
-          case 43:
-            _context10.next = 58;
+          case 35:
+            _context10.next = 49;
             break;
 
-          case 45:
+          case 37:
             if (!(received_message.toLowerCase() === 'done')) {
-              _context10.next = 50;
+              _context10.next = 42;
               break;
             }
 
-            _context10.next = 48;
+            _context10.next = 40;
             return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
-          case 48:
-            _context10.next = 58;
+          case 40:
+            _context10.next = 49;
             break;
 
-          case 50:
+          case 42:
             if (!received_message.toLowerCase().includes('how are you')) {
-              _context10.next = 56;
+              _context10.next = 48;
               break;
             }
 
             _response4 = {
               "text": "I am great. Thank you for asking."
             };
-            _context10.next = 54;
+            _context10.next = 46;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response4));
 
-          case 54:
-            _context10.next = 58;
+          case 46:
+            _context10.next = 49;
             break;
 
-          case 56:
+          case 48:
             record -= 1;
-            seenMessage(sender_psid);
 
-          case 58:
+          case 49:
             resolve("done");
-            _context10.next = 64;
+            _context10.next = 55;
             break;
 
-          case 61:
-            _context10.prev = 61;
+          case 52:
+            _context10.prev = 52;
             _context10.t0 = _context10["catch"](0);
             reject(_context10.t0);
 
-          case 64:
+          case 55:
           case "end":
             return _context10.stop();
         }
       }
-    }, null, null, [[0, 61]]);
+    }, null, null, [[0, 52]]);
   });
 };
 
@@ -788,36 +782,38 @@ var sendBye = function sendBye(sender_psid) {
         switch (_context11.prev = _context11.next) {
           case 0:
             _context11.prev = 0;
-            record = 0;
             already = false;
+            record = 0;
+            menuAlready = false;
             response = {
               "text": "Thank you for coming to the Dumpster! I hope the best for you!"
             };
-            _context11.next = 6;
+            _context11.next = 7;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
-          case 6:
+          case 7:
             resolve("done");
-            _context11.next = 12;
+            _context11.next = 13;
             break;
 
-          case 9:
-            _context11.prev = 9;
+          case 10:
+            _context11.prev = 10;
             _context11.t0 = _context11["catch"](0);
             reject(_context11.t0);
 
-          case 12:
+          case 13:
           case "end":
             return _context11.stop();
         }
       }
-    }, null, null, [[0, 9]]);
+    }, null, null, [[0, 10]]);
   });
 };
 
 var redo = function redo(sender_psid) {
   already = false;
   record = 0;
+  menuAlready = false;
   askingStartOrStop(sender_psid);
 };
 
@@ -829,7 +825,7 @@ var sayScore = function sayScore(sender_psid) {
         switch (_context12.prev = _context12.next) {
           case 0:
             _context12.prev = 0;
-            textArr = ["So aggressive 😮", "Fairly negative 😮", "Not much negativity though"];
+            textArr = ["That was aggressive 😮", "Fairly negative 😮", "Not much negativity though"];
             chosen = 0;
             if (record > -5) chosen = 2;else if (record > -10) chosen = 1;
             response = {

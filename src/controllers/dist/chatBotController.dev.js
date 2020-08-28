@@ -125,6 +125,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
             break;
           }
 
+          // Want to dump more
           _chatBotService["default"].redo(sender_psid);
 
           _context.next = 33;
@@ -166,6 +167,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
           return regeneratorRuntime.awrap(_chatBotService["default"].dumpTheTrash(sender_psid, Math.floor(Math.random() * 3)));
 
         case 33:
+          //handle attachments
           //handle text message
           entity = handleMessageWithEntities(message);
 
@@ -174,7 +176,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
             break;
           }
 
-          ask = false;
+          ask = false; // Check if the greeting is just a 'how are you'
 
           if (message.text.toLowerCase().includes('how are you')) {
             response = {
