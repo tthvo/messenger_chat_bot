@@ -457,13 +457,11 @@ let listenToStory = (sender_psid, message) => {
             await seenMessage(sender_psid);
             let received_message = message.text;
             let sentiment = handleMessageWithSentiment(message);
-            if (sentiment.value === 'negative') {
-                if (received_message.toLowerCase().includes('sad')) {
-                    record -= 1;
-                    let response = {"text": "I am sorry to hear that"};
-                    await sendMessage(sender_psid, response);
-                }
-                else if (received_message.toLowerCase().includes('kill') || received_message.toLowerCase().includes('murder')) {
+            if (sentiment.value === 'positive') {
+                await handlePositive(sender_psid, message.text);
+            }
+            else if (sentiment.value === 'negative') {
+                if (received_message.toLowerCase().includes('kill') || received_message.toLowerCase().includes('murder')) {
                     record -= 5;
                     let response = {"text": "🙀🙀🙀"};
                     await sendMessage(sender_psid, response);
@@ -482,7 +480,7 @@ let listenToStory = (sender_psid, message) => {
                 better = true;
                 let response = {"text": "I am happy to hear that! ^^"};                
                 await sendMessage(sender_psid, response);
-            } else if (received_message.toLowerCase().includes('sed')) {
+            } else if (received_message.toLowerCase().includes('sad') || received_message.toLowerCase().includes('sed')) {
                 record -= 1;
                 let response = {"text": "*pat pat :("};                
                 await sendMessage(sender_psid, response);
