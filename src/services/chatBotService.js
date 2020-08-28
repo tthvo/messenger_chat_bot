@@ -491,9 +491,6 @@ let listenToStory = (sender_psid, message) => {
             } else if(received_message.toLowerCase().includes('how are you')) {
                 let response = {"text": "I am great. Thank you for asking."};
                 await sendMessage(sender_psid, response);
-            } else if (sentiment.value === 'positive') {
-                let response = {"text": "I am happy that you are!"};
-                await sendMessage(sender_psid,response);              
             } else {
                 record -= 1;
             }

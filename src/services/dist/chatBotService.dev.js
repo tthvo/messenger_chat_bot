@@ -593,7 +593,7 @@ var sendStart = function sendStart(sender_psid) {
 
 var listenToStory = function listenToStory(sender_psid, message) {
   return new Promise(function _callee10(resolve, reject) {
-    var received_message, sentiment, response, _response, _response2, _response3, _response4, _response5, _response6, _response7;
+    var received_message, sentiment, response, _response, _response2, _response3, _response4, _response5, _response6;
 
     return regeneratorRuntime.async(function _callee10$(_context10) {
       while (1) {
@@ -666,7 +666,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             record -= 1;
 
           case 28:
-            _context10.next = 68;
+            _context10.next = 62;
             break;
 
           case 30:
@@ -682,7 +682,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response3));
 
           case 34:
-            _context10.next = 68;
+            _context10.next = 62;
             break;
 
           case 36:
@@ -699,7 +699,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response4));
 
           case 41:
-            _context10.next = 68;
+            _context10.next = 62;
             break;
 
           case 43:
@@ -716,7 +716,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response5));
 
           case 48:
-            _context10.next = 68;
+            _context10.next = 62;
             break;
 
           case 50:
@@ -729,7 +729,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
           case 53:
-            _context10.next = 68;
+            _context10.next = 62;
             break;
 
           case 55:
@@ -745,44 +745,28 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response6));
 
           case 59:
-            _context10.next = 68;
+            _context10.next = 62;
             break;
 
           case 61:
-            if (!(sentiment.value === 'positive')) {
-              _context10.next = 67;
-              break;
-            }
+            record -= 1;
 
-            _response7 = {
-              "text": "I am happy that you are!"
-            };
-            _context10.next = 65;
-            return regeneratorRuntime.awrap(sendMessage(sender_psid, _response7));
-
-          case 65:
+          case 62:
+            resolve("done");
             _context10.next = 68;
             break;
 
-          case 67:
-            record -= 1;
-
-          case 68:
-            resolve("done");
-            _context10.next = 74;
-            break;
-
-          case 71:
-            _context10.prev = 71;
+          case 65:
+            _context10.prev = 65;
             _context10.t0 = _context10["catch"](0);
             reject(_context10.t0);
 
-          case 74:
+          case 68:
           case "end":
             return _context10.stop();
         }
       }
-    }, null, null, [[0, 71]]);
+    }, null, null, [[0, 65]]);
   });
 };
 
