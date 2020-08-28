@@ -592,7 +592,7 @@ var sendStart = function sendStart(sender_psid) {
 
 var listenToStory = function listenToStory(sender_psid, message) {
   return new Promise(function _callee10(resolve, reject) {
-    var received_message, sentiment, response, _response, _response2, _response3, _response4;
+    var received_message, sentiment, response, _response, _response2, _response3, _response4, _response5;
 
     return regeneratorRuntime.async(function _callee10$(_context10) {
       while (1) {
@@ -611,7 +611,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
               break;
             }
 
-            if (!(received_message.toLowerCase() === 'sad')) {
+            if (!received_message.toLowerCase().includes('sad')) {
               _context10.next = 13;
               break;
             }
@@ -665,7 +665,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             record -= 1;
 
           case 28:
-            _context10.next = 49;
+            _context10.next = 55;
             break;
 
           case 30:
@@ -682,11 +682,11 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response3));
 
           case 35:
-            _context10.next = 49;
+            _context10.next = 55;
             break;
 
           case 37:
-            if (!(received_message.toLowerCase() === 'done')) {
+            if (!received_message.toLowerCase().includes('done')) {
               _context10.next = 42;
               break;
             }
@@ -695,7 +695,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
           case 40:
-            _context10.next = 49;
+            _context10.next = 55;
             break;
 
           case 42:
@@ -711,28 +711,44 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response4));
 
           case 46:
-            _context10.next = 49;
-            break;
-
-          case 48:
-            record -= 1;
-
-          case 49:
-            resolve("done");
             _context10.next = 55;
             break;
 
+          case 48:
+            if (!(sentiment.value === 'positive')) {
+              _context10.next = 54;
+              break;
+            }
+
+            _response5 = {
+              "text": "I am happy that you are!"
+            };
+            _context10.next = 52;
+            return regeneratorRuntime.awrap(chatBotService.sendMessage(sender_psid, _response5));
+
           case 52:
-            _context10.prev = 52;
+            _context10.next = 55;
+            break;
+
+          case 54:
+            record -= 1;
+
+          case 55:
+            resolve("done");
+            _context10.next = 61;
+            break;
+
+          case 58:
+            _context10.prev = 58;
             _context10.t0 = _context10["catch"](0);
             reject(_context10.t0);
 
-          case 55:
+          case 61:
           case "end":
             return _context10.stop();
         }
       }
-    }, null, null, [[0, 52]]);
+    }, null, null, [[0, 58]]);
   });
 };
 

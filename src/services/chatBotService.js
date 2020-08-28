@@ -460,7 +460,7 @@ let listenToStory = (sender_psid, message) => {
             let received_message = message.text;
             let sentiment = handleMessageWithSentiment(message);
             if (sentiment.value === 'negative') {
-                if (received_message.toLowerCase() === 'sad') {
+                if (received_message.toLowerCase().includes('sad')) {
                     record -= 1;
                     let response = {"text": "I am sorry to hear that"};
                     await sendMessage(sender_psid, response);
@@ -480,13 +480,16 @@ let listenToStory = (sender_psid, message) => {
                 record -= 1;
                 let response = {"text": "*pat pat :("};                
                 await sendMessage(sender_psid, response);
-            } else if(received_message.toLowerCase() === 'done') {
+            } else if(received_message.toLowerCase().includes('done')) {
                 await askDumpOrNot(sender_psid);
             } else if(received_message.toLowerCase().includes('how are you')) {
                 let response = {"text": "I am great. Thank you for asking."};
                 await sendMessage(sender_psid, response);
+            } else if (sentiment.value === 'positive') {
+                let response = {"text": "I am happy that you are!"};
+                await chatBotService.sendMessage(sender_psid,response);              
             } else {
-                record -= 1;              
+                record -= 1;
             }
             resolve("done");
         } catch (e) {
