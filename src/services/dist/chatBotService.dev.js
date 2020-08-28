@@ -669,7 +669,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             break;
 
           case 30:
-            if (!received_message.toLowerCase().search(/do you (like|love)/i)) {
+            if (!(received_message.toLowerCase().search(/do you (like|love)/i) > 0)) {
               _context10.next = 36;
               break;
             }
@@ -685,7 +685,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             break;
 
           case 36:
-            if (!received_message.toLowerCase().search(/(feel|am) (better|relieved)/i)) {
+            if (!(received_message.toLowerCase().search(/(feel|am) (better|relieved)/i) > 0)) {
               _context10.next = 42;
               break;
             }

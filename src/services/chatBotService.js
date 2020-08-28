@@ -476,11 +476,11 @@ let listenToStory = (sender_psid, message) => {
                 } else {
                     record -= 1;                 
                 }  
-            } else if (received_message.toLowerCase().search(/do you (like|love)/i)) {
+            } else if (received_message.toLowerCase().search(/do you (like|love)/i) > 0) {
                 let response = {"text": "I am not sure ^^"};                
                 await sendMessage(sender_psid, response);
             } 
-            else if (received_message.toLowerCase().search(/(feel|am) (better|relieved)/i)) {
+            else if (received_message.toLowerCase().search(/(feel|am) (better|relieved)/i) > 0) {
                 let response = {"text": "I am happy to hear that! ^^"};                
                 await sendMessage(sender_psid, response);
             } else if (received_message.toLowerCase().includes('sed')) {
