@@ -487,7 +487,7 @@ let listenToStory = (sender_psid, message) => {
                 await sendMessage(sender_psid, response);
             } else if (sentiment.value === 'positive') {
                 let response = {"text": "I am happy that you are!"};
-                await chatBotService.sendMessage(sender_psid,response);              
+                await sendMessage(sender_psid,response);              
             } else {
                 record -= 1;
             }

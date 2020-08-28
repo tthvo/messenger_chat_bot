@@ -724,7 +724,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
               "text": "I am happy that you are!"
             };
             _context10.next = 52;
-            return regeneratorRuntime.awrap(chatBotService.sendMessage(sender_psid, _response5));
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, _response5));
 
           case 52:
             _context10.next = 55;
