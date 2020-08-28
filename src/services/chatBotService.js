@@ -101,11 +101,10 @@ let askingStartOrStop = (sender_psid) => {
 };
 
 let sendMessageAskingYesOrNo = (sender_psid) => {
-
-    
     let text;
     if (!menuAlready) {
         text = "Before you go, don't you want to do something fun? You can always look it up in the bottom right menu :D";
+        menuAlready = true;
     } else {
         text = "Wanna have some more fun activities?"
     }
@@ -547,12 +546,14 @@ let handlePositive = (sender_psid, received_message) => {
                         console.error("Unable to send message:" + err);
                     }
                 });
+                resolve("done");
             } else {
                 text = "You are welcome";
                 let response = {"text": text};
                 await sendMessage(sender_psid, response);
+                resolve("done");
             }
-            resolve("done");
+            
         } catch (e) {
             reject(e);
         }
@@ -564,9 +565,9 @@ let handlePositive = (sender_psid, received_message) => {
 let sendBye = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
+            record = 0;
             better = false;
             already = false;
-            record = 0;
             menuAlready = false;
             let response = {"text": "Thank you for coming to the Dumpster! I hope the best for you!"}
             await sendMessage(sender_psid, response);
@@ -575,12 +576,12 @@ let sendBye = (sender_psid) => {
             reject(e);
         }
     });
-   };
+};
 
 let redo = (sender_psid) => {
+    record = 0;
     better = false;
     already = false;
-    record = 0;
     menuAlready = false;
     askingStartOrStop(sender_psid);
 };

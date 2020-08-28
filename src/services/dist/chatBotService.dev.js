@@ -149,6 +149,7 @@ var sendMessageAskingYesOrNo = function sendMessageAskingYesOrNo(sender_psid) {
 
   if (!menuAlready) {
     text = "Before you go, don't you want to do something fun? You can always look it up in the bottom right menu :D";
+    menuAlready = true;
   } else {
     text = "Wanna have some more fun activities?";
   }
@@ -796,7 +797,7 @@ var handlePositive = function handlePositive(sender_psid, received_message) {
             text = "";
 
             if (better) {
-              _context11.next = 9;
+              _context11.next = 10;
               break;
             }
 
@@ -837,33 +838,36 @@ var handlePositive = function handlePositive(sender_psid, received_message) {
                 console.error("Unable to send message:" + err);
               }
             });
-            _context11.next = 13;
+            resolve("done");
+            _context11.next = 15;
             break;
 
-          case 9:
+          case 10:
             text = "You are welcome";
             response = {
               "text": text
             };
-            _context11.next = 13;
+            _context11.next = 14;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
-          case 13:
+          case 14:
             resolve("done");
-            _context11.next = 19;
+
+          case 15:
+            _context11.next = 20;
             break;
 
-          case 16:
-            _context11.prev = 16;
+          case 17:
+            _context11.prev = 17;
             _context11.t0 = _context11["catch"](0);
             reject(_context11.t0);
 
-          case 19:
+          case 20:
           case "end":
             return _context11.stop();
         }
       }
-    }, null, null, [[0, 16]]);
+    }, null, null, [[0, 17]]);
   });
 };
 
@@ -875,9 +879,9 @@ var sendBye = function sendBye(sender_psid) {
         switch (_context12.prev = _context12.next) {
           case 0:
             _context12.prev = 0;
+            record = 0;
             better = false;
             already = false;
-            record = 0;
             menuAlready = false;
             response = {
               "text": "Thank you for coming to the Dumpster! I hope the best for you!"
@@ -905,9 +909,9 @@ var sendBye = function sendBye(sender_psid) {
 };
 
 var redo = function redo(sender_psid) {
+  record = 0;
   better = false;
   already = false;
-  record = 0;
   menuAlready = false;
   askingStartOrStop(sender_psid);
 };
