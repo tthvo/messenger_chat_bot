@@ -592,7 +592,7 @@ var sendStart = function sendStart(sender_psid) {
 
 var listenToStory = function listenToStory(sender_psid, message) {
   return new Promise(function _callee10(resolve, reject) {
-    var received_message, sentiment, response, _response, _response2, _response3, _response4, _response5, _response6;
+    var received_message, sentiment, response, _response, _response2, _response3, _response4, _response5, _response6, _response7;
 
     return regeneratorRuntime.async(function _callee10$(_context10) {
       while (1) {
@@ -665,106 +665,122 @@ var listenToStory = function listenToStory(sender_psid, message) {
             record -= 1;
 
           case 28:
-            _context10.next = 61;
+            _context10.next = 67;
             break;
 
           case 30:
-            if (!(received_message.toLowerCase().includes('do you like') || received_message.toLowerCase().includes('do you love'))) {
+            if (!received_message.toLowerCase().search(/do you (like|love)/i)) {
               _context10.next = 36;
               break;
             }
 
             _response3 = {
-              "text": "I am not sure^^"
+              "text": "I am not sure ^^"
             };
             _context10.next = 34;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response3));
 
           case 34:
-            _context10.next = 61;
+            _context10.next = 67;
             break;
 
           case 36:
+            if (!received_message.toLowerCase().search(/(feel|am) (better|relieved)/i)) {
+              _context10.next = 42;
+              break;
+            }
+
+            _response4 = {
+              "text": "I am happy to hear that! ^^"
+            };
+            _context10.next = 40;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, _response4));
+
+          case 40:
+            _context10.next = 67;
+            break;
+
+          case 42:
             if (!received_message.toLowerCase().includes('sed')) {
-              _context10.next = 43;
+              _context10.next = 49;
               break;
             }
 
             record -= 1;
-            _response4 = {
+            _response5 = {
               "text": "*pat pat :("
             };
-            _context10.next = 41;
-            return regeneratorRuntime.awrap(sendMessage(sender_psid, _response4));
+            _context10.next = 47;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, _response5));
 
-          case 41:
-            _context10.next = 61;
+          case 47:
+            _context10.next = 67;
             break;
 
-          case 43:
+          case 49:
             if (!received_message.toLowerCase().includes('done')) {
-              _context10.next = 48;
-              break;
-            }
-
-            _context10.next = 46;
-            return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
-
-          case 46:
-            _context10.next = 61;
-            break;
-
-          case 48:
-            if (!received_message.toLowerCase().includes('how are you')) {
               _context10.next = 54;
               break;
             }
 
-            _response5 = {
-              "text": "I am great. Thank you for asking."
-            };
             _context10.next = 52;
-            return regeneratorRuntime.awrap(sendMessage(sender_psid, _response5));
+            return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
           case 52:
-            _context10.next = 61;
+            _context10.next = 67;
             break;
 
           case 54:
-            if (!(sentiment.value === 'positive')) {
+            if (!received_message.toLowerCase().includes('how are you')) {
               _context10.next = 60;
               break;
             }
 
             _response6 = {
-              "text": "I am happy that you are!"
+              "text": "I am great. Thank you for asking."
             };
             _context10.next = 58;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response6));
 
           case 58:
-            _context10.next = 61;
-            break;
-
-          case 60:
-            record -= 1;
-
-          case 61:
-            resolve("done");
             _context10.next = 67;
             break;
 
+          case 60:
+            if (!(sentiment.value === 'positive')) {
+              _context10.next = 66;
+              break;
+            }
+
+            _response7 = {
+              "text": "I am happy that you are!"
+            };
+            _context10.next = 64;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, _response7));
+
           case 64:
-            _context10.prev = 64;
+            _context10.next = 67;
+            break;
+
+          case 66:
+            record -= 1;
+
+          case 67:
+            resolve("done");
+            _context10.next = 73;
+            break;
+
+          case 70:
+            _context10.prev = 70;
             _context10.t0 = _context10["catch"](0);
             reject(_context10.t0);
 
-          case 67:
+          case 73:
           case "end":
             return _context10.stop();
         }
       }
-    }, null, null, [[0, 64]]);
+    }, null, null, [[0, 70]]);
   });
 };
 

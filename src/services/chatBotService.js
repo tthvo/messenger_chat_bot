@@ -476,8 +476,12 @@ let listenToStory = (sender_psid, message) => {
                 } else {
                     record -= 1;                 
                 }  
-            } else if (received_message.toLowerCase().includes('do you like') || received_message.toLowerCase().includes('do you love')) {
-                let response = {"text": "I am not sure^^"};                
+            } else if (received_message.toLowerCase().search(/do you (like|love)/i)) {
+                let response = {"text": "I am not sure ^^"};                
+                await sendMessage(sender_psid, response);
+            } 
+            else if (received_message.toLowerCase().search(/(feel|am) (better|relieved)/i)) {
+                let response = {"text": "I am happy to hear that! ^^"};                
                 await sendMessage(sender_psid, response);
             } else if (received_message.toLowerCase().includes('sed')) {
                 record -= 1;
