@@ -77,7 +77,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
       switch (_context.prev = _context.next) {
         case 0:
           if (!(message && message.quick_reply && message.quick_reply.payload)) {
-            _context.next = 34;
+            _context.next = 35;
             break;
           }
 
@@ -171,12 +171,15 @@ var handleMessage = function handleMessage(sender_psid, message) {
           return regeneratorRuntime.awrap(_chatBotService["default"].dumpTheTrash(sender_psid, Math.floor(Math.random() * 3)));
 
         case 34:
+          returnl;
+
+        case 35:
           //handle attachments
           //handle text message
           entity = handleMessageWithEntities(message);
 
           if (!(entity.name === "wit$greetings")) {
-            _context.next = 45;
+            _context.next = 46;
             break;
           }
 
@@ -193,38 +196,38 @@ var handleMessage = function handleMessage(sender_psid, message) {
             };
           }
 
-          _context.next = 40;
+          _context.next = 41;
           return regeneratorRuntime.awrap(_chatBotService["default"].sendMessage(sender_psid, _response));
 
-        case 40:
+        case 41:
           if (ask) {
-            _context.next = 43;
+            _context.next = 44;
             break;
           }
 
-          _context.next = 43;
+          _context.next = 44;
           return regeneratorRuntime.awrap(_chatBotService["default"].askingStartOrStop(sender_psid));
 
-        case 43:
-          _context.next = 57;
+        case 44:
+          _context.next = 58;
           break;
 
-        case 45:
+        case 46:
           if (!(entity.name === "wit$thanks")) {
-            _context.next = 50;
+            _context.next = 51;
             break;
           }
 
-          _context.next = 48;
+          _context.next = 49;
           return regeneratorRuntime.awrap(_chatBotService["default"].handlePositive(sender_psid, message.text));
 
-        case 48:
-          _context.next = 57;
+        case 49:
+          _context.next = 58;
           break;
 
-        case 50:
+        case 51:
           if (!(entity.name === "wit$bye")) {
-            _context.next = 55;
+            _context.next = 56;
             break;
           }
 
@@ -232,14 +235,14 @@ var handleMessage = function handleMessage(sender_psid, message) {
             "text": "Bye bye. See you later :D"
           };
           callSendAPI(sender_psid, _response2);
-          _context.next = 57;
+          _context.next = 58;
           break;
 
-        case 55:
-          _context.next = 57;
+        case 56:
+          _context.next = 58;
           return regeneratorRuntime.awrap(_chatBotService["default"].listenToStory(sender_psid, message));
 
-        case 57:
+        case 58:
         case "end":
           return _context.stop();
       }

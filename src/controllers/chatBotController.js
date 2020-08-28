@@ -93,6 +93,7 @@ let handleMessage = async (sender_psid, message) => {
         }else if (message.quick_reply.payload === "DUMP") { // Dump the trash
             await chatBotService.dumpTheTrash(sender_psid, Math.floor(Math.random() * 3)); 
         }
+        returnl;
     }
     //handle attachments
 
