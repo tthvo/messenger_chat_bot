@@ -4,7 +4,7 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 var record = 0;
 var already = false;
 var menuAlready = false;
-
+var better = false;
 
 let getFacebookUsername = (sender_psid) => {
     return new Promise((resolve, reject) => {
@@ -49,7 +49,6 @@ let askingStartOrStop = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let text = "";
-            already = true;
             if (!already) {
                 text = "Shall we start dumping something? :D";
                 already = true;
@@ -108,7 +107,7 @@ let sendMessageAskingYesOrNo = (sender_psid) => {
     if (!menuAlready) {
         text = "Before you go, don't you want to do something fun? You can always look it up in the bottom right menu :D";
     } else {
-        text: "Wanna have some more fun activities?"
+        text = "Wanna have some more fun activities?"
     }
     let request_body = {
         "recipient": {
@@ -481,6 +480,7 @@ let listenToStory = (sender_psid, message) => {
                 await sendMessage(sender_psid, response);
             } 
             else if (received_message.toLowerCase().search(/(feel|am) (better|relieved)/i) > 0) {
+                better = true;
                 let response = {"text": "I am happy to hear that! ^^"};                
                 await sendMessage(sender_psid, response);
             } else if (received_message.toLowerCase().includes('sed')) {
@@ -506,13 +506,20 @@ let listenToStory = (sender_psid, message) => {
 };
 
 let handlePositive = (sender_psid, received_message) => {
+    let text = "";
+    if (!better) {
+        text = "You are welcome. Are you feeling better now?";
+        better = true;
+    } else {
+        text = "You are welcome";
+    }
     let request_body = {
         "recipient": {
             "id": sender_psid
         },
         "messaging_type": "RESPONSE",
         "message": {
-            "text": "You are welcome. Are you feeling better now?",
+            "text": text,
             "quick_replies": [
                 {
                     "content_type": "text",
@@ -547,6 +554,7 @@ let handlePositive = (sender_psid, received_message) => {
 let sendBye = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
+            better = false;
             already = false;
             record = 0;
             menuAlready = false;
@@ -560,6 +568,7 @@ let sendBye = (sender_psid) => {
 };
 
 let redo = (sender_psid) => {
+    better = false;
     already = false;
     record = 0;
     menuAlready = false;
