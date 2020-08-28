@@ -506,52 +506,8 @@ let listenToStory = (sender_psid, message) => {
 };
 
 let handlePositive = (sender_psid, received_message) => {
-    let text = "";
-    if (!better) {
-        text = "You are welcome. Are you feeling better now?";
-        better = true;
-    } else {
-        text = "You are welcome";
-    }
-    let request_body = {
-        "recipient": {
-            "id": sender_psid
-        },
-        "messaging_type": "RESPONSE",
-        "message": {
-            "text": text,
-            "quick_replies": [
-                {
-                    "content_type": "text",
-                    "title": "Yes I am !",
-                    "payload": "DONE",
-                    "image_url":"https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/smiling-face-with-open-mouth.png"
-                }, {
-                    "content_type": "text",
-                    "title": "Sorry no..",
-                    "payload": "NOT_YET",
-                    "image_url":"https://emojiprints.com/wp-content/uploads/Crying-Face-Emoji-Classic-Round-Sticker.jpg"
-                }
-            ]
-        }
-    };
-    // Send the HTTP request to the Messenger Platform
-    request({
-        "uri": "https://graph.facebook.com/v8.0/me/messages",
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        if (!err) {
-            console.log('message sent!')
-        } else {
-            console.error("Unable to send message:" + err);
-        }
-    });
+    
 
-};
-
-let sendBye = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             better = false;
@@ -560,6 +516,61 @@ let sendBye = (sender_psid) => {
             menuAlready = false;
             let response = {"text": "Thank you for coming to the Dumpster! I hope the best for you!"}
             await sendMessage(sender_psid, response);
+            resolve("done");
+        } catch (e) {
+            reject(e);
+        }
+    });
+
+};
+
+let sendBye = (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let text = "";
+            if (!better) {
+                text = "You are welcome. Are you feeling better now?";
+                better = true;
+                let request_body = {
+                    "recipient": {
+                        "id": sender_psid
+                    },
+                    "messaging_type": "RESPONSE",
+                    "message": {
+                        "text": text,
+                        "quick_replies": [
+                            {
+                                "content_type": "text",
+                                "title": "Yes I am !",
+                                "payload": "DONE",
+                                "image_url":"https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/smiling-face-with-open-mouth.png"
+                            }, {
+                                "content_type": "text",
+                                "title": "Sorry no..",
+                                "payload": "NOT_YET",
+                                "image_url":"https://emojiprints.com/wp-content/uploads/Crying-Face-Emoji-Classic-Round-Sticker.jpg"
+                            }
+                        ]
+                    }
+                };
+                // Send the HTTP request to the Messenger Platform
+                request({
+                    "uri": "https://graph.facebook.com/v8.0/me/messages",
+                    "qs": { "access_token": PAGE_ACCESS_TOKEN },
+                    "method": "POST",
+                    "json": request_body
+                }, (err, res, body) => {
+                    if (!err) {
+                        console.log('message sent!')
+                    } else {
+                        console.error("Unable to send message:" + err);
+                    }
+                });
+            } else {
+                text = "You are welcome";
+                let response = {"text": text};
+                await sendMessage(sender_psid, response);
+            }
             resolve("done");
         } catch (e) {
             reject(e);

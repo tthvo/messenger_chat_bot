@@ -786,53 +786,6 @@ var listenToStory = function listenToStory(sender_psid, message) {
 };
 
 var handlePositive = function handlePositive(sender_psid, received_message) {
-  var text = "";
-
-  if (!better) {
-    text = "You are welcome. Are you feeling better now?";
-    better = true;
-  } else {
-    text = "You are welcome";
-  }
-
-  var request_body = {
-    "recipient": {
-      "id": sender_psid
-    },
-    "messaging_type": "RESPONSE",
-    "message": {
-      "text": text,
-      "quick_replies": [{
-        "content_type": "text",
-        "title": "Yes I am !",
-        "payload": "DONE",
-        "image_url": "https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/smiling-face-with-open-mouth.png"
-      }, {
-        "content_type": "text",
-        "title": "Sorry no..",
-        "payload": "NOT_YET",
-        "image_url": "https://emojiprints.com/wp-content/uploads/Crying-Face-Emoji-Classic-Round-Sticker.jpg"
-      }]
-    }
-  }; // Send the HTTP request to the Messenger Platform
-
-  (0, _request["default"])({
-    "uri": "https://graph.facebook.com/v8.0/me/messages",
-    "qs": {
-      "access_token": PAGE_ACCESS_TOKEN
-    },
-    "method": "POST",
-    "json": request_body
-  }, function (err, res, body) {
-    if (!err) {
-      console.log('message sent!');
-    } else {
-      console.error("Unable to send message:" + err);
-    }
-  });
-};
-
-var sendBye = function sendBye(sender_psid) {
   return new Promise(function _callee11(resolve, reject) {
     var response;
     return regeneratorRuntime.async(function _callee11$(_context11) {
@@ -869,6 +822,88 @@ var sendBye = function sendBye(sender_psid) {
   });
 };
 
+var sendBye = function sendBye(sender_psid) {
+  return new Promise(function _callee12(resolve, reject) {
+    var text, request_body, response;
+    return regeneratorRuntime.async(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
+            _context12.prev = 0;
+            text = "";
+
+            if (better) {
+              _context12.next = 9;
+              break;
+            }
+
+            text = "You are welcome. Are you feeling better now?";
+            better = true;
+            request_body = {
+              "recipient": {
+                "id": sender_psid
+              },
+              "messaging_type": "RESPONSE",
+              "message": {
+                "text": text,
+                "quick_replies": [{
+                  "content_type": "text",
+                  "title": "Yes I am !",
+                  "payload": "DONE",
+                  "image_url": "https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/smiling-face-with-open-mouth.png"
+                }, {
+                  "content_type": "text",
+                  "title": "Sorry no..",
+                  "payload": "NOT_YET",
+                  "image_url": "https://emojiprints.com/wp-content/uploads/Crying-Face-Emoji-Classic-Round-Sticker.jpg"
+                }]
+              }
+            }; // Send the HTTP request to the Messenger Platform
+
+            (0, _request["default"])({
+              "uri": "https://graph.facebook.com/v8.0/me/messages",
+              "qs": {
+                "access_token": PAGE_ACCESS_TOKEN
+              },
+              "method": "POST",
+              "json": request_body
+            }, function (err, res, body) {
+              if (!err) {
+                console.log('message sent!');
+              } else {
+                console.error("Unable to send message:" + err);
+              }
+            });
+            _context12.next = 13;
+            break;
+
+          case 9:
+            text = "You are welcome";
+            response = {
+              "text": text
+            };
+            _context12.next = 13;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
+
+          case 13:
+            resolve("done");
+            _context12.next = 19;
+            break;
+
+          case 16:
+            _context12.prev = 16;
+            _context12.t0 = _context12["catch"](0);
+            reject(_context12.t0);
+
+          case 19:
+          case "end":
+            return _context12.stop();
+        }
+      }
+    }, null, null, [[0, 16]]);
+  });
+};
+
 var redo = function redo(sender_psid) {
   better = false;
   already = false;
@@ -878,35 +913,35 @@ var redo = function redo(sender_psid) {
 };
 
 var sayScore = function sayScore(sender_psid) {
-  return new Promise(function _callee12(resolve, reject) {
+  return new Promise(function _callee13(resolve, reject) {
     var textArr, chosen, response;
-    return regeneratorRuntime.async(function _callee12$(_context12) {
+    return regeneratorRuntime.async(function _callee13$(_context13) {
       while (1) {
-        switch (_context12.prev = _context12.next) {
+        switch (_context13.prev = _context13.next) {
           case 0:
-            _context12.prev = 0;
+            _context13.prev = 0;
             textArr = ["That was aggressive 😮", "Fairly negative 😮", "Not much negativity though"];
             chosen = 0;
             if (record > -5) chosen = 2;else if (record > -10) chosen = 1;
             response = {
               "text": textArr[chosen]
             };
-            _context12.next = 7;
+            _context13.next = 7;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 7:
             resolve('done');
-            _context12.next = 13;
+            _context13.next = 13;
             break;
 
           case 10:
-            _context12.prev = 10;
-            _context12.t0 = _context12["catch"](0);
-            reject(_context12.t0);
+            _context13.prev = 10;
+            _context13.t0 = _context13["catch"](0);
+            reject(_context13.t0);
 
           case 13:
           case "end":
-            return _context12.stop();
+            return _context13.stop();
         }
       }
     }, null, null, [[0, 10]]);
@@ -914,11 +949,11 @@ var sayScore = function sayScore(sender_psid) {
 };
 
 var askDumpOrNot = function askDumpOrNot(sender_psid) {
-  return new Promise(function _callee13(resolve, reject) {
+  return new Promise(function _callee14(resolve, reject) {
     var request_body;
-    return regeneratorRuntime.async(function _callee13$(_context13) {
+    return regeneratorRuntime.async(function _callee14$(_context14) {
       while (1) {
-        switch (_context13.prev = _context13.next) {
+        switch (_context14.prev = _context14.next) {
           case 0:
             try {
               request_body = {
@@ -961,7 +996,7 @@ var askDumpOrNot = function askDumpOrNot(sender_psid) {
 
           case 1:
           case "end":
-            return _context13.stop();
+            return _context14.stop();
         }
       }
     });
@@ -969,13 +1004,13 @@ var askDumpOrNot = function askDumpOrNot(sender_psid) {
 };
 
 var dumpTheTrash = function dumpTheTrash(sender_psid, option) {
-  return new Promise(function _callee14(resolve, reject) {
+  return new Promise(function _callee15(resolve, reject) {
     var Arr, source, response;
-    return regeneratorRuntime.async(function _callee14$(_context14) {
+    return regeneratorRuntime.async(function _callee15$(_context15) {
       while (1) {
-        switch (_context14.prev = _context14.next) {
+        switch (_context15.prev = _context15.next) {
           case 0:
-            _context14.prev = 0;
+            _context15.prev = 0;
             Arr = ["https://media.tenor.com/images/85fd7e7119e2a63ade45991953119ddf/tenor.gif", // In and out
             "https://media1.tenor.com/images/9761847bcf035fb1ea3411803856f6f7/tenor.gif", //Man in the dumpster
             "https://media2.giphy.com/media/26uf35ez3HpmLIX6g/giphy.gif" // Machine
@@ -991,30 +1026,30 @@ var dumpTheTrash = function dumpTheTrash(sender_psid, option) {
                 }
               }
             };
-            _context14.next = 6;
+            _context15.next = 6;
             return regeneratorRuntime.awrap(sayScore(sender_psid));
 
           case 6:
-            _context14.next = 8;
+            _context15.next = 8;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 8:
-            _context14.next = 10;
+            _context15.next = 10;
             return regeneratorRuntime.awrap(askingStartOrStop(sender_psid));
 
           case 10:
             resolve("done");
-            _context14.next = 16;
+            _context15.next = 16;
             break;
 
           case 13:
-            _context14.prev = 13;
-            _context14.t0 = _context14["catch"](0);
-            reject(_context14.t0);
+            _context15.prev = 13;
+            _context15.t0 = _context15["catch"](0);
+            reject(_context15.t0);
 
           case 16:
           case "end":
-            return _context14.stop();
+            return _context15.stop();
         }
       }
     }, null, null, [[0, 13]]);
