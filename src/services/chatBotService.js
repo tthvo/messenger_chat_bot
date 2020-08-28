@@ -506,25 +506,6 @@ let listenToStory = (sender_psid, message) => {
 };
 
 let handlePositive = (sender_psid, received_message) => {
-    
-
-    return new Promise(async (resolve, reject) => {
-        try {
-            better = false;
-            already = false;
-            record = 0;
-            menuAlready = false;
-            let response = {"text": "Thank you for coming to the Dumpster! I hope the best for you!"}
-            await sendMessage(sender_psid, response);
-            resolve("done");
-        } catch (e) {
-            reject(e);
-        }
-    });
-
-};
-
-let sendBye = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let text = "";
@@ -576,7 +557,25 @@ let sendBye = (sender_psid) => {
             reject(e);
         }
     });
+
+
 };
+
+let sendBye = (sender_psid) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            better = false;
+            already = false;
+            record = 0;
+            menuAlready = false;
+            let response = {"text": "Thank you for coming to the Dumpster! I hope the best for you!"}
+            await sendMessage(sender_psid, response);
+            resolve("done");
+        } catch (e) {
+            reject(e);
+        }
+    });
+   };
 
 let redo = (sender_psid) => {
     better = false;

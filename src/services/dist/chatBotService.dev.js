@@ -787,53 +787,16 @@ var listenToStory = function listenToStory(sender_psid, message) {
 
 var handlePositive = function handlePositive(sender_psid, received_message) {
   return new Promise(function _callee11(resolve, reject) {
-    var response;
+    var text, request_body, response;
     return regeneratorRuntime.async(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
             _context11.prev = 0;
-            better = false;
-            already = false;
-            record = 0;
-            menuAlready = false;
-            response = {
-              "text": "Thank you for coming to the Dumpster! I hope the best for you!"
-            };
-            _context11.next = 8;
-            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
-
-          case 8:
-            resolve("done");
-            _context11.next = 14;
-            break;
-
-          case 11:
-            _context11.prev = 11;
-            _context11.t0 = _context11["catch"](0);
-            reject(_context11.t0);
-
-          case 14:
-          case "end":
-            return _context11.stop();
-        }
-      }
-    }, null, null, [[0, 11]]);
-  });
-};
-
-var sendBye = function sendBye(sender_psid) {
-  return new Promise(function _callee12(resolve, reject) {
-    var text, request_body, response;
-    return regeneratorRuntime.async(function _callee12$(_context12) {
-      while (1) {
-        switch (_context12.prev = _context12.next) {
-          case 0:
-            _context12.prev = 0;
             text = "";
 
             if (better) {
-              _context12.next = 9;
+              _context11.next = 9;
               break;
             }
 
@@ -874,7 +837,7 @@ var sendBye = function sendBye(sender_psid) {
                 console.error("Unable to send message:" + err);
               }
             });
-            _context12.next = 13;
+            _context11.next = 13;
             break;
 
           case 9:
@@ -882,25 +845,62 @@ var sendBye = function sendBye(sender_psid) {
             response = {
               "text": text
             };
-            _context12.next = 13;
+            _context11.next = 13;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 13:
             resolve("done");
-            _context12.next = 19;
+            _context11.next = 19;
             break;
 
           case 16:
-            _context12.prev = 16;
+            _context11.prev = 16;
+            _context11.t0 = _context11["catch"](0);
+            reject(_context11.t0);
+
+          case 19:
+          case "end":
+            return _context11.stop();
+        }
+      }
+    }, null, null, [[0, 16]]);
+  });
+};
+
+var sendBye = function sendBye(sender_psid) {
+  return new Promise(function _callee12(resolve, reject) {
+    var response;
+    return regeneratorRuntime.async(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
+            _context12.prev = 0;
+            better = false;
+            already = false;
+            record = 0;
+            menuAlready = false;
+            response = {
+              "text": "Thank you for coming to the Dumpster! I hope the best for you!"
+            };
+            _context12.next = 8;
+            return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
+
+          case 8:
+            resolve("done");
+            _context12.next = 14;
+            break;
+
+          case 11:
+            _context12.prev = 11;
             _context12.t0 = _context12["catch"](0);
             reject(_context12.t0);
 
-          case 19:
+          case 14:
           case "end":
             return _context12.stop();
         }
       }
-    }, null, null, [[0, 16]]);
+    }, null, null, [[0, 11]]);
   });
 };
 
