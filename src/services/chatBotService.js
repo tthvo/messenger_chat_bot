@@ -476,6 +476,9 @@ let listenToStory = (sender_psid, message) => {
                 } else {
                     record -= 1;                 
                 }  
+            } else if (received_message.toLowerCase().includes('do you like') || received_message.toLowerCase().includes('do you love')) {
+                let response = {"text": "I am not sure^^"};                
+                await sendMessage(sender_psid, response);
             } else if (received_message.toLowerCase().includes('sed')) {
                 record -= 1;
                 let response = {"text": "*pat pat :("};                
@@ -662,7 +665,7 @@ let dumpTheTrash = (sender_psid, option) => {
 let handleMessageWithSentiment = (message) => {
     let sentiment = {};
     let mood = firstEntity(message.nlp, 'wit$sentiment');
-    if (mood && mood.confidence > 0.6) {
+    if (mood && mood.confidence > 0.8) {
         sentiment.value = mood.value;
         sentiment.confidence = mood.confidence;
     };
