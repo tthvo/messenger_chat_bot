@@ -633,26 +633,13 @@ var listenToStory = function listenToStory(sender_psid, message) {
             sentiment = handleMessageWithSentiment(message);
             console.log(sentiment);
 
-            if (!(sentiment.value === 'positive')) {
-              _context11.next = 11;
-              break;
-            }
-
-            _context11.next = 9;
-            return regeneratorRuntime.awrap(handlePositive(sender_psid, message.text));
-
-          case 9:
-            _context11.next = 79;
-            break;
-
-          case 11:
             if (!(sentiment.value === 'negative')) {
-              _context11.next = 29;
+              _context11.next = 24;
               break;
             }
 
             if (!(received_message.toLowerCase().includes('kill') || received_message.toLowerCase().includes('murder'))) {
-              _context11.next = 19;
+              _context11.next = 14;
               break;
             }
 
@@ -660,16 +647,16 @@ var listenToStory = function listenToStory(sender_psid, message) {
             response = {
               "text": "🙀🙀🙀"
             };
-            _context11.next = 17;
+            _context11.next = 12;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
-          case 17:
-            _context11.next = 27;
+          case 12:
+            _context11.next = 22;
             break;
 
-          case 19:
+          case 14:
             if (!received_message.toLowerCase().includes('cockroaches')) {
-              _context11.next = 26;
+              _context11.next = 21;
               break;
             }
 
@@ -677,39 +664,39 @@ var listenToStory = function listenToStory(sender_psid, message) {
             _response = {
               "text": "Usually they sleep right next to you at night 😂😂😂"
             };
-            _context11.next = 24;
+            _context11.next = 19;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response));
 
-          case 24:
-            _context11.next = 27;
+          case 19:
+            _context11.next = 22;
             break;
 
-          case 26:
+          case 21:
             record -= 1;
 
-          case 27:
-            _context11.next = 79;
+          case 22:
+            _context11.next = 71;
             break;
 
-          case 29:
+          case 24:
             if (!/do you (like|love)/i.test(received_message)) {
-              _context11.next = 35;
+              _context11.next = 30;
               break;
             }
 
             _response2 = {
               "text": "I am not sure ^^"
             };
-            _context11.next = 33;
+            _context11.next = 28;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response2));
 
-          case 33:
-            _context11.next = 79;
+          case 28:
+            _context11.next = 71;
             break;
 
-          case 35:
+          case 30:
             if (!/(feel|am) (better|relieved)/i.test(received_message)) {
-              _context11.next = 42;
+              _context11.next = 37;
               break;
             }
 
@@ -717,16 +704,16 @@ var listenToStory = function listenToStory(sender_psid, message) {
             _response3 = {
               "text": "I am happy to hear that! ^^"
             };
-            _context11.next = 40;
+            _context11.next = 35;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response3));
 
-          case 40:
-            _context11.next = 79;
+          case 35:
+            _context11.next = 71;
             break;
 
-          case 42:
+          case 37:
             if (!(received_message.toLowerCase().includes('sad') || received_message.toLowerCase().includes('sed'))) {
-              _context11.next = 49;
+              _context11.next = 44;
               break;
             }
 
@@ -734,109 +721,118 @@ var listenToStory = function listenToStory(sender_psid, message) {
             _response4 = {
               "text": "*pat pat :("
             };
-            _context11.next = 47;
+            _context11.next = 42;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response4));
 
-          case 47:
-            _context11.next = 79;
+          case 42:
+            _context11.next = 71;
             break;
 
-          case 49:
+          case 44:
             if (!/ah+/i.test(received_message)) {
-              _context11.next = 55;
+              _context11.next = 50;
               break;
             }
 
             _response5 = {
               "text": "Did you just moan?"
             };
-            _context11.next = 53;
+            _context11.next = 48;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response5));
 
-          case 53:
-            _context11.next = 79;
+          case 48:
+            _context11.next = 71;
             break;
 
-          case 55:
+          case 50:
             if (!/\s*no+\s+/i.test(received_message)) {
-              _context11.next = 61;
+              _context11.next = 56;
               break;
             }
 
             _response6 = {
               "text": "Oh Okay!😂"
             };
-            _context11.next = 59;
+            _context11.next = 54;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response6));
 
-          case 59:
-            _context11.next = 79;
+          case 54:
+            _context11.next = 71;
             break;
 
-          case 61:
+          case 56:
             if (!/\s*yes+/i.test(received_message)) {
-              _context11.next = 67;
+              _context11.next = 62;
               break;
             }
 
             _response7 = {
               "text": "Hmm..."
             };
-            _context11.next = 65;
+            _context11.next = 60;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response7));
 
-          case 65:
-            _context11.next = 79;
+          case 60:
+            _context11.next = 71;
             break;
 
-          case 67:
+          case 62:
             if (!received_message.toLowerCase().includes('done')) {
-              _context11.next = 72;
+              _context11.next = 67;
               break;
             }
 
-            _context11.next = 70;
+            _context11.next = 65;
             return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
-          case 70:
-            _context11.next = 79;
+          case 65:
+            _context11.next = 71;
             break;
 
-          case 72:
+          case 67:
             if (!received_message.toLowerCase().includes('how are you')) {
-              _context11.next = 78;
+              _context11.next = 71;
               break;
             }
 
             _response8 = {
               "text": "I am great. Thank you for asking."
             };
-            _context11.next = 76;
+            _context11.next = 71;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response8));
 
-          case 76:
-            _context11.next = 79;
+          case 71:
+            if (!(sentiment.value === 'positive')) {
+              _context11.next = 76;
+              break;
+            }
+
+            _context11.next = 74;
+            return regeneratorRuntime.awrap(handlePositive(sender_psid, message.text));
+
+          case 74:
+            _context11.next = 77;
             break;
 
-          case 78:
+          case 76:
             record -= 1;
 
-          case 79:
+          case 77:
             resolve("done");
-            _context11.next = 85;
+            _context11.next = 83;
             break;
 
-          case 82:
-            _context11.prev = 82;
+          case 80:
+            _context11.prev = 80;
             _context11.t0 = _context11["catch"](0);
             reject(_context11.t0);
 
-          case 85:
+          case 83:
           case "end":
             return _context11.stop();
         }
       }
-    }, null, null, [[0, 82]]);
+    }, null, null, [[0, 80]]);
   });
 };
 

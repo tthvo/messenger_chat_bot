@@ -473,10 +473,8 @@ let listenToStory = (sender_psid, message) => {
             let received_message = message.text;
             let sentiment = handleMessageWithSentiment(message);
             console.log(sentiment);
-            if (sentiment.value === 'positive') {
-                await handlePositive(sender_psid, message.text);
-            }
-            else if (sentiment.value === 'negative') {
+            
+            if (sentiment.value === 'negative') {
                 if (received_message.toLowerCase().includes('kill') || received_message.toLowerCase().includes('murder')) {
                     record -= 5;
                     let response = {"text": "🙀🙀🙀"};
@@ -514,6 +512,8 @@ let listenToStory = (sender_psid, message) => {
             } else if(received_message.toLowerCase().includes('how are you')) {
                 let response = {"text": "I am great. Thank you for asking."};
                 await sendMessage(sender_psid, response);
+            } if (sentiment.value === 'positive') {
+                await handlePositive(sender_psid, message.text);
             } else {
                 record -= 1;
             }
