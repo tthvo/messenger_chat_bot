@@ -692,7 +692,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             break;
 
           case 29:
-            if (!received_message.test(/do you (like|love)/i)) {
+            if (!/do you (like|love)/i.test(received_message)) {
               _context11.next = 35;
               break;
             }
@@ -708,7 +708,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             break;
 
           case 35:
-            if (!received_message.test(/(feel|am) (better|relieved)/i)) {
+            if (!/(feel|am) (better|relieved)/i.test(received_message)) {
               _context11.next = 42;
               break;
             }
@@ -742,7 +742,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             break;
 
           case 49:
-            if (!received_message.test(/ah+/i)) {
+            if (!/ah+/i.test(received_message)) {
               _context11.next = 55;
               break;
             }
@@ -758,7 +758,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             break;
 
           case 55:
-            if (!received_message.test(/\s*no+\s+/i)) {
+            if (!/\s*no+\s+/i.test(received_message)) {
               _context11.next = 61;
               break;
             }
@@ -774,7 +774,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             break;
 
           case 61:
-            if (!received_message.test(/\s*yes+/i)) {
+            if (!/\s*yes+/i.test(received_message)) {
               _context11.next = 67;
               break;
             }
