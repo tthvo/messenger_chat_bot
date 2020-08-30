@@ -500,6 +500,15 @@ let listenToStory = (sender_psid, message) => {
                 record -= 1;
                 let response = {"text": "*pat pat :("};                
                 await sendMessage(sender_psid, response);
+            } else if (received_message.toLowerCase().search(/ah+/i) > 0) {
+                let response = {"text": "Did you just moan?"};                
+                await sendMessage(sender_psid, response);
+            } else if (received_message.toLowerCase().search(/\\s*no+\\s/+i) > 0) {
+                let response = {"text": "Oh Okay!😂"};                
+                await sendMessage(sender_psid, response);
+            } else if (received_message.toLowerCase().search(/\\s*yes+/i) > 0) {
+                let response = {"text": "Hmm..."};                
+                await sendMessage(sender_psid, response);
             } else if(received_message.toLowerCase().includes('done')) {
                 await askDumpOrNot(sender_psid);
             } else if(received_message.toLowerCase().includes('how are you')) {
