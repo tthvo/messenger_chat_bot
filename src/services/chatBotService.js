@@ -6,6 +6,22 @@ var already = false;
 var menuAlready = false;
 var better = false;
 
+let reset = () => {
+    
+    return new Promise(async (resolve, reject) => {
+        try {
+            record = 0;
+            already = false;
+            menuAlready = false;
+            better = false;
+            resolve("done!")
+        } catch (e) {
+            reject(e);
+        }
+
+    });
+
+};
 let getFacebookUsername = (sender_psid) => {
     return new Promise((resolve, reject) => {
         // Send the HTTP request to the Messenger Platform
@@ -148,7 +164,6 @@ let sendMessageAskingYesOrNo = (sender_psid) => {
 let sendActivityMenu = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
-           
             let response = {
                 "attachment": {
                     "type": "template",
@@ -714,5 +729,6 @@ export default  {
     askingStartOrStop,
     askDumpOrNot,
     sendStart,
-    sendMessage 
+    sendMessage,
+    reset 
 };

@@ -171,7 +171,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
           return regeneratorRuntime.awrap(_chatBotService["default"].dumpTheTrash(sender_psid, Math.floor(Math.random() * 3)));
 
         case 34:
-          returnl;
+          return _context.abrupt("return");
 
         case 35:
           //handle attachments
@@ -284,55 +284,59 @@ var handlePostback = function handlePostback(sender_psid, received_postback) {
           payload = received_postback.payload; // Set the response based on the postback payload
 
           _context2.t0 = payload;
-          _context2.next = _context2.t0 === "GET_STARTED" ? 4 : _context2.t0 === "MEME" ? 11 : _context2.t0 === "MUSIC" ? 14 : _context2.t0 === "BRIAN_MEME" ? 17 : _context2.t0 === "TRUMP_MEME" ? 20 : 23;
+          _context2.next = _context2.t0 === "GET_STARTED" ? 4 : _context2.t0 === "MEME" ? 13 : _context2.t0 === "MUSIC" ? 16 : _context2.t0 === "BRIAN_MEME" ? 19 : _context2.t0 === "TRUMP_MEME" ? 22 : 25;
           break;
 
         case 4:
           _context2.next = 6;
-          return regeneratorRuntime.awrap(_chatBotService["default"].getFacebookUsername(sender_psid));
+          return regeneratorRuntime.awrap(_chatBotService["default"].reset());
 
         case 6:
+          _context2.next = 8;
+          return regeneratorRuntime.awrap(_chatBotService["default"].getFacebookUsername(sender_psid));
+
+        case 8:
           username = _context2.sent;
           user.name = username; //send welcome response to users
 
-          _context2.next = 10;
+          _context2.next = 12;
           return regeneratorRuntime.awrap(_chatBotService["default"].sendResponseWelcomeNewCustomer(username, sender_psid));
 
-        case 10:
-          return _context2.abrupt("break", 24);
-
-        case 11:
-          _context2.next = 13;
-          return regeneratorRuntime.awrap(_chatBotService["default"].sendMemeMenu(sender_psid));
+        case 12:
+          return _context2.abrupt("break", 26);
 
         case 13:
-          return _context2.abrupt("break", 24);
+          _context2.next = 15;
+          return regeneratorRuntime.awrap(_chatBotService["default"].sendMemeMenu(sender_psid));
 
-        case 14:
-          _context2.next = 16;
-          return regeneratorRuntime.awrap(_chatBotService["default"].sendMusic(sender_psid));
+        case 15:
+          return _context2.abrupt("break", 26);
 
         case 16:
-          return _context2.abrupt("break", 24);
+          _context2.next = 18;
+          return regeneratorRuntime.awrap(_chatBotService["default"].sendMusic(sender_psid));
 
-        case 17:
-          _context2.next = 19;
-          return regeneratorRuntime.awrap(_chatBotService["default"].sendBrianMeme(sender_psid));
+        case 18:
+          return _context2.abrupt("break", 26);
 
         case 19:
-          return _context2.abrupt("break", 24);
+          _context2.next = 21;
+          return regeneratorRuntime.awrap(_chatBotService["default"].sendBrianMeme(sender_psid));
 
-        case 20:
-          _context2.next = 22;
-          return regeneratorRuntime.awrap(_chatBotService["default"].sendTrumpMeme(sender_psid));
+        case 21:
+          return _context2.abrupt("break", 26);
 
         case 22:
-          return _context2.abrupt("break", 24);
-
-        case 23:
-          console.log("Something wrong with switch case payload");
+          _context2.next = 24;
+          return regeneratorRuntime.awrap(_chatBotService["default"].sendTrumpMeme(sender_psid));
 
         case 24:
+          return _context2.abrupt("break", 26);
+
+        case 25:
+          console.log("Something wrong with switch case payload");
+
+        case 26:
         case "end":
           return _context2.stop();
       }

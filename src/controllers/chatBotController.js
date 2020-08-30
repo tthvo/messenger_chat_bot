@@ -93,7 +93,7 @@ let handleMessage = async (sender_psid, message) => {
         }else if (message.quick_reply.payload === "DUMP") { // Dump the trash
             await chatBotService.dumpTheTrash(sender_psid, Math.floor(Math.random() * 3)); 
         }
-        returnl;
+        return;
     }
     //handle attachments
 
@@ -159,6 +159,7 @@ let handlePostback = async (sender_psid, received_postback) => {
     switch (payload) {
         case "GET_STARTED":
             //get facebook username
+            await chatBotService.reset();
             let username = await chatBotService.getFacebookUsername(sender_psid);
             user.name = username;
             //send welcome response to users

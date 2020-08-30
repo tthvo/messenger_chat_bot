@@ -15,6 +15,31 @@ var already = false;
 var menuAlready = false;
 var better = false;
 
+var reset = function reset() {
+  return new Promise(function _callee(resolve, reject) {
+    return regeneratorRuntime.async(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            try {
+              record = 0;
+              already = false;
+              menuAlready = false;
+              better = false;
+              resolve("done!");
+            } catch (e) {
+              reject(e);
+            }
+
+          case 1:
+          case "end":
+            return _context.stop();
+        }
+      }
+    });
+  });
+};
+
 var getFacebookUsername = function getFacebookUsername(sender_psid) {
   return new Promise(function (resolve, reject) {
     // Send the HTTP request to the Messenger Platform
@@ -36,13 +61,13 @@ var getFacebookUsername = function getFacebookUsername(sender_psid) {
 };
 
 var sendResponseWelcomeNewCustomer = function sendResponseWelcomeNewCustomer(username, sender_psid) {
-  return new Promise(function _callee(resolve, reject) {
+  return new Promise(function _callee2(resolve, reject) {
     var response_first, response_second;
-    return regeneratorRuntime.async(function _callee$(_context) {
+    return regeneratorRuntime.async(function _callee2$(_context2) {
       while (1) {
-        switch (_context.prev = _context.next) {
+        switch (_context2.prev = _context2.next) {
           case 0:
-            _context.prev = 0;
+            _context2.prev = 0;
             response_first = {
               "text": "Hi ".concat(username, ". Welcome to The Anger Dumpster")
             };
@@ -50,30 +75,30 @@ var sendResponseWelcomeNewCustomer = function sendResponseWelcomeNewCustomer(use
               "text": "Here you can bring me your anger. Then I dump it down for you."
             }; //send a welcome message
 
-            _context.next = 5;
+            _context2.next = 5;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response_first));
 
           case 5:
-            _context.next = 7;
+            _context2.next = 7;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response_second));
 
           case 7:
-            _context.next = 9;
+            _context2.next = 9;
             return regeneratorRuntime.awrap(askingStartOrStop(sender_psid));
 
           case 9:
             resolve("done!");
-            _context.next = 15;
+            _context2.next = 15;
             break;
 
           case 12:
-            _context.prev = 12;
-            _context.t0 = _context["catch"](0);
-            reject(_context.t0);
+            _context2.prev = 12;
+            _context2.t0 = _context2["catch"](0);
+            reject(_context2.t0);
 
           case 15:
           case "end":
-            return _context.stop();
+            return _context2.stop();
         }
       }
     }, null, null, [[0, 12]]);
@@ -81,11 +106,11 @@ var sendResponseWelcomeNewCustomer = function sendResponseWelcomeNewCustomer(use
 };
 
 var askingStartOrStop = function askingStartOrStop(sender_psid) {
-  return new Promise(function _callee2(resolve, reject) {
+  return new Promise(function _callee3(resolve, reject) {
     var text, request_body;
-    return regeneratorRuntime.async(function _callee2$(_context2) {
+    return regeneratorRuntime.async(function _callee3$(_context3) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
             try {
               text = "";
@@ -137,7 +162,7 @@ var askingStartOrStop = function askingStartOrStop(sender_psid) {
 
           case 1:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
       }
     });
@@ -192,13 +217,13 @@ var sendMessageAskingYesOrNo = function sendMessageAskingYesOrNo(sender_psid) {
 };
 
 var sendActivityMenu = function sendActivityMenu(sender_psid) {
-  return new Promise(function _callee3(resolve, reject) {
+  return new Promise(function _callee4(resolve, reject) {
     var response;
-    return regeneratorRuntime.async(function _callee3$(_context3) {
+    return regeneratorRuntime.async(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            _context3.prev = 0;
+            _context4.prev = 0;
             response = {
               "attachment": {
                 "type": "template",
@@ -222,22 +247,22 @@ var sendActivityMenu = function sendActivityMenu(sender_psid) {
               }
             }; //send a image with button view main menu
 
-            _context3.next = 4;
+            _context4.next = 4;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 4:
             resolve("done!");
-            _context3.next = 10;
+            _context4.next = 10;
             break;
 
           case 7:
-            _context3.prev = 7;
-            _context3.t0 = _context3["catch"](0);
-            reject(_context3.t0);
+            _context4.prev = 7;
+            _context4.t0 = _context4["catch"](0);
+            reject(_context4.t0);
 
           case 10:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
     }, null, null, [[0, 7]]);
@@ -245,13 +270,13 @@ var sendActivityMenu = function sendActivityMenu(sender_psid) {
 };
 
 var sendMemeMenu = function sendMemeMenu(sender_psid) {
-  return new Promise(function _callee4(resolve, reject) {
+  return new Promise(function _callee5(resolve, reject) {
     var response_first, response;
-    return regeneratorRuntime.async(function _callee4$(_context4) {
+    return regeneratorRuntime.async(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context4.prev = 0;
+            _context5.prev = 0;
             response_first = {
               "text": "Great choice! Let's have a look at meme menu.",
               "sender_action": "typing_on"
@@ -284,26 +309,26 @@ var sendMemeMenu = function sendMemeMenu(sender_psid) {
               }
             }; //send a welcome message
 
-            _context4.next = 5;
+            _context5.next = 5;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response_first));
 
           case 5:
-            _context4.next = 7;
+            _context5.next = 7;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 7:
             resolve("done!");
-            _context4.next = 13;
+            _context5.next = 13;
             break;
 
           case 10:
-            _context4.prev = 10;
-            _context4.t0 = _context4["catch"](0);
-            reject(_context4.t0);
+            _context5.prev = 10;
+            _context5.t0 = _context5["catch"](0);
+            reject(_context5.t0);
 
           case 13:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
     }, null, null, [[0, 10]]);
@@ -311,13 +336,13 @@ var sendMemeMenu = function sendMemeMenu(sender_psid) {
 };
 
 var sendBrianMeme = function sendBrianMeme(sender_psid) {
-  return new Promise(function _callee5(resolve, reject) {
+  return new Promise(function _callee6(resolve, reject) {
     var BrianMemeArr, source, response;
-    return regeneratorRuntime.async(function _callee5$(_context5) {
+    return regeneratorRuntime.async(function _callee6$(_context6) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
-            _context5.prev = 0;
+            _context6.prev = 0;
 
             /*
                 */
@@ -332,22 +357,22 @@ var sendBrianMeme = function sendBrianMeme(sender_psid) {
                 }
               }
             };
-            _context5.next = 6;
+            _context6.next = 6;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 6:
             resolve("done!");
-            _context5.next = 12;
+            _context6.next = 12;
             break;
 
           case 9:
-            _context5.prev = 9;
-            _context5.t0 = _context5["catch"](0);
-            reject(_context5.t0);
+            _context6.prev = 9;
+            _context6.t0 = _context6["catch"](0);
+            reject(_context6.t0);
 
           case 12:
           case "end":
-            return _context5.stop();
+            return _context6.stop();
         }
       }
     }, null, null, [[0, 9]]);
@@ -355,13 +380,13 @@ var sendBrianMeme = function sendBrianMeme(sender_psid) {
 };
 
 var sendTrumpMeme = function sendTrumpMeme(sender_psid) {
-  return new Promise(function _callee6(resolve, reject) {
+  return new Promise(function _callee7(resolve, reject) {
     var TrumpMemeArr, source, response;
-    return regeneratorRuntime.async(function _callee6$(_context6) {
+    return regeneratorRuntime.async(function _callee7$(_context7) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
-            _context6.prev = 0;
+            _context7.prev = 0;
             TrumpMemeArr = ["https://i.redd.it/antyobs25se21.jpg", "https://static.boredpanda.com/blog/wp-content/uploads/2020/08/donald-trump-axios-jonathan-swan-interview-funny-jokes-fb6-png__700.jpg", "https://i.imgflip.com/3sjxri.jpg"];
             source = TrumpMemeArr[Math.floor(Math.random() * 3)];
             response = {
@@ -374,21 +399,21 @@ var sendTrumpMeme = function sendTrumpMeme(sender_psid) {
               }
             }; //send a welcome message
 
-            _context6.next = 6;
+            _context7.next = 6;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 6:
-            _context6.next = 11;
+            _context7.next = 11;
             break;
 
           case 8:
-            _context6.prev = 8;
-            _context6.t0 = _context6["catch"](0);
-            reject(_context6.t0);
+            _context7.prev = 8;
+            _context7.t0 = _context7["catch"](0);
+            reject(_context7.t0);
 
           case 11:
           case "end":
-            return _context6.stop();
+            return _context7.stop();
         }
       }
     }, null, null, [[0, 8]]);
@@ -396,13 +421,13 @@ var sendTrumpMeme = function sendTrumpMeme(sender_psid) {
 };
 
 var sendMusic = function sendMusic(sender_psid) {
-  return new Promise(function _callee7(resolve, reject) {
+  return new Promise(function _callee8(resolve, reject) {
     var response;
-    return regeneratorRuntime.async(function _callee7$(_context7) {
+    return regeneratorRuntime.async(function _callee8$(_context8) {
       while (1) {
-        switch (_context7.prev = _context7.next) {
+        switch (_context8.prev = _context8.next) {
           case 0:
-            _context7.prev = 0;
+            _context8.prev = 0;
             response = {
               "attachment": {
                 "type": "template",
@@ -456,22 +481,22 @@ var sendMusic = function sendMusic(sender_psid) {
             }; //
             //Send the music
 
-            _context7.next = 4;
+            _context8.next = 4;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 4:
             resolve("done");
-            _context7.next = 10;
+            _context8.next = 10;
             break;
 
           case 7:
-            _context7.prev = 7;
-            _context7.t0 = _context7["catch"](0);
-            reject(_context7.t0);
+            _context8.prev = 7;
+            _context8.t0 = _context8["catch"](0);
+            reject(_context8.t0);
 
           case 10:
           case "end":
-            return _context7.stop();
+            return _context8.stop();
         }
       }
     }, null, null, [[0, 7]]);
@@ -510,11 +535,11 @@ var sendMessage = function sendMessage(sender_psid, response) {
 };
 
 var seenMessage = function seenMessage(sender_psid) {
-  return new Promise(function _callee8(resolve, reject) {
+  return new Promise(function _callee9(resolve, reject) {
     var request_body;
-    return regeneratorRuntime.async(function _callee8$(_context8) {
+    return regeneratorRuntime.async(function _callee9$(_context9) {
       while (1) {
-        switch (_context8.prev = _context8.next) {
+        switch (_context9.prev = _context9.next) {
           case 0:
             try {
               request_body = {
@@ -544,7 +569,7 @@ var seenMessage = function seenMessage(sender_psid) {
 
           case 1:
           case "end":
-            return _context8.stop();
+            return _context9.stop();
         }
       }
     });
@@ -552,39 +577,39 @@ var seenMessage = function seenMessage(sender_psid) {
 };
 
 var sendStart = function sendStart(sender_psid) {
-  return new Promise(function _callee9(resolve, reject) {
+  return new Promise(function _callee10(resolve, reject) {
     var response1, response2;
-    return regeneratorRuntime.async(function _callee9$(_context9) {
+    return regeneratorRuntime.async(function _callee10$(_context10) {
       while (1) {
-        switch (_context9.prev = _context9.next) {
+        switch (_context10.prev = _context10.next) {
           case 0:
-            _context9.prev = 0;
+            _context10.prev = 0;
             response1 = {
               "text": "Alright! Pass the garbage to me 😤!"
             };
             response2 = {
               "text": "And remember to send 'Done' when you are done :D"
             };
-            _context9.next = 5;
+            _context10.next = 5;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response1));
 
           case 5:
-            _context9.next = 7;
+            _context10.next = 7;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response2));
 
           case 7:
             resolve('done');
-            _context9.next = 13;
+            _context10.next = 13;
             break;
 
           case 10:
-            _context9.prev = 10;
-            _context9.t0 = _context9["catch"](0);
-            reject(_context9.t0);
+            _context10.prev = 10;
+            _context10.t0 = _context10["catch"](0);
+            reject(_context10.t0);
 
           case 13:
           case "end":
-            return _context9.stop();
+            return _context10.stop();
         }
       }
     }, null, null, [[0, 10]]);
@@ -592,15 +617,15 @@ var sendStart = function sendStart(sender_psid) {
 };
 
 var listenToStory = function listenToStory(sender_psid, message) {
-  return new Promise(function _callee10(resolve, reject) {
+  return new Promise(function _callee11(resolve, reject) {
     var received_message, sentiment, response, _response, _response2, _response3, _response4, _response5;
 
-    return regeneratorRuntime.async(function _callee10$(_context10) {
+    return regeneratorRuntime.async(function _callee11$(_context11) {
       while (1) {
-        switch (_context10.prev = _context10.next) {
+        switch (_context11.prev = _context11.next) {
           case 0:
-            _context10.prev = 0;
-            _context10.next = 3;
+            _context11.prev = 0;
+            _context11.next = 3;
             return regeneratorRuntime.awrap(seenMessage(sender_psid));
 
           case 3:
@@ -608,25 +633,25 @@ var listenToStory = function listenToStory(sender_psid, message) {
             sentiment = handleMessageWithSentiment(message);
 
             if (!(sentiment.value === 'positive')) {
-              _context10.next = 10;
+              _context11.next = 10;
               break;
             }
 
-            _context10.next = 8;
+            _context11.next = 8;
             return regeneratorRuntime.awrap(handlePositive(sender_psid, message.text));
 
           case 8:
-            _context10.next = 60;
+            _context11.next = 60;
             break;
 
           case 10:
             if (!(sentiment.value === 'negative')) {
-              _context10.next = 28;
+              _context11.next = 28;
               break;
             }
 
             if (!(received_message.toLowerCase().includes('kill') || received_message.toLowerCase().includes('murder'))) {
-              _context10.next = 18;
+              _context11.next = 18;
               break;
             }
 
@@ -634,16 +659,16 @@ var listenToStory = function listenToStory(sender_psid, message) {
             response = {
               "text": "🙀🙀🙀"
             };
-            _context10.next = 16;
+            _context11.next = 16;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 16:
-            _context10.next = 26;
+            _context11.next = 26;
             break;
 
           case 18:
             if (!received_message.toLowerCase().includes('cockroaches')) {
-              _context10.next = 25;
+              _context11.next = 25;
               break;
             }
 
@@ -651,39 +676,39 @@ var listenToStory = function listenToStory(sender_psid, message) {
             _response = {
               "text": "Usually they sleep right next to you at night 😂😂😂"
             };
-            _context10.next = 23;
+            _context11.next = 23;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response));
 
           case 23:
-            _context10.next = 26;
+            _context11.next = 26;
             break;
 
           case 25:
             record -= 1;
 
           case 26:
-            _context10.next = 60;
+            _context11.next = 60;
             break;
 
           case 28:
             if (!(received_message.toLowerCase().search(/do you (like|love)/i) > 0)) {
-              _context10.next = 34;
+              _context11.next = 34;
               break;
             }
 
             _response2 = {
               "text": "I am not sure ^^"
             };
-            _context10.next = 32;
+            _context11.next = 32;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response2));
 
           case 32:
-            _context10.next = 60;
+            _context11.next = 60;
             break;
 
           case 34:
             if (!(received_message.toLowerCase().search(/(feel|am) (better|relieved)/i) > 0)) {
-              _context10.next = 41;
+              _context11.next = 41;
               break;
             }
 
@@ -691,16 +716,16 @@ var listenToStory = function listenToStory(sender_psid, message) {
             _response3 = {
               "text": "I am happy to hear that! ^^"
             };
-            _context10.next = 39;
+            _context11.next = 39;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response3));
 
           case 39:
-            _context10.next = 60;
+            _context11.next = 60;
             break;
 
           case 41:
             if (!(received_message.toLowerCase().includes('sad') || received_message.toLowerCase().includes('sed'))) {
-              _context10.next = 48;
+              _context11.next = 48;
               break;
             }
 
@@ -708,40 +733,40 @@ var listenToStory = function listenToStory(sender_psid, message) {
             _response4 = {
               "text": "*pat pat :("
             };
-            _context10.next = 46;
+            _context11.next = 46;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response4));
 
           case 46:
-            _context10.next = 60;
+            _context11.next = 60;
             break;
 
           case 48:
             if (!received_message.toLowerCase().includes('done')) {
-              _context10.next = 53;
+              _context11.next = 53;
               break;
             }
 
-            _context10.next = 51;
+            _context11.next = 51;
             return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
           case 51:
-            _context10.next = 60;
+            _context11.next = 60;
             break;
 
           case 53:
             if (!received_message.toLowerCase().includes('how are you')) {
-              _context10.next = 59;
+              _context11.next = 59;
               break;
             }
 
             _response5 = {
               "text": "I am great. Thank you for asking."
             };
-            _context10.next = 57;
+            _context11.next = 57;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response5));
 
           case 57:
-            _context10.next = 60;
+            _context11.next = 60;
             break;
 
           case 59:
@@ -749,17 +774,17 @@ var listenToStory = function listenToStory(sender_psid, message) {
 
           case 60:
             resolve("done");
-            _context10.next = 66;
+            _context11.next = 66;
             break;
 
           case 63:
-            _context10.prev = 63;
-            _context10.t0 = _context10["catch"](0);
-            reject(_context10.t0);
+            _context11.prev = 63;
+            _context11.t0 = _context11["catch"](0);
+            reject(_context11.t0);
 
           case 66:
           case "end":
-            return _context10.stop();
+            return _context11.stop();
         }
       }
     }, null, null, [[0, 63]]);
@@ -767,17 +792,17 @@ var listenToStory = function listenToStory(sender_psid, message) {
 };
 
 var handlePositive = function handlePositive(sender_psid, received_message) {
-  return new Promise(function _callee11(resolve, reject) {
+  return new Promise(function _callee12(resolve, reject) {
     var text, request_body, response;
-    return regeneratorRuntime.async(function _callee11$(_context11) {
+    return regeneratorRuntime.async(function _callee12$(_context12) {
       while (1) {
-        switch (_context11.prev = _context11.next) {
+        switch (_context12.prev = _context12.next) {
           case 0:
-            _context11.prev = 0;
+            _context12.prev = 0;
             text = "";
 
             if (better) {
-              _context11.next = 10;
+              _context12.next = 10;
               break;
             }
 
@@ -819,7 +844,7 @@ var handlePositive = function handlePositive(sender_psid, received_message) {
               }
             });
             resolve("done");
-            _context11.next = 15;
+            _context12.next = 15;
             break;
 
           case 10:
@@ -827,24 +852,24 @@ var handlePositive = function handlePositive(sender_psid, received_message) {
             response = {
               "text": text
             };
-            _context11.next = 14;
+            _context12.next = 14;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 14:
             resolve("done");
 
           case 15:
-            _context11.next = 20;
+            _context12.next = 20;
             break;
 
           case 17:
-            _context11.prev = 17;
-            _context11.t0 = _context11["catch"](0);
-            reject(_context11.t0);
+            _context12.prev = 17;
+            _context12.t0 = _context12["catch"](0);
+            reject(_context12.t0);
 
           case 20:
           case "end":
-            return _context11.stop();
+            return _context12.stop();
         }
       }
     }, null, null, [[0, 17]]);
@@ -852,13 +877,13 @@ var handlePositive = function handlePositive(sender_psid, received_message) {
 };
 
 var sendBye = function sendBye(sender_psid) {
-  return new Promise(function _callee12(resolve, reject) {
+  return new Promise(function _callee13(resolve, reject) {
     var response;
-    return regeneratorRuntime.async(function _callee12$(_context12) {
+    return regeneratorRuntime.async(function _callee13$(_context13) {
       while (1) {
-        switch (_context12.prev = _context12.next) {
+        switch (_context13.prev = _context13.next) {
           case 0:
-            _context12.prev = 0;
+            _context13.prev = 0;
             record = 0;
             better = false;
             already = false;
@@ -866,22 +891,22 @@ var sendBye = function sendBye(sender_psid) {
             response = {
               "text": "Thank you for coming to the Dumpster! I hope the best for you!"
             };
-            _context12.next = 8;
+            _context13.next = 8;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 8:
             resolve("done");
-            _context12.next = 14;
+            _context13.next = 14;
             break;
 
           case 11:
-            _context12.prev = 11;
-            _context12.t0 = _context12["catch"](0);
-            reject(_context12.t0);
+            _context13.prev = 11;
+            _context13.t0 = _context13["catch"](0);
+            reject(_context13.t0);
 
           case 14:
           case "end":
-            return _context12.stop();
+            return _context13.stop();
         }
       }
     }, null, null, [[0, 11]]);
@@ -897,35 +922,35 @@ var redo = function redo(sender_psid) {
 };
 
 var sayScore = function sayScore(sender_psid) {
-  return new Promise(function _callee13(resolve, reject) {
+  return new Promise(function _callee14(resolve, reject) {
     var textArr, chosen, response;
-    return regeneratorRuntime.async(function _callee13$(_context13) {
+    return regeneratorRuntime.async(function _callee14$(_context14) {
       while (1) {
-        switch (_context13.prev = _context13.next) {
+        switch (_context14.prev = _context14.next) {
           case 0:
-            _context13.prev = 0;
+            _context14.prev = 0;
             textArr = ["That was aggressive 😮", "Fairly negative 😮", "Not much negativity though"];
             chosen = 0;
             if (record > -5) chosen = 2;else if (record > -10) chosen = 1;
             response = {
               "text": textArr[chosen]
             };
-            _context13.next = 7;
+            _context14.next = 7;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 7:
             resolve('done');
-            _context13.next = 13;
+            _context14.next = 13;
             break;
 
           case 10:
-            _context13.prev = 10;
-            _context13.t0 = _context13["catch"](0);
-            reject(_context13.t0);
+            _context14.prev = 10;
+            _context14.t0 = _context14["catch"](0);
+            reject(_context14.t0);
 
           case 13:
           case "end":
-            return _context13.stop();
+            return _context14.stop();
         }
       }
     }, null, null, [[0, 10]]);
@@ -933,11 +958,11 @@ var sayScore = function sayScore(sender_psid) {
 };
 
 var askDumpOrNot = function askDumpOrNot(sender_psid) {
-  return new Promise(function _callee14(resolve, reject) {
+  return new Promise(function _callee15(resolve, reject) {
     var request_body;
-    return regeneratorRuntime.async(function _callee14$(_context14) {
+    return regeneratorRuntime.async(function _callee15$(_context15) {
       while (1) {
-        switch (_context14.prev = _context14.next) {
+        switch (_context15.prev = _context15.next) {
           case 0:
             try {
               request_body = {
@@ -980,7 +1005,7 @@ var askDumpOrNot = function askDumpOrNot(sender_psid) {
 
           case 1:
           case "end":
-            return _context14.stop();
+            return _context15.stop();
         }
       }
     });
@@ -988,13 +1013,13 @@ var askDumpOrNot = function askDumpOrNot(sender_psid) {
 };
 
 var dumpTheTrash = function dumpTheTrash(sender_psid, option) {
-  return new Promise(function _callee15(resolve, reject) {
+  return new Promise(function _callee16(resolve, reject) {
     var Arr, source, response;
-    return regeneratorRuntime.async(function _callee15$(_context15) {
+    return regeneratorRuntime.async(function _callee16$(_context16) {
       while (1) {
-        switch (_context15.prev = _context15.next) {
+        switch (_context16.prev = _context16.next) {
           case 0:
-            _context15.prev = 0;
+            _context16.prev = 0;
             Arr = ["https://media.tenor.com/images/85fd7e7119e2a63ade45991953119ddf/tenor.gif", // In and out
             "https://media1.tenor.com/images/9761847bcf035fb1ea3411803856f6f7/tenor.gif", //Man in the dumpster
             "https://media2.giphy.com/media/26uf35ez3HpmLIX6g/giphy.gif" // Machine
@@ -1010,30 +1035,30 @@ var dumpTheTrash = function dumpTheTrash(sender_psid, option) {
                 }
               }
             };
-            _context15.next = 6;
+            _context16.next = 6;
             return regeneratorRuntime.awrap(sayScore(sender_psid));
 
           case 6:
-            _context15.next = 8;
+            _context16.next = 8;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, response));
 
           case 8:
-            _context15.next = 10;
+            _context16.next = 10;
             return regeneratorRuntime.awrap(askingStartOrStop(sender_psid));
 
           case 10:
             resolve("done");
-            _context15.next = 16;
+            _context16.next = 16;
             break;
 
           case 13:
-            _context15.prev = 13;
-            _context15.t0 = _context15["catch"](0);
-            reject(_context15.t0);
+            _context16.prev = 13;
+            _context16.t0 = _context16["catch"](0);
+            reject(_context16.t0);
 
           case 16:
           case "end":
-            return _context15.stop();
+            return _context16.stop();
         }
       }
     }, null, null, [[0, 13]]);
@@ -1077,6 +1102,7 @@ var _default = {
   askingStartOrStop: askingStartOrStop,
   askDumpOrNot: askDumpOrNot,
   sendStart: sendStart,
-  sendMessage: sendMessage
+  sendMessage: sendMessage,
+  reset: reset
 };
 exports["default"] = _default;
