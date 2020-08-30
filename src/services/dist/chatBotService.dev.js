@@ -675,7 +675,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             record -= 1;
 
           case 22:
-            _context11.next = 71;
+            _context11.next = 73;
             break;
 
           case 24:
@@ -691,7 +691,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response2));
 
           case 28:
-            _context11.next = 71;
+            _context11.next = 73;
             break;
 
           case 30:
@@ -708,7 +708,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response3));
 
           case 35:
-            _context11.next = 71;
+            _context11.next = 73;
             break;
 
           case 37:
@@ -725,7 +725,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response4));
 
           case 42:
-            _context11.next = 71;
+            _context11.next = 73;
             break;
 
           case 44:
@@ -741,12 +741,12 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response5));
 
           case 48:
-            _context11.next = 71;
+            _context11.next = 73;
             break;
 
           case 50:
             if (!/\s*no+\s+/i.test(received_message)) {
-              _context11.next = 56;
+              _context11.next = 57;
               break;
             }
 
@@ -757,82 +757,84 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response6));
 
           case 54:
-            _context11.next = 71;
+            resolve("done");
+            _context11.next = 73;
             break;
 
-          case 56:
+          case 57:
             if (!/\s*yes+/i.test(received_message)) {
-              _context11.next = 62;
+              _context11.next = 64;
               break;
             }
 
             _response7 = {
               "text": "Hmm..."
             };
-            _context11.next = 60;
+            _context11.next = 61;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response7));
 
-          case 60:
-            _context11.next = 71;
+          case 61:
+            resolve("done");
+            _context11.next = 73;
             break;
 
-          case 62:
+          case 64:
             if (!received_message.toLowerCase().includes('done')) {
-              _context11.next = 67;
+              _context11.next = 69;
               break;
             }
 
-            _context11.next = 65;
+            _context11.next = 67;
             return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
-          case 65:
-            _context11.next = 71;
+          case 67:
+            _context11.next = 73;
             break;
 
-          case 67:
+          case 69:
             if (!received_message.toLowerCase().includes('how are you')) {
-              _context11.next = 71;
+              _context11.next = 73;
               break;
             }
 
             _response8 = {
               "text": "I am great. Thank you for asking."
             };
-            _context11.next = 71;
+            _context11.next = 73;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response8));
 
-          case 71:
+          case 73:
             if (!(sentiment.value === 'positive')) {
-              _context11.next = 76;
+              _context11.next = 78;
               break;
             }
 
-            _context11.next = 74;
+            _context11.next = 76;
             return regeneratorRuntime.awrap(handlePositive(sender_psid, message.text));
 
-          case 74:
-            _context11.next = 77;
+          case 76:
+            _context11.next = 79;
             break;
 
-          case 76:
+          case 78:
             record -= 1;
 
-          case 77:
+          case 79:
             resolve("done");
-            _context11.next = 83;
+            _context11.next = 85;
             break;
 
-          case 80:
-            _context11.prev = 80;
+          case 82:
+            _context11.prev = 82;
             _context11.t0 = _context11["catch"](0);
             reject(_context11.t0);
 
-          case 83:
+          case 85:
           case "end":
             return _context11.stop();
         }
       }
-    }, null, null, [[0, 80]]);
+    }, null, null, [[0, 82]]);
   });
 };
 

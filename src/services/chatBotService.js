@@ -504,9 +504,11 @@ let listenToStory = (sender_psid, message) => {
             } else if (/\s*no+\s+/i.test(received_message)) {
                 let response = {"text": "Oh Okay!😂"};                
                 await sendMessage(sender_psid, response);
+                resolve("done");
             } else if (/\s*yes+/i.test(received_message)) {
                 let response = {"text": "Hmm..."};                
                 await sendMessage(sender_psid, response);
+                resolve("done");
             } else if(received_message.toLowerCase().includes('done')) {
                 await askDumpOrNot(sender_psid);
             } else if(received_message.toLowerCase().includes('how are you')) {
