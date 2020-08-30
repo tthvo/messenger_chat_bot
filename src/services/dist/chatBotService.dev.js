@@ -675,7 +675,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             record -= 1;
 
           case 22:
-            _context11.next = 73;
+            _context11.next = 79;
             break;
 
           case 24:
@@ -691,7 +691,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response2));
 
           case 28:
-            _context11.next = 73;
+            _context11.next = 79;
             break;
 
           case 30:
@@ -708,7 +708,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response3));
 
           case 35:
-            _context11.next = 73;
+            _context11.next = 79;
             break;
 
           case 37:
@@ -725,7 +725,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response4));
 
           case 42:
-            _context11.next = 73;
+            _context11.next = 79;
             break;
 
           case 44:
@@ -741,12 +741,12 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response5));
 
           case 48:
-            _context11.next = 73;
+            _context11.next = 79;
             break;
 
           case 50:
-            if (!/\s*no+\s+/i.test(received_message)) {
-              _context11.next = 57;
+            if (!/\s*no+/i.test(received_message)) {
+              _context11.next = 56;
               break;
             }
 
@@ -757,41 +757,39 @@ var listenToStory = function listenToStory(sender_psid, message) {
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response6));
 
           case 54:
-            resolve("done");
-            _context11.next = 73;
+            _context11.next = 79;
             break;
 
-          case 57:
+          case 56:
             if (!/\s*yes+/i.test(received_message)) {
-              _context11.next = 64;
+              _context11.next = 62;
               break;
             }
 
             _response7 = {
               "text": "Hmm..."
             };
-            _context11.next = 61;
+            _context11.next = 60;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response7));
 
-          case 61:
-            resolve("done");
-            _context11.next = 73;
+          case 60:
+            _context11.next = 79;
             break;
 
-          case 64:
+          case 62:
             if (!received_message.toLowerCase().includes('done')) {
-              _context11.next = 69;
+              _context11.next = 67;
               break;
             }
 
-            _context11.next = 67;
+            _context11.next = 65;
             return regeneratorRuntime.awrap(askDumpOrNot(sender_psid));
 
-          case 67:
-            _context11.next = 73;
+          case 65:
+            _context11.next = 79;
             break;
 
-          case 69:
+          case 67:
             if (!received_message.toLowerCase().includes('how are you')) {
               _context11.next = 73;
               break;
@@ -800,8 +798,12 @@ var listenToStory = function listenToStory(sender_psid, message) {
             _response8 = {
               "text": "I am great. Thank you for asking."
             };
-            _context11.next = 73;
+            _context11.next = 71;
             return regeneratorRuntime.awrap(sendMessage(sender_psid, _response8));
+
+          case 71:
+            _context11.next = 79;
+            break;
 
           case 73:
             if (!(sentiment.value === 'positive')) {
