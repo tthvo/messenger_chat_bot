@@ -472,6 +472,7 @@ let listenToStory = (sender_psid, message) => {
             await seenMessage(sender_psid);
             let received_message = message.text;
             let sentiment = handleMessageWithSentiment(message);
+            console.log(sentiment);
             if (sentiment.value === 'positive') {
                 await handlePositive(sender_psid, message.text);
             }
