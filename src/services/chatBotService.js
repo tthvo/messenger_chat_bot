@@ -488,11 +488,11 @@ let listenToStory = (sender_psid, message) => {
                 } else {
                     record -= 1;                 
                 }  
-            } else if (received_message.toLowerCase().search(/do you (like|love)/i) > 0) {
+            } else if (received_message.test(/do you (like|love)/i)) {
                 let response = {"text": "I am not sure ^^"};                
                 await sendMessage(sender_psid, response);
             } 
-            else if (received_message.toLowerCase().search(/(feel|am) (better|relieved)/i) > 0) {
+            else if (received_message.test(/(feel|am) (better|relieved)/i)) {
                 better = true;
                 let response = {"text": "I am happy to hear that! ^^"};                
                 await sendMessage(sender_psid, response);
@@ -500,13 +500,13 @@ let listenToStory = (sender_psid, message) => {
                 record -= 1;
                 let response = {"text": "*pat pat :("};                
                 await sendMessage(sender_psid, response);
-            } else if (received_message.toLowerCase().search(/ah+/i) > 0) {
+            } else if (received_message.test(/ah+/i)) {
                 let response = {"text": "Did you just moan?"};                
                 await sendMessage(sender_psid, response);
-            } else if (received_message.toLowerCase().search(/\\s*no+\\s+/i) > 0) {
+            } else if (received_message.test(/\s*no+\s+/i)) {
                 let response = {"text": "Oh Okay!😂"};                
                 await sendMessage(sender_psid, response);
-            } else if (received_message.toLowerCase().search(/\\s*yes+/i) > 0) {
+            } else if (received_message.test(/\s*yes+/i)) {
                 let response = {"text": "Hmm..."};                
                 await sendMessage(sender_psid, response);
             } else if(received_message.toLowerCase().includes('done')) {
