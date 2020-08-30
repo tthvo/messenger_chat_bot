@@ -95,7 +95,9 @@ let handleMessage = async (sender_psid, message) => {
         }
         return;
     }
-    //handle attachments
+    
+    //Debugging
+    console.log(message);
 
 
     //handle text message
