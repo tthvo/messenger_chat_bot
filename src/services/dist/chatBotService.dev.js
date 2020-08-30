@@ -758,7 +758,7 @@ var listenToStory = function listenToStory(sender_psid, message) {
             break;
 
           case 55:
-            if (!(received_message.toLowerCase().search(/\\s*no+\\s/ + i) > 0)) {
+            if (!(received_message.toLowerCase().search(/\\s*no+\\s+/i) > 0)) {
               _context11.next = 61;
               break;
             }
