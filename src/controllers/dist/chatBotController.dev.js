@@ -175,7 +175,7 @@ var handleMessage = function handleMessage(sender_psid, message) {
 
         case 35:
           //Debugging
-          console.log(message); //handle text message
+          console.log(message.traits); //handle text message
 
           entity = handleMessageWithEntities(message);
 

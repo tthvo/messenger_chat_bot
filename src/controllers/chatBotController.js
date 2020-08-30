@@ -97,7 +97,7 @@ let handleMessage = async (sender_psid, message) => {
     }
     
     //Debugging
-    console.log(message);
+    console.log(message.traits);
 
 
     //handle text message
