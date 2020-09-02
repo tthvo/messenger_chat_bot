@@ -475,7 +475,8 @@ let listenToStory = (sender_psid, message) => {
             console.log(sentiment);
             
             if (sentiment.value === 'negative') {
-                if (received_message.toLowerCase().includes('kill') || received_message.toLowerCase().includes('murder')) {
+                if (received_message.toLowerCase().includes('kill') || received_message.toLowerCase().includes('murder') || received_message.toLowerCase().includes('fuck')) {
+                    //A database storing restricted wordws needs to be established in order to warn the user
                     record -= 5;
                     let response = {"text": "🙀🙀🙀"};
                     await sendMessage(sender_psid, response);
@@ -505,7 +506,7 @@ let listenToStory = (sender_psid, message) => {
                 let response = {"text": "Oh Okay!😂"};                
                 await sendMessage(sender_psid, response);
             } else if (/\s*yes+.*/i.test(received_message)) {
-                let response = {"text": "Hmm..."};                
+                let response = {"text": "Hmm...That's weird!"};                
                 await sendMessage(sender_psid, response);
             } else if(received_message.toLowerCase().includes('done')) {
                 await askDumpOrNot(sender_psid);
